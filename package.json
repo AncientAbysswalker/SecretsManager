@@ -1,0 +1,17 @@
+{
+  "name": "secretsmanager",
+  "version": "1.0.0",
+  "description": "Secrets manager for 2024 Christmas",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Ancient Abysswalker",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^30.0.1"
+  },
+  "dependencies": {
+    "iohook": "^0.9.3"
+  }
+}

@@ -1,0 +1,9 @@
+*.pyc
+*.log
+*.jar
+venv/
+node_modules/
+*.zip
+puzzles.tsv
+puzzles.json
+config.txt
