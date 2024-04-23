@@ -407,8 +407,8 @@ window.trace = function(event, puzzle, pos, start, symStart=null) {
           data.animations.insertRule('.' + data.svg.id + ' {animation: 1s 1 forwards line-success !important}\n')
 
           // Fire an event
-          console.log("hit it")
-          ipcRenderer.send('reply', `This message goes back to the main window. ${document.title}`);
+          ipcRenderer.send(`solved_event::${document.title}`);
+          // ipcRenderer.send(`solved_event`, document.title);
 
           // Convert the traced path into something suitable for solve.drawPath (for publishing purposes)
           var rawPath = [puzzle.startPoint]
