@@ -1,17 +1,20 @@
 {
-  "name": "secretsmanager",
-  "version": "1.0.0",
-  "description": "Secrets manager for 2024 Christmas",
-  "main": "index.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "author": "Ancient Abysswalker",
-  "license": "ISC",
-  "devDependencies": {
-    "electron": "^30.0.1"
-  },
-  "dependencies": {
-    "iohook": "^0.9.3"
-  }
+    "name": "secretsmanager",
+    "version": "1.0.0",
+    "description": "Secrets manager for 2024 Christmas",
+    "main": "index.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "author": "Ancient Abysswalker",
+    "license": "ISC",
+    "devDependencies": {
+        "@eslint/js": "^9.1.1",
+        "electron": "^30.0.1",
+        "eslint": "^9.1.1",
+        "globals": "^15.0.0"
+    },
+    "dependencies": {
+        "node-global-key-listener": "^0.1.0"
+    }
 }
