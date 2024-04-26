@@ -1,7 +1,7 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 
 const WitnessManager = require('./witness/WitnessManager');
-const GoldenPathManager = require('./managers/GoldenPathManager');
+const GoldenPathManager = require('./golden_path/GoldenPathManager');
 
 // LEGACY: For registering with globalShortcut
 // const arrowKeys = Object.freeze({

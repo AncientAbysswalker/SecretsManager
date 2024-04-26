@@ -1,24 +1,14 @@
 const { GlobalKeyboardListener } = require('node-global-key-listener');
 const gkl = new GlobalKeyboardListener();
+var hash = require('object-hash');
 
-const arrowKeys = Object.freeze({
-    UP: 'UP ARROW',
-    DOWN: 'DOWN ARROW',
-    LEFT: 'LEFT ARROW',
-    RIGHT: 'RIGHT ARROW',
-});
+const goldenPaths = require('./validGoldenPaths');
+const { arrowKeys } = require('./arrowKeys');
 
-const goldenPaths = [
-    {
-        path: [arrowKeys.UP, arrowKeys.UP, arrowKeys.UP, arrowKeys.DOWN],
-        action: (gpm) => {
-            gpm.witnessManager.initiatePuzzles();
-        },
-    },
-];
+const logHashes = true;
 
 module.exports = class GoldenPathManager {
-    pathTimeout = 5 * 1000;
+    static pathTimeout = 5 * 1000;
 
     constructor(witnessManager) {
         this.currentTime = 0;
@@ -26,14 +16,19 @@ module.exports = class GoldenPathManager {
         this.remainingPaths = [];
         this.witnessManager = witnessManager;
 
+        if (logHashes) {
+            for (const goldenPath of goldenPaths) {
+                const pathhash = hash(goldenPath['path']);
+                console.log(pathhash);
+            }
+        }
+
         const gpm = this;
         gkl.addListener(function (e, down) {
             if (
                 e.state == 'DOWN' &&
                 Object.values(arrowKeys).includes(e.name)
             ) {
-                console.log(e.name);
-                console.log(9);
                 gpm.pressedArrowKey(e.name);
             }
         });
@@ -42,7 +37,7 @@ module.exports = class GoldenPathManager {
     pressedArrowKey(arrowKey) {
         // Check if we've waited too long for the next input. If so, set our pointer to the start and re-initiate the available list of valid golden paths
         const now = Date.now();
-        if (now - this.currentTime > this.pathTimeout) {
+        if (now - this.currentTime > GoldenPathManager.pathTimeout) {
             this.currentIndex = 0;
             this.remainingPaths = goldenPaths.slice(0);
         }
