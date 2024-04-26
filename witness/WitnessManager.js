@@ -1,0 +1,73 @@
+const ipc = require('electron').ipcMain;
+const { app, BrowserWindow } = require('electron');
+
+const puzzlesList = require('./puzzlesList');
+
+module.exports = class WitnessManager {
+    constructor() {
+        this.fullPuzzleList = puzzlesList;
+        this.unsolvedPuzzleList = puzzlesList;
+        this.solvedPuzzleList = [];
+        this.currentPuzzle = null;
+        this.currentPuzzleWindow = null;
+    }
+
+    initiatePuzzles() {
+        if (this.currentPuzzle == null) {
+            this.currentPuzzle = this.unsolvedPuzzleList.shift();
+            this.createWitnessWindow(this.currentPuzzle);
+        } else if (this.currentPuzzleWindow == null) {
+            this.createWitnessWindow(this.currentPuzzle);
+        }
+    }
+
+    getNextPuzzle() {
+        this.currentPuzzle = this.unsolvedPuzzleList.shift();
+        this.createWitnessWindow(this.currentPuzzle);
+    }
+
+    createWitnessWindow(puzzleDefinition) {
+        // Create new puzzle window
+        const win = new BrowserWindow({
+            width: puzzleDefinition['size'],
+            height: puzzleDefinition['size'] + 20,
+            zoomFactor: 0.5,
+            resizable: false,
+            icon: 'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
+        });
+        // win.webContents.openDevTools();
+        win.removeMenu();
+        win.setPosition(5, 5); // TODO: randomize location
+
+        // Load puzzle HTML
+        win.loadFile(`witness/play/${puzzleDefinition['hash']}.html`); // Relative to root as this is where electron is initiated
+
+        // Add listener for puzzle completion
+        ipc.on(
+            `solved_event::${puzzleDefinition['name']}`,
+            (event, message) => {
+                console.log(message);
+                console.log(puzzleDefinition['name']);
+                ipc.removeAllListeners(
+                    `solved_event::${puzzleDefinition['name']}`
+                );
+                this.getNextPuzzle(true);
+            }
+        );
+
+        // Set the current puzzle window to this one (if we need to re-open the puzzle)
+        this.currentPuzzleWindow = win;
+
+        // If the current puzzle window is closed prematurely, remove the listener for puzzle completion. Without this, bugs arise with multiple listeners being created
+        win.on('close', () => {
+            ipc.removeAllListeners(`solved_event::${puzzleDefinition['name']}`);
+            if (this.currentPuzzleWindow === win) {
+                this.currentPuzzleWindow = null;
+            }
+        });
+    }
+};
