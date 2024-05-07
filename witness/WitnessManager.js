@@ -41,8 +41,13 @@ module.exports = class WitnessManager {
         });
         // win.webContents.openDevTools();
         win.removeMenu();
-        win.setPosition(5, 5); // TODO: randomize location
-
+        const [x, y] = win.getPosition();
+        console.log(x, y);
+        const randomOffsetX = getRandomInt(-500, 500);
+        const randomOffsetY = getRandomInt(-250, 250);
+        win.setPosition(x + randomOffsetX, y + randomOffsetY);
+        win.setAlwaysOnTop(true);
+        win.show();
         // Load puzzle HTML
         win.loadFile(`witness/play/${puzzleDefinition['hash']}.html`); // Relative to root as this is where electron is initiated
 
@@ -71,3 +76,9 @@ module.exports = class WitnessManager {
         });
     }
 };
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
