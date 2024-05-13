@@ -10,27 +10,45 @@ module.exports = class WitnessManager {
         this.solvedPuzzleList = [];
         this.currentPuzzle = null;
         this.currentPuzzleWindow = null;
+        this.puzzlesCompleted = false;
     }
 
     initiatePuzzles() {
         if (this.currentPuzzle == null) {
             this.currentPuzzle = this.unsolvedPuzzleList.shift();
-            this.createWitnessWindow(this.currentPuzzle);
+            this.createNextWindow();
         } else if (this.currentPuzzleWindow == null) {
-            this.createWitnessWindow(this.currentPuzzle);
+            this.createNextWindow();
         }
     }
 
     getNextPuzzle() {
-        this.currentPuzzle = this.unsolvedPuzzleList.shift();
-        this.createWitnessWindow(this.currentPuzzle);
+        if (this.unsolvedPuzzleList.length === 0) {
+            this.puzzlesCompleted = true;
+            this.createNextWindow();
+        } else {
+            this.currentPuzzle = this.unsolvedPuzzleList.shift();
+            this.createNextWindow();
+        }
     }
 
-    createWitnessWindow(puzzleDefinition) {
+    createNextWindow() {
+        if (this.puzzlesCompleted) {
+            this.createEndingWindow();
+        } else {
+            this.createWitnessWindow();
+        }
+    }
+
+    createWitnessWindow() {
+        const puzzleDefinition = this.currentPuzzle;
+        const puzzleCols = puzzleDefinition['cols'];
+        const puzzleRows = puzzleDefinition['rows'];
+
         // Create new puzzle window
         const win = new BrowserWindow({
-            width: puzzleDefinition['size'],
-            height: puzzleDefinition['size'] + 20,
+            width: WitnessManager.cellCountToWindowSize(puzzleCols),
+            height: WitnessManager.cellCountToWindowSize(puzzleRows) + 20,
             zoomFactor: 0.5,
             resizable: false,
             icon: 'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
@@ -74,6 +92,16 @@ module.exports = class WitnessManager {
                 this.currentPuzzleWindow = null;
             }
         });
+    }
+
+    static cellCountToWindowSize(cellCount) {
+        const padding = 69;
+        const cellSize = 82;
+        return 2 * padding + cellCount * cellSize;
+    }
+
+    createEndingWindow() {
+        console.log('ending!');
     }
 };
 
