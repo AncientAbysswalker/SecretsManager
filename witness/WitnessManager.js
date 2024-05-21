@@ -47,8 +47,9 @@ module.exports = class WitnessManager {
 
         // Create new puzzle window
         const win = new BrowserWindow({
+            useContentSize: true,
             width: WitnessManager.cellCountToWindowSize(puzzleCols),
-            height: WitnessManager.cellCountToWindowSize(puzzleRows) + 20,
+            height: WitnessManager.cellCountToWindowSize(puzzleRows),
             zoomFactor: 0.5,
             resizable: false,
             icon: 'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
@@ -95,7 +96,7 @@ module.exports = class WitnessManager {
     }
 
     static cellCountToWindowSize(cellCount) {
-        const padding = 69;
+        const padding = 59; // Old was 69
         const cellSize = 82;
         return 2 * padding + cellCount * cellSize;
     }
