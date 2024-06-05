@@ -96,7 +96,7 @@ module.exports = class WitnessManager {
     }
 
     static cellCountToWindowSize(cellCount) {
-        const padding = 59; // Old was 69
+        const padding = 69; // Old was 69, "correct" was 59
         const cellSize = 82;
         return 2 * padding + cellCount * cellSize;
     }
