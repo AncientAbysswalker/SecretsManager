@@ -2,6 +2,8 @@ const { GlobalKeyboardListener } = require('node-global-key-listener');
 const gkl = new GlobalKeyboardListener();
 var hash = require('object-hash');
 
+const { app, BrowserWindow } = require('electron');
+
 const goldenPaths = require('./validGoldenPaths');
 const { arrowKeys } = require('./arrowKeys');
 
@@ -10,11 +12,12 @@ const logHashes = true;
 module.exports = class GoldenPathManager {
     static pathTimeout = 5 * 1000;
 
-    constructor(witnessManager) {
+    constructor(witnessManager, simplePuzzleManager) {
         this.currentTime = 0;
         this.currentIndex = 0;
         this.remainingPaths = [];
         this.witnessManager = witnessManager;
+        this.simplePuzzleManager = simplePuzzleManager;
 
         if (logHashes) {
             for (const goldenPath of goldenPaths) {
@@ -60,5 +63,27 @@ module.exports = class GoldenPathManager {
         }
 
         this.currentIndex += 1;
+    }
+
+    createWindow(x) {
+        // Create new window
+        const win = new BrowserWindow({
+            useContentSize: true,
+            width: 500, //WitnessManager.cellCountToWindowSize(puzzleCols),
+            height: 500, //WitnessManager.cellCountToWindowSize(puzzleRows),
+            //zoomFactor: 0.5,
+            resizable: false,
+            //icon: 'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
+        });
+        // win.webContents.openDevTools();
+        win.removeMenu();
+        win.setAlwaysOnTop(true);
+        win.show();
+        // Load puzzle HTML
+        win.loadFile(x); // Relative to root as this is where electron is initiated
     }
 };

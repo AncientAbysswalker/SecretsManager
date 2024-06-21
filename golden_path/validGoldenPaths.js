@@ -1,4 +1,5 @@
 const { UP, DOWN, LEFT, RIGHT } = require('./arrowKeys');
+const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 
 module.exports = [
     {
@@ -6,6 +7,13 @@ module.exports = [
         path: [UP, UP, UP, DOWN],
         action: (gpm) => {
             gpm.witnessManager.initiatePuzzles();
+        },
+    },
+    {
+        id: '????',
+        path: [DOWN, DOWN],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.COMBO_LOCK);
         },
     },
     {

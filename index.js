@@ -1,6 +1,7 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 
 const WitnessManager = require('./witness/WitnessManager');
+const SimplePuzzleManager = require('./simple_puzzles/SimplePuzzleManager');
 const GoldenPathManager = require('./golden_path/GoldenPathManager');
 
 // LEGACY: For registering with globalShortcut
@@ -12,7 +13,11 @@ const GoldenPathManager = require('./golden_path/GoldenPathManager');
 // });
 
 const witnessManager = new WitnessManager();
-const goldenPathManager = new GoldenPathManager(witnessManager);
+const simplePuzzleManager = new SimplePuzzleManager();
+const goldenPathManager = new GoldenPathManager(
+    witnessManager,
+    simplePuzzleManager
+);
 
 app.whenReady().then(() => {
     // console.log(nodeAbi.getAbi('15.14.0', 'node'))
