@@ -23,6 +23,12 @@ const puzzleProps = {
             h: 1200,
         },
         {
+            path: 'simple_puzzles/puzzles/catstermind/petcat/index.html',
+            icon: 'simple_puzzles/prize.png',
+            w: 498,
+            h: 498,
+        },
+        {
             path: 'simple_puzzles/puzzles/catstermind/prize/index.html',
             icon: 'simple_puzzles/prize.png',
             w: 500,

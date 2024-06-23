@@ -1,5 +1,9 @@
 var DEBUG = false;
-console.log(999999);
+
+// TODO: Remove once testing is done
+setTimeout(() => {
+    emitPuzzleSolvedEvent();
+}, 500);
 
 ko.components.register('mastermind-game', {
     template: {
@@ -26,9 +30,9 @@ function MastermindComponent(params) {
             },
             populateWinningSequence: function () {
                 // generate a new group of colors to be matched
-                var x = self.winRange.map(utils.randomColor);
-                console.log(x);
-                self.winningSequence(x);
+                var winRange = self.winRange.map(utils.randomColor);
+                alert(winRange);
+                self.winningSequence(winRange);
             },
             resetGame: function () {
                 self.playing(false);
