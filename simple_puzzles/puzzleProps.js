@@ -15,6 +15,20 @@ const puzzleProps = {
             h: 500,
         },
     ],
+    [puzzleEnum.CATSTERMIND]: [
+        {
+            path: 'simple_puzzles/puzzles/catstermind/puzzle/index.html',
+            icon: 'simple_puzzles/puzzles/catstermind/icon.png',
+            w: 800,
+            h: 1200,
+        },
+        {
+            path: 'simple_puzzles/puzzles/catstermind/prize/index.html',
+            icon: 'simple_puzzles/prize.png',
+            w: 500,
+            h: 500,
+        },
+    ],
 };
 
 module.exports = {

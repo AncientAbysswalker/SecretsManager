@@ -17,6 +17,13 @@ module.exports = [
         },
     },
     {
+        id: '????',
+        path: [LEFT, LEFT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.CATSTERMIND);
+        },
+    },
+    {
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [
             UP,

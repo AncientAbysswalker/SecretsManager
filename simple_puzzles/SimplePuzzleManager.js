@@ -13,7 +13,7 @@ module.exports = class SimplePuzzleManager {
         if (this.puzzleState[puzzleEnumValue] == null) {
             this.puzzleState[puzzleEnumValue] = {
                 index: 0,
-                maxIndex: puzzleProps[puzzleEnumValue].length,
+                maxIndex: puzzleProps[puzzleEnumValue].length - 1,
                 activeWindow: null,
             };
             this.createWindowCurrentIndex(puzzleEnumValue);
@@ -24,7 +24,7 @@ module.exports = class SimplePuzzleManager {
 
     getNextPuzzle(puzzleEnumValue) {
         const currentIndex = this.puzzleState[puzzleEnumValue]['index'];
-        const maxIndex = this.puzzleState[puzzleEnumValue]['maxIndex'] - 1;
+        const maxIndex = this.puzzleState[puzzleEnumValue]['maxIndex'];
         if (currentIndex < maxIndex) {
             this.puzzleState[puzzleEnumValue]['activeWindow'].close();
             this.puzzleState[puzzleEnumValue]['index'] = currentIndex + 1;
@@ -38,6 +38,7 @@ module.exports = class SimplePuzzleManager {
 
     createWindowCurrentIndex(puzzleEnumValue) {
         const currentIndex = this.puzzleState[puzzleEnumValue]['index'];
+        const maxIndex = this.puzzleState[puzzleEnumValue]['maxIndex'];
         const ipc_event = `spm::evt::solved::${puzzleEnumValue}::${currentIndex}`;
 
         // Get the current puzzle props
@@ -65,23 +66,32 @@ module.exports = class SimplePuzzleManager {
         // Set the current puzzle window to this one (if we need to re-open the puzzle)
         this.puzzleState[puzzleEnumValue]['activeWindow'] = win;
 
-        // Inject IPC event name for current puzzle as a global variable
-        win.webContents.executeJavaScript(
-            `global.ipc_event_name = '${ipc_event}';`
-        );
+        // Only add handlers for if the puzzle is solved if this is not the final "prize" window
+        if (currentIndex < maxIndex) {
+            // Inject function to return an IPC event for current puzzle
+            // We need to catch because we get an error stating "Error: An object could not be cloned at IpcRendererInternal.send" but it works just fine
+            win.webContents
+                .executeJavaScript(
+                    `global.emitPuzzleSolvedEvent = () => {
+                        const { ipcRenderer } = require('electron');
+                        ipcRenderer.send('${ipc_event}');
+                    };`
+                )
+                .catch(() => {});
 
-        // Add listener for puzzle completion
-        ipc.on(ipc_event, (event, message) => {
-            ipc.removeAllListeners(ipc_event);
-            this.getNextPuzzle(puzzleEnumValue);
-        });
+            // Add listener for puzzle completion
+            ipc.on(ipc_event, (event, message) => {
+                ipc.removeAllListeners(ipc_event);
+                this.getNextPuzzle(puzzleEnumValue);
+            });
 
-        // If the current puzzle window is closed prematurely, remove the listener for puzzle completion. Without this, bugs arise with multiple listeners being created
-        win.on('close', () => {
-            ipc.removeAllListeners(ipc_event);
-            if (this.puzzleState[puzzleEnumValue]['activeWindow'] === win) {
-                this.puzzleState[puzzleEnumValue]['activeWindow'] = null;
-            }
-        });
+            // If the current puzzle window is closed prematurely, remove the listener for puzzle completion. Without this, bugs arise with multiple listeners being created
+            win.on('close', () => {
+                ipc.removeAllListeners(ipc_event);
+                if (this.puzzleState[puzzleEnumValue]['activeWindow'] === win) {
+                    this.puzzleState[puzzleEnumValue]['activeWindow'] = null;
+                }
+            });
+        }
     }
 };

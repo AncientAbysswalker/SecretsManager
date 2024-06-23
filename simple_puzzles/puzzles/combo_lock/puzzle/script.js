@@ -1,5 +1,3 @@
-const { ipcRenderer } = require('electron');
-
 // ***
 // Combination Lock
 // ***
@@ -128,7 +126,7 @@ function checkLock() {
         document.querySelector('#indicator').classList.remove('locked');
         document.querySelector('#indicator').classList.add('unlocked');
         setTimeout(() => {
-            ipcRenderer.send(ipc_event_name);
+            emitPuzzleSolvedEvent();
         }, 500);
     } else {
         document.querySelector('#indicator').classList.add('locked');
