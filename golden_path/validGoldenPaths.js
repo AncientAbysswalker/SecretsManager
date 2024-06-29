@@ -24,6 +24,13 @@ module.exports = [
         },
     },
     {
+        id: '????',
+        path: [RIGHT, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.HANOI);
+        },
+    },
+    {
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [
             UP,

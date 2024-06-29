@@ -35,6 +35,14 @@ const puzzleProps = {
             h: 500,
         },
     ],
+    [puzzleEnum.HANOI]: [
+        {
+            path: 'simple_puzzles/puzzles/hanoi/puzzle/index.html',
+            icon: 'simple_puzzles/puzzles/hanoi/icon.png',
+            w: 800,
+            h: 1200,
+        },
+    ],
 };
 
 module.exports = {

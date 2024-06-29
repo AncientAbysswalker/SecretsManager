@@ -1,15 +1,25 @@
+const path = require('path');
+
 const ipc = require('electron').ipcMain;
 const { app, BrowserWindow } = require('electron');
 
 const { puzzleProps } = require('./puzzleProps');
+const { puzzleEnum } = require('./puzzleEnum');
+const { TitlePuzzleHandler } = require('./WindowHandlers');
 
 module.exports = class SimplePuzzleManager {
     constructor() {
         this.puzzleState = {};
+        this.titlePuzzleHandler = new TitlePuzzleHandler('↑↓→←');
     }
 
     initiatePuzzle(puzzleEnumValue) {
-        console.log(puzzleEnumValue);
+        if (puzzleProps[puzzleEnumValue] == undefined) {
+            throw new Error(
+                `You have not defined puzzleProps for ${puzzleEnumValue}`
+            );
+        }
+
         if (this.puzzleState[puzzleEnumValue] == null) {
             this.puzzleState[puzzleEnumValue] = {
                 index: 0,
@@ -54,6 +64,7 @@ module.exports = class SimplePuzzleManager {
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
+                preload: path.join(__dirname, 'preload.js'),
             },
         });
         win.removeMenu();
@@ -92,6 +103,11 @@ module.exports = class SimplePuzzleManager {
                     this.puzzleState[puzzleEnumValue]['activeWindow'] = null;
                 }
             });
+        }
+
+        // Special Window Handlers
+        if (puzzleEnumValue === puzzleEnum.HANOI) {
+            this.titlePuzzleHandler.affectedWindow(win);
         }
     }
 };
