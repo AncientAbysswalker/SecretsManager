@@ -38,8 +38,6 @@ class TitlePuzzleHandler {
                 // This is inside the try so if we try to get the window's title then we end the loop
                 if (this.index < 0) {
                     this.index += 1;
-                    console.log(this.index);
-
                     return;
                 }
 
@@ -64,7 +62,6 @@ class TitlePuzzleHandler {
                     }
                 }, showLetterMillis);
             } catch (err) {
-                console.log(err);
                 this.stopLoop();
             }
         }, betweenLettersMillis);

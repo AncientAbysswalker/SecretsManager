@@ -3,6 +3,7 @@ const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 
 module.exports = [
     {
+        // The Witness
         id: '3adb72f3dda22a186d72700e190b228e1880a606',
         path: [UP, UP, UP, DOWN],
         action: (gpm) => {
@@ -10,6 +11,7 @@ module.exports = [
         },
     },
     {
+        // Combo Lock
         id: '????',
         path: [DOWN, DOWN],
         action: (gpm) => {
@@ -17,6 +19,7 @@ module.exports = [
         },
     },
     {
+        // Catstermind
         id: '????',
         path: [LEFT, LEFT],
         action: (gpm) => {
@@ -24,6 +27,7 @@ module.exports = [
         },
     },
     {
+        // Hanoi
         id: '????',
         path: [RIGHT, RIGHT],
         action: (gpm) => {
@@ -31,6 +35,15 @@ module.exports = [
         },
     },
     {
+        // Test
+        id: '????',
+        path: [RIGHT, LEFT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST);
+        },
+    },
+    {
+        // True Golden Path
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [
             UP,

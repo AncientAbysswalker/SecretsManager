@@ -39,8 +39,16 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/hanoi/puzzle/index.html',
             icon: 'simple_puzzles/puzzles/hanoi/icon.png',
-            w: 800,
-            h: 1200,
+            w: 600,
+            h: 400,
+        },
+    ],
+    [puzzleEnum.TEST]: [
+        {
+            path: 'simple_puzzles/puzzles/test/index.html',
+            icon: 'simple_puzzles/prize.png',
+            w: 432,
+            h: 432,
         },
     ],
 };

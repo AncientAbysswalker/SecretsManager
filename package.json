@@ -9,13 +9,14 @@
     "author": "Ancient Abysswalker",
     "license": "ISC",
     "devDependencies": {
-        "electron-packager": "^17.1.2",
         "@eslint/js": "^9.1.1",
         "electron": "^30.0.1",
+        "electron-packager": "^17.1.2",
         "eslint": "^9.1.1",
         "globals": "^15.0.0"
     },
     "dependencies": {
+        "jquery": "^3.7.1",
         "node-global-key-listener": "^0.1.0",
         "object-hash": "^3.0.0"
     }

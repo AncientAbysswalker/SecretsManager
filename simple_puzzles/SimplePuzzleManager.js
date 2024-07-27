@@ -64,12 +64,12 @@ module.exports = class SimplePuzzleManager {
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
-                preload: path.join(__dirname, 'preload.js'),
             },
         });
         win.removeMenu();
         win.setAlwaysOnTop(true);
         win.show();
+        // win.webContents.openDevTools();
 
         // Load puzzle HTML
         win.loadFile(currentPuzzleProps['path']);
@@ -77,10 +77,12 @@ module.exports = class SimplePuzzleManager {
         // Set the current puzzle window to this one (if we need to re-open the puzzle)
         this.puzzleState[puzzleEnumValue]['activeWindow'] = win;
 
+        console.log(`global.dummyMode = ${this.dummyMode};`);
         // Only add handlers for if the puzzle is solved if this is not the final "prize" window
         if (currentIndex < maxIndex) {
             // Inject function to return an IPC event for current puzzle
             // We need to catch because we get an error stating "Error: An object could not be cloned at IpcRendererInternal.send" but it works just fine
+            console.log(`global.dummyMode = ${this.dummyMode};`);
             win.webContents
                 .executeJavaScript(
                     `global.emitPuzzleSolvedEvent = () => {
