@@ -43,6 +43,14 @@ const puzzleProps = {
             h: 400,
         },
     ],
+    [puzzleEnum.FOX_MAZE]: [
+        {
+            path: 'simple_puzzles/puzzles/fox_maze/puzzle/index.html',
+            icon: 'simple_puzzles/puzzles/fox_maze/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
     [puzzleEnum.TEST]: [
         {
             path: 'simple_puzzles/puzzles/test/index.html',

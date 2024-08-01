@@ -68,8 +68,7 @@ module.exports = class SimplePuzzleManager {
         });
         win.removeMenu();
         win.setAlwaysOnTop(true);
-        win.show();
-        // win.webContents.openDevTools();
+        win.webContents.openDevTools();
 
         // Load puzzle HTML
         win.loadFile(currentPuzzleProps['path']);
@@ -110,6 +109,11 @@ module.exports = class SimplePuzzleManager {
         // Special Window Handlers
         if (puzzleEnumValue === puzzleEnum.HANOI) {
             this.titlePuzzleHandler.affectedWindow(win);
+        } else if (puzzleEnumValue === puzzleEnum.FOX_MAZE) {
+            win.on('move', () => {
+                let bounds = win.getBounds();
+                win.webContents.send('window-moved', bounds);
+            });
         }
     }
 };

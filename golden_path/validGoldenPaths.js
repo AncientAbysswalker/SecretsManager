@@ -35,6 +35,14 @@ module.exports = [
         },
     },
     {
+        // Fox Maze
+        id: '????',
+        path: [LEFT, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
+        },
+    },
+    {
         // Test
         id: '????',
         path: [RIGHT, LEFT],
