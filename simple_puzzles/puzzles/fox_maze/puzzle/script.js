@@ -23,13 +23,18 @@ class Fox {
         this.frameWidth = 32;
         this.frameHeight = 32;
 
-        this.currentAnimationImage = 0;
-        this.currentWaitFrame = 0;
-        this.framesPerImage = 3;
+        // Animation and Movement
+        this.specialAnimationChance = 0.1;
+        this.currentAnimationFrame = 0;
+        this.currentAnimationWaitFrame = 0;
+        this.engineFramesPerAnimationFrame = 3;
+        this.currentAnimationMaxFrames;
+        this.currentAnimationSpritesheetRow;
         this.maxSpeed = 2;
 
         // Fox State
-        this.state = 1; // Standing
+        this.state = foxState.STANDING; // Standing
+        this.lastState;
         this.x = 100;
         this.y = 300;
         this.faceRight = true;
@@ -110,32 +115,74 @@ class Fox {
         }
     }
 
-    draw(ctx) {
-        let maxFrame;
-        let row;
-        switch(this.state)
-        {
-            case 1:
-                maxFrame = 5 - 1;
-                row = 0;
-                break;
-            case 0:
-                maxFrame = 8 - 1;
-                row = 2;
-                break;
-            case 2:
-                maxFrame = 14 - 1;
-                row = 1;
-                break;
-            default:
-              // code block
-          } 
-        // this.state == 1 ? 5 -1 : 8-1;
-        // const row = this.state == 1 ? 0 : 2;
+    checkForSpriteStateUpdate() {
+        // If state changed, cut to new animation
+        if (this.lastState != this.state) {
+            this.lastState = this.state;
 
+            switch(this.state)
+            {
+                case foxState.STANDING:
+                    this.currentAnimationMaxFrames = 5 - 1;
+                    this.currentAnimationSpritesheetRow = 0;
+                    this.currentAnimationFrame = 0;
+                    break;
+                case foxState.WALKING:
+                    this.currentAnimationMaxFrames = 8 - 1;
+                    this.currentAnimationSpritesheetRow = 2;
+                    this.currentAnimationFrame = 0;
+                    break;
+                default:
+            } 
+        }
+    }
+
+    setupNextAnimationFrame() {
+        // Continue to wait is there remain wait frames
+        if (this.currentAnimationWaitFrame != this.engineFramesPerAnimationFrame) {
+            this.currentAnimationWaitFrame++;
+            
+        // Else move to setup next frame and reset current wait frame to 0
+        } else {
+            this.currentAnimationWaitFrame = 0;
+
+            // Update chance for special animation
+            if (this.specialAnimationChance < 0.1) {
+                this.specialAnimationChance += 0.0001; // Appx 30sec to refill
+            }
+
+            // Special handling for end of animation
+            if (this.currentAnimationFrame == this.currentAnimationMaxFrames) {
+                // Special alternate resting animation
+                if (this.state == foxState.STANDING) {
+                    // Potentially start special animation, else end it
+                    if (this.currentAnimationSpritesheetRow == 0 && Math.random() < this.specialAnimationChance) {
+                        this.specialAnimationChance = 0;
+                        this.currentAnimationMaxFrames = 14 - 1;
+                        this.currentAnimationSpritesheetRow = 1;
+                    } else {
+                        this.currentAnimationMaxFrames = 5 - 1;
+                        this.currentAnimationSpritesheetRow = 0;
+                    }
+                }
+                this.currentAnimationFrame = 0;
+
+                return;
+            }
+            
+            // Progress to next frame of current animation
+            this.currentAnimationFrame++;
+        }
+    }
+
+    draw(ctx) {
+        // Check fox sprite for state update
+        this.checkForSpriteStateUpdate();
+
+        // Draw fox
         ctx.drawImage(this.faceRight ? this.sprFoxR : this.sprFoxL, 
-            this.currentAnimationImage * this.frameWidth, 
-            row*this.frameHeight, 
+            this.currentAnimationFrame * this.frameWidth, 
+            this.currentAnimationSpritesheetRow*this.frameHeight, 
             this.frameWidth, 
             this.frameHeight, 
             this.x - winX, 
@@ -143,6 +190,7 @@ class Fox {
             this.frameWidth, 
             this.frameHeight);
 
+        // Draw hitbox
         ctx.beginPath();
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.x + centerX - bbw/2 - winX, 
@@ -151,22 +199,8 @@ class Fox {
             bbh);
         ctx.closePath()
         
-        // Next animation frame
-        if (this.currentWaitFrame != this.framesPerImage) {
-            this.currentWaitFrame++;
-        } else {
-            this.currentWaitFrame = 0;
-            if (this.currentAnimationImage == maxFrame) {
-                if (this.state == 2) {
-                    this.updateState(1);
-                }
-                this.currentAnimationImage = 0;
-            } else {
-                this.currentAnimationImage++;
-            }
-
-        }
-        
+        // Setup properties for next rendered frame
+        this.setupNextAnimationFrame();    
     }
 
     checkAndUpdateMovement() {
@@ -175,42 +209,38 @@ class Fox {
                 // Left
                 if (keyPressed["left"]) {
                     this.faceRight = false;
-                    this.updateState(0);
+                    this.updateState(foxState.WALKING);
                     this.checkMoveLeft();
                 }
                 // Right
                 if (keyPressed["right"]) {
                     this.faceRight = true;
-                    this.updateState(0);
+                    this.updateState(foxState.WALKING);
                     this.checkMoveRight();
                 }
             }
             if (keyPressed["up"] != keyPressed["down"]) {
                 // Up
                 if (keyPressed["up"]) {
-                    this.updateState(0);
+                    this.updateState(foxState.WALKING);
                     this.checkMoveUp();
                 }
                 // Down
                 if (keyPressed["down"]) {
-                    this.updateState(0);
+                    this.updateState(foxState.WALKING);
                     this.checkMoveDown();
                 }
             }
         } else {
-            if (this.state === 0) {
-                this.updateState(1);
+            if (this.state === foxState.WALKING) {
+                this.updateState(foxState.STANDING);
             }
-            if (this.state === 1 && this.currentAnimationImage == 0 && Math.random() < 0.005) {
-                this.updateState(2);
-            } 
         }
     }
 
     updateState(newState) {
         if (newState !== this.state) {
             this.state = newState;
-            this.currentAnimationImage = 0;
         }
     }
 }
@@ -220,7 +250,8 @@ let winY = 0;
 
 // Map
 let map = new Image();
-map.src = './6FsdxmA.jpg';
+// map.src = './6FsdxmA.jpg';
+map.src = './testnew.png';
 
 // Keyboard event handlers for movement
 let keyPressed = {};
@@ -259,27 +290,23 @@ window.addEventListener("keyup", (e) => {
 
 let fox = new Fox();
 
-let lastAnimationFrame = -1;
+let lastEngineFrame = -1;
 tick(0);
 
 function tick(timestamp) {
-    const currentAnimationFrame = Math.floor(timestamp / 1000 * 30);
+    const currentEngineFrame = Math.floor(timestamp / 1000 * 30);
 
     // Only run update once per frame
-    if (currentAnimationFrame > lastAnimationFrame) {
-        lastAnimationFrame = currentAnimationFrame;
+    if (currentEngineFrame > lastEngineFrame) {
+        lastEngineFrame = currentEngineFrame;
 
         fox.checkAndUpdateMovement();
-        // console.log(frame)
-        // requestAnimationFrame(() => {
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-        ctx.drawImage(map, -winX, -winY);
+        ctx.drawImage(map, 300-winX, 300-winY);
         
-        // console.log(fox.faceRight)
         fox.draw(ctx);
-        // ctx.drawImage(fox.faceRight ? sprFoxR : sprFoxL, column*frameWidth, row*frameHeight, frameWidth, frameHeight, fox.x - winX, fox.y - winY, frameWidth, frameHeight);
-        // console.log(timestamp / 1000)
     
         ctx.beginPath();
         ctx.rect(320 - winX, 320 - winY, 32, 32);
@@ -297,13 +324,6 @@ function tick(timestamp) {
     }
 
     requestAnimationFrame(tick);
-    // });
-
-//     if (column == 4) {
-//         column = 0;
-//     } else {
-//         column++;
-//     }
 }
 
 // Listen for the window-moved event from the main process
