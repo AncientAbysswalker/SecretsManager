@@ -47,8 +47,8 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/fox_maze/puzzle/index.html',
             icon: 'simple_puzzles/puzzles/fox_maze/icon.png',
-            w: 1000,
-            h: 1000,
+            w: 1920,
+            h: 1080,
         },
     ],
     [puzzleEnum.TEST]: [

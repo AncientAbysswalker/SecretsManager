@@ -1,7 +1,11 @@
 const { ipcRenderer } = require('electron');
+const { Chest, chestColor } = require('./chest');
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+
+// Map data is stored with indices of row then col
+const mapCollision = require('./map.json')
 
 const foxState = Object.freeze({
     INITIAL_SLEEPING: 'INITIAL_SLEEPING',
@@ -9,12 +13,53 @@ const foxState = Object.freeze({
     STANDING: 'STANDING',
 });
 
+function checkMovingBoundingBoxesCollision(o1, o2, xMov, yMov) {
+    console.log((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom()))
+    console.log((o1.getBoundingBottom() + yMov) < (o2.getBoundingTop()))
+    console.log((o1.getBoundingRight() + xMov) < o2.getBoundingLeft())
+    console.log((o1.getBoundingLeft() + xMov) > (o2.getBoundingRight()))
+    return !(
+        ((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom())) || // Collide at bottom
+        ((o1.getBoundingBottom() + yMov) < (o2.getBoundingTop())) || // Collide at top
+        ((o1.getBoundingRight() + xMov) < o2.getBoundingLeft()) || // Collide at left
+        ((o1.getBoundingLeft() + xMov) > (o2.getBoundingRight())) // Collide at right
+    );
+}
+
+function moveToBoundingBoxCollisionBottom(o1, o2) {
+    o1.y -= o1.getBoundingTop() - o2.getBoundingBottom() - 1;
+}
+function moveToBoundingBoxCollisionTop(o1, o2) {
+    o1.y += o2.getBoundingTop() - o1.getBoundingBottom() - 1;
+}
+function moveToBoundingBoxCollisionRight(o1, o2) {
+    o1.x -= o1.getBoundingLeft() - o2.getBoundingRight() - 1;
+}
+function moveToBoundingBoxCollisionLeft(o1, o2) {
+    o1.x += o2.getBoundingLeft() - o1.getBoundingRight() - 1;
+}
+    
+    // // Collide at top
+    // } else if (!(o1.getBoundingBottom() + yMov < (o2.getBoundingTop()))) {
+    //     console.log('hit going down')
+    //     o1.y -= o2.getBoundingTop() - o1.getBoundingBottom() - 1;
+    // }
+    // return !(
+    //     ((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom())) ||
+    //     (o1.getBoundingBottom() + yMov < (o2.getBoundingTop())) ||
+    //     ((o1.getBoundingRight() + xMov) < o2.getBoundingLeft()) ||
+    //     (o1.getBoundingLeft() + xMov > (o2.getBoundingRight()))
+    // );
+
+
 const centerX = 16;
 const centerY = 24;
 const bbw = 20;
 const bbh = 16;
 class Fox {
-    constructor() {
+    constructor(colList) {
+        this.colList = colList;
+
         // Animation Constants
         this.sprFoxL = new Image();
         this.sprFoxR = new Image();
@@ -30,7 +75,7 @@ class Fox {
         this.engineFramesPerAnimationFrame = 3;
         this.currentAnimationMaxFrames;
         this.currentAnimationSpritesheetRow;
-        this.maxSpeed = 2;
+        this.maxSpeed = 7;
 
         // Fox State
         this.state = foxState.STANDING; // Standing
@@ -71,11 +116,21 @@ class Fox {
         const y1 = this.getBoundingTop();
         const y2 = this.getBoundingBottom();
 
-        // Check for collision; otherwise move unrestricted
+        // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolid(x - this.maxSpeed, y1) || this.checkForSolid(x - this.maxSpeed, y2)) {
             this.x = Math.floor(x / 32) * 32 + bbw/2 - centerX + 1;
         } else {
-            this.x -= this.maxSpeed;
+            let isCollided = false;
+            for (const objectSolid of this.colList) {
+                if (checkMovingBoundingBoxesCollision(this, objectSolid, - this.maxSpeed, 0)) {
+                    isCollided = true;
+                    moveToBoundingBoxCollisionRight(this, objectSolid);
+                }
+            }
+
+            if (!isCollided) {
+                this.x -= this.maxSpeed;
+            }
         }
     }
     checkMoveRight() {
@@ -83,11 +138,21 @@ class Fox {
         const y1 = this.getBoundingTop();
         const y2 = this.getBoundingBottom();
 
-        // Check for collision; otherwise move unrestricted
+        // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolid(x + this.maxSpeed, y1) || this.checkForSolid(x + this.maxSpeed, y2)) {
             this.x = Math.floor((x + this.maxSpeed) / 32) * 32 - bbw/2 - centerX - 1;
         } else {
-            this.x += this.maxSpeed;
+            let isCollided = false;
+            for (const objectSolid of this.colList) {
+                if (checkMovingBoundingBoxesCollision(this, objectSolid, this.maxSpeed, 0)) {
+                    isCollided = true;
+                    moveToBoundingBoxCollisionLeft(this, objectSolid);
+                }
+            }
+
+            if (!isCollided) {
+                this.x += this.maxSpeed;
+            }
         }
     }
     checkMoveUp() {
@@ -95,11 +160,21 @@ class Fox {
         const x1 = this.getBoundingLeft();
         const x2 = this.getBoundingRight();
 
-        // Check for collision; otherwise move unrestricted
+        // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolid(x1, y - this.maxSpeed) || this.checkForSolid(x2, y - this.maxSpeed)) {
             this.y = Math.floor(y / 32) * 32 + bbh/2 - centerY + 1;
         } else {
-            this.y -= this.maxSpeed;
+            let isCollided = false;
+            for (const objectSolid of this.colList) {
+                if (checkMovingBoundingBoxesCollision(this, objectSolid, 0, - this.maxSpeed)) {
+                    isCollided = true;
+                    moveToBoundingBoxCollisionBottom(this, objectSolid);
+                }
+            }
+
+            if (!isCollided) {
+                this.y -= this.maxSpeed;
+            }
         }
     }
     checkMoveDown() {
@@ -107,11 +182,21 @@ class Fox {
         const x1 = this.getBoundingLeft();
         const x2 = this.getBoundingRight();
 
-        // Check for collision; otherwise move unrestricted
+        // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolid(x1, y + this.maxSpeed) || this.checkForSolid(x2, y + this.maxSpeed)) {
             this.y = Math.floor((y + this.maxSpeed) / 32) * 32 - bbh/2 - centerY - 1;
         } else {
-            this.y += this.maxSpeed;
+            let isCollided = false;
+            for (const objectSolid of this.colList) {
+                if (checkMovingBoundingBoxesCollision(this, objectSolid, 0, this.maxSpeed)) {
+                    isCollided = true;
+                    moveToBoundingBoxCollisionTop(this, objectSolid);
+                }
+            }
+
+            if (!isCollided) {
+                this.y += this.maxSpeed;
+            }
         }
     }
 
@@ -288,7 +373,13 @@ window.addEventListener("keyup", (e) => {
     }
 });
 
-let fox = new Fox();
+let colList = []
+
+let fox = new Fox(colList);
+
+let redChest = new Chest(chestColor.RED);
+
+colList.push(redChest)
 
 let lastEngineFrame = -1;
 tick(0);
@@ -307,7 +398,9 @@ function tick(timestamp) {
         ctx.drawImage(map, 300-winX, 300-winY);
         
         fox.draw(ctx);
-    
+
+        redChest.draw(ctx);
+
         ctx.beginPath();
         ctx.rect(320 - winX, 320 - winY, 32, 32);
         ctx.fillStyle = '#ff95dd';
