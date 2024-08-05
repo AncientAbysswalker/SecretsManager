@@ -1,5 +1,7 @@
 const { ipcRenderer } = require('electron');
-const { Chest, chestColor } = require('./chest');
+const { Chest, chestColor } = require('./Chest');
+const { Fox } = require('./Fox');
+const { Engine } = require('./Engine');
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -7,379 +9,19 @@ const ctx = canvas.getContext('2d');
 // Map data is stored with indices of row then col
 const mapCollision = require('./map.json')
 
-const foxState = Object.freeze({
-    INITIAL_SLEEPING: 'INITIAL_SLEEPING',
-    WALKING: 'WALKING',
-    STANDING: 'STANDING',
-});
-
-function checkMovingBoundingBoxesCollision(o1, o2, xMov, yMov) {
-    console.log((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom()))
-    console.log((o1.getBoundingBottom() + yMov) < (o2.getBoundingTop()))
-    console.log((o1.getBoundingRight() + xMov) < o2.getBoundingLeft())
-    console.log((o1.getBoundingLeft() + xMov) > (o2.getBoundingRight()))
-    return !(
-        ((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom())) || // Collide at bottom
-        ((o1.getBoundingBottom() + yMov) < (o2.getBoundingTop())) || // Collide at top
-        ((o1.getBoundingRight() + xMov) < o2.getBoundingLeft()) || // Collide at left
-        ((o1.getBoundingLeft() + xMov) > (o2.getBoundingRight())) // Collide at right
-    );
-}
-
-function moveToBoundingBoxCollisionBottom(o1, o2) {
-    o1.y -= o1.getBoundingTop() - o2.getBoundingBottom() - 1;
-}
-function moveToBoundingBoxCollisionTop(o1, o2) {
-    o1.y += o2.getBoundingTop() - o1.getBoundingBottom() - 1;
-}
-function moveToBoundingBoxCollisionRight(o1, o2) {
-    o1.x -= o1.getBoundingLeft() - o2.getBoundingRight() - 1;
-}
-function moveToBoundingBoxCollisionLeft(o1, o2) {
-    o1.x += o2.getBoundingLeft() - o1.getBoundingRight() - 1;
-}
-    
-    // // Collide at top
-    // } else if (!(o1.getBoundingBottom() + yMov < (o2.getBoundingTop()))) {
-    //     console.log('hit going down')
-    //     o1.y -= o2.getBoundingTop() - o1.getBoundingBottom() - 1;
-    // }
-    // return !(
-    //     ((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom())) ||
-    //     (o1.getBoundingBottom() + yMov < (o2.getBoundingTop())) ||
-    //     ((o1.getBoundingRight() + xMov) < o2.getBoundingLeft()) ||
-    //     (o1.getBoundingLeft() + xMov > (o2.getBoundingRight()))
-    // );
-
-
-const centerX = 16;
-const centerY = 24;
-const bbw = 20;
-const bbh = 16;
-class Fox {
-    constructor(colList) {
-        this.colList = colList;
-
-        // Animation Constants
-        this.sprFoxL = new Image();
-        this.sprFoxR = new Image();
-        this.sprFoxL.src = './fox_l.png';
-        this.sprFoxR.src = './fox_r.png';
-        this.frameWidth = 32;
-        this.frameHeight = 32;
-
-        // Animation and Movement
-        this.specialAnimationChance = 0.1;
-        this.currentAnimationFrame = 0;
-        this.currentAnimationWaitFrame = 0;
-        this.engineFramesPerAnimationFrame = 3;
-        this.currentAnimationMaxFrames;
-        this.currentAnimationSpritesheetRow;
-        this.maxSpeed = 7;
-
-        // Fox State
-        this.state = foxState.STANDING; // Standing
-        this.lastState;
-        this.x = 100;
-        this.y = 300;
-        this.faceRight = true;
-    }
-
-    updateAndDraw(ctx) {
-        this.checkAndUpdateMovement();
-        this.draw(ctx);
-    }
-
-    // Bounding Box
-    getBoundingLeft() {
-        return this.x + centerX - bbw/2;
-    }
-    getBoundingRight() {
-        return this.x + centerX + bbw/2;
-    }
-    getBoundingTop() {
-        return this.y + centerY - bbh/2;
-    }
-    getBoundingBottom() {
-        return this.y + centerY + bbh/2;
-    }
-
-    checkForSolid(x, y) {
-        const xx = Math.floor(x / 32);
-        const yy = Math.floor(y / 32);
-        return (xx==10 && yy==10) || (xx==9 && yy==9); // Check array
-    }
-
-    // Check Movement
-    checkMoveLeft() {
-        const x = this.getBoundingLeft();
-        const y1 = this.getBoundingTop();
-        const y2 = this.getBoundingBottom();
-
-        // Check for map collision, then object solids, then otherwise move unrestricted
-        if (this.checkForSolid(x - this.maxSpeed, y1) || this.checkForSolid(x - this.maxSpeed, y2)) {
-            this.x = Math.floor(x / 32) * 32 + bbw/2 - centerX + 1;
-        } else {
-            let isCollided = false;
-            for (const objectSolid of this.colList) {
-                if (checkMovingBoundingBoxesCollision(this, objectSolid, - this.maxSpeed, 0)) {
-                    isCollided = true;
-                    moveToBoundingBoxCollisionRight(this, objectSolid);
-                }
-            }
-
-            if (!isCollided) {
-                this.x -= this.maxSpeed;
-            }
-        }
-    }
-    checkMoveRight() {
-        const x = this.getBoundingRight();
-        const y1 = this.getBoundingTop();
-        const y2 = this.getBoundingBottom();
-
-        // Check for map collision, then object solids, then otherwise move unrestricted
-        if (this.checkForSolid(x + this.maxSpeed, y1) || this.checkForSolid(x + this.maxSpeed, y2)) {
-            this.x = Math.floor((x + this.maxSpeed) / 32) * 32 - bbw/2 - centerX - 1;
-        } else {
-            let isCollided = false;
-            for (const objectSolid of this.colList) {
-                if (checkMovingBoundingBoxesCollision(this, objectSolid, this.maxSpeed, 0)) {
-                    isCollided = true;
-                    moveToBoundingBoxCollisionLeft(this, objectSolid);
-                }
-            }
-
-            if (!isCollided) {
-                this.x += this.maxSpeed;
-            }
-        }
-    }
-    checkMoveUp() {
-        const y = this.getBoundingTop();
-        const x1 = this.getBoundingLeft();
-        const x2 = this.getBoundingRight();
-
-        // Check for map collision, then object solids, then otherwise move unrestricted
-        if (this.checkForSolid(x1, y - this.maxSpeed) || this.checkForSolid(x2, y - this.maxSpeed)) {
-            this.y = Math.floor(y / 32) * 32 + bbh/2 - centerY + 1;
-        } else {
-            let isCollided = false;
-            for (const objectSolid of this.colList) {
-                if (checkMovingBoundingBoxesCollision(this, objectSolid, 0, - this.maxSpeed)) {
-                    isCollided = true;
-                    moveToBoundingBoxCollisionBottom(this, objectSolid);
-                }
-            }
-
-            if (!isCollided) {
-                this.y -= this.maxSpeed;
-            }
-        }
-    }
-    checkMoveDown() {
-        const y = this.getBoundingBottom();
-        const x1 = this.getBoundingLeft();
-        const x2 = this.getBoundingRight();
-
-        // Check for map collision, then object solids, then otherwise move unrestricted
-        if (this.checkForSolid(x1, y + this.maxSpeed) || this.checkForSolid(x2, y + this.maxSpeed)) {
-            this.y = Math.floor((y + this.maxSpeed) / 32) * 32 - bbh/2 - centerY - 1;
-        } else {
-            let isCollided = false;
-            for (const objectSolid of this.colList) {
-                if (checkMovingBoundingBoxesCollision(this, objectSolid, 0, this.maxSpeed)) {
-                    isCollided = true;
-                    moveToBoundingBoxCollisionTop(this, objectSolid);
-                }
-            }
-
-            if (!isCollided) {
-                this.y += this.maxSpeed;
-            }
-        }
-    }
-
-    checkForSpriteStateUpdate() {
-        // If state changed, cut to new animation
-        if (this.lastState != this.state) {
-            this.lastState = this.state;
-
-            switch(this.state)
-            {
-                case foxState.STANDING:
-                    this.currentAnimationMaxFrames = 5 - 1;
-                    this.currentAnimationSpritesheetRow = 0;
-                    this.currentAnimationFrame = 0;
-                    break;
-                case foxState.WALKING:
-                    this.currentAnimationMaxFrames = 8 - 1;
-                    this.currentAnimationSpritesheetRow = 2;
-                    this.currentAnimationFrame = 0;
-                    break;
-                default:
-            } 
-        }
-    }
-
-    setupNextAnimationFrame() {
-        // Continue to wait is there remain wait frames
-        if (this.currentAnimationWaitFrame != this.engineFramesPerAnimationFrame) {
-            this.currentAnimationWaitFrame++;
-            
-        // Else move to setup next frame and reset current wait frame to 0
-        } else {
-            this.currentAnimationWaitFrame = 0;
-
-            // Update chance for special animation
-            if (this.specialAnimationChance < 0.1) {
-                this.specialAnimationChance += 0.0001; // Appx 30sec to refill
-            }
-
-            // Special handling for end of animation
-            if (this.currentAnimationFrame == this.currentAnimationMaxFrames) {
-                // Special alternate resting animation
-                if (this.state == foxState.STANDING) {
-                    // Potentially start special animation, else end it
-                    if (this.currentAnimationSpritesheetRow == 0 && Math.random() < this.specialAnimationChance) {
-                        this.specialAnimationChance = 0;
-                        this.currentAnimationMaxFrames = 14 - 1;
-                        this.currentAnimationSpritesheetRow = 1;
-                    } else {
-                        this.currentAnimationMaxFrames = 5 - 1;
-                        this.currentAnimationSpritesheetRow = 0;
-                    }
-                }
-                this.currentAnimationFrame = 0;
-
-                return;
-            }
-            
-            // Progress to next frame of current animation
-            this.currentAnimationFrame++;
-        }
-    }
-
-    draw(ctx) {
-        // Check fox sprite for state update
-        this.checkForSpriteStateUpdate();
-
-        // Draw fox
-        ctx.drawImage(this.faceRight ? this.sprFoxR : this.sprFoxL, 
-            this.currentAnimationFrame * this.frameWidth, 
-            this.currentAnimationSpritesheetRow*this.frameHeight, 
-            this.frameWidth, 
-            this.frameHeight, 
-            this.x - winX, 
-            this.y - winY, 
-            this.frameWidth, 
-            this.frameHeight);
-
-        // Draw hitbox
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + centerX - bbw/2 - winX, 
-            this.y + centerY - bbh/2 - winY, 
-            bbw, 
-            bbh);
-        ctx.closePath()
-        
-        // Setup properties for next rendered frame
-        this.setupNextAnimationFrame();    
-    }
-
-    checkAndUpdateMovement() {
-        if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
-            if (keyPressed["left"] != keyPressed["right"]) {
-                // Left
-                if (keyPressed["left"]) {
-                    this.faceRight = false;
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveLeft();
-                }
-                // Right
-                if (keyPressed["right"]) {
-                    this.faceRight = true;
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveRight();
-                }
-            }
-            if (keyPressed["up"] != keyPressed["down"]) {
-                // Up
-                if (keyPressed["up"]) {
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveUp();
-                }
-                // Down
-                if (keyPressed["down"]) {
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveDown();
-                }
-            }
-        } else {
-            if (this.state === foxState.WALKING) {
-                this.updateState(foxState.STANDING);
-            }
-        }
-    }
-
-    updateState(newState) {
-        if (newState !== this.state) {
-            this.state = newState;
-        }
-    }
-}
-
-let winX = 0;
-let winY = 0;
-
 // Map
 let map = new Image();
 // map.src = './6FsdxmA.jpg';
 map.src = './testnew.png';
 
-// Keyboard event handlers for movement
-let keyPressed = {};
-window.addEventListener("keydown", (e) => {
-    // All the extra repeated-logic is to reduce input lag
-    if (e.repeat) { return }
+const engine = new Engine(ctx, 50, 50);
+engine.setMapCollision(mapCollision);
 
-    if (!keyPressed["up"] && (e.key === "W" || e.key === "w")) {
-        keyPressed["up"] = true;
-    }
-    if (!keyPressed["down"] && (e.key === "S" || e.key === "s")) {
-        keyPressed["down"] = true;
-    }
-    if (!keyPressed["left"] && (e.key === "A" || e.key === "a")) {
-        keyPressed["left"] = true;
-    }
-    if (!keyPressed["right"] && (e.key === "D" || e.key === "d")) {
-        keyPressed["right"] = true;
-    }
-});
-
-window.addEventListener("keyup", (e) => {
-    if (e.key === "W" || e.key === "w") {
-        keyPressed["up"] = false;
-    }
-    if (e.key === "S" || e.key === "s") {
-        keyPressed["down"] = false;
-    }
-    if (e.key === "A" || e.key === "a") {
-        keyPressed["left"] = false;
-    }
-    if (e.key === "D" || e.key === "d") {
-        keyPressed["right"] = false;
-    }
-});
-
-let colList = []
-
-let fox = new Fox(colList);
 
 let redChest = new Chest(chestColor.RED);
+engine.addObjectSolid(redChest);
 
-colList.push(redChest)
+let fox = new Fox(engine, 2 * 32, 14 * 32);
 
 let lastEngineFrame = -1;
 tick(0);
@@ -395,25 +37,26 @@ function tick(timestamp) {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-        ctx.drawImage(map, 300-winX, 300-winY);
+        // ctx.drawImage(map, 300 - winX, 300 - winY);
         
         fox.draw(ctx);
 
         redChest.draw(ctx);
-
-        ctx.beginPath();
-        ctx.rect(320 - winX, 320 - winY, 32, 32);
-        ctx.fillStyle = '#ff95dd';
-        ctx.fill();
-        ctx.closePath();
-        ctx.beginPath();
-        ctx.rect(32*9 - winX, 32*9 - winY, 32, 32);
-        ctx.fillStyle = '#ff95dd';
-        ctx.fill();
-        ctx.closePath();
     
-        // Loop update with a timeout
-        
+        // Draw map hitboxes
+        for (let row = 0; row < mapCollision.length; row++) {
+            for (let col = 0; col < mapCollision[row].length; col++) {
+                if (mapCollision[row][col]) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = "yellow";
+                    ctx.strokeRect(col * 32 - engine.winX, 
+                        row * 32 - engine.winY, 
+                        32, 
+                        32);
+                    ctx.closePath()
+                }
+            }
+        }
     }
 
     requestAnimationFrame(tick);
@@ -423,4 +66,5 @@ function tick(timestamp) {
 ipcRenderer.on('window-moved', (event, bounds) => {
     winX = bounds.x;
     winY = bounds.y;
+    engine.setWindowPosition(winX, winY);
 });

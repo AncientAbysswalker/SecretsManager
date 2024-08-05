@@ -112,6 +112,7 @@ module.exports = class SimplePuzzleManager {
                 let bounds = win.getBounds();
                 win.webContents.send('window-moved', bounds);
             });
+            win.setPosition(50, 50);
         }
     }
 };
