@@ -13,9 +13,9 @@ const foxState = Object.freeze({
 });
 
 const centerX = 16;
-const centerY = 24;
+const centerY = 28;
 const bbw = 20;
-const bbh = 16;
+const bbh = 8;
 class Fox {
     constructor(engine, startingX, startingY) {
         this.engine = engine;
@@ -227,7 +227,17 @@ class Fox {
         this.checkForSpriteStateUpdate();
 
         // Draw fox
-        ctx.drawImage(this.faceRight ? this.sprFoxR : this.sprFoxL, 
+        // ctx.drawImage(this.faceRight ? this.sprFoxR : this.sprFoxL, 
+        //     this.currentAnimationFrame * this.frameWidth, 
+        //     this.currentAnimationSpritesheetRow*this.frameHeight, 
+        //     this.frameWidth, 
+        //     this.frameHeight, 
+        //     this.x - this.engine.winX, 
+        //     this.y - this.engine.winY, 
+        //     this.frameWidth, 
+        //     this.frameHeight);
+        this.engine.submitImageForDraw(10,
+            this.faceRight ? this.sprFoxR : this.sprFoxL, 
             this.currentAnimationFrame * this.frameWidth, 
             this.currentAnimationSpritesheetRow*this.frameHeight, 
             this.frameWidth, 
@@ -238,13 +248,18 @@ class Fox {
             this.frameHeight);
 
         // Draw hitbox
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.winX, 
+        // ctx.beginPath();
+        // ctx.strokeStyle = "red";
+        // ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.winX, 
+        //     this.y + centerY - bbh/2 - this.engine.winY, 
+        //     bbw, 
+        //     bbh);
+        // ctx.closePath()
+        this.engine.submitBoundingBoxForDraw(99, "red",
+            this.x + centerX - bbw/2 - this.engine.winX, 
             this.y + centerY - bbh/2 - this.engine.winY, 
             bbw, 
             bbh);
-        ctx.closePath()
         
         // Setup properties for next rendered frame
         this.setupNextAnimationFrame();    

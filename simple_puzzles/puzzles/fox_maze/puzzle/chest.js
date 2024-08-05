@@ -9,20 +9,20 @@ const chestState = Object.freeze({
     OPEN: 'OPEN',
 });
 
-//TEMP
-const winX = 0;
-const winY=0;
-
 const centerX = 16;
 const centerY = 20;
 const bbw = 18;
 const bbh = 16;
 class Chest {
-    constructor(color) {
+    constructor(engine, startingX, startingY, color) {
+        this.engine = engine;
+        
+        // Animation Constants
         this.spr = new Image();
         this.spr.src = './chest-an.png';
         this.sprWidth = 32;
         this.sprHeight = 32;
+        this.sprHeightCutline = 16;
 
         // Animation and Movement
         this.currentAnimationFrame = 0;
@@ -33,8 +33,8 @@ class Chest {
         // State
         this.state = chestState.CLOSED; // Standing
         this.lastState;
-        this.x = 100;
-        this.y = 332;
+        this.x = startingX;
+        this.y = startingY;
     }
 
     // Bounding Box
@@ -55,31 +55,62 @@ class Chest {
         // Check fox sprite for state update
         // this.checkForSpriteStateUpdate();
 
-        // Draw fox
-        ctx.drawImage(this.spr,
+        // Draw sprite
+        // ctx.drawImage(this.spr,
+        //     this.currentAnimationFrame * this.sprWidth, 
+        //     0, 
+        //     this.sprWidth, 
+        //     this.sprHeight, 
+        //     this.x - this.engine.winX, 
+        //     this.y - this.engine.winY, 
+        //     this.sprWidth, 
+        //     this.sprHeight);
+
+        // Top half of sprite
+        this.engine.submitImageForDraw(20,
+            this.spr, 
             this.currentAnimationFrame * this.sprWidth, 
             0, 
             this.sprWidth, 
-            this.sprHeight, 
-            this.x - winX, 
-            this.y - winY, 
+            this.sprHeightCutline, 
+            this.x - this.engine.winX, 
+            this.y - this.engine.winY, 
             this.sprWidth, 
-            this.sprHeight);
+            this.sprHeightCutline);
 
-        // Draw solid hitbox
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + centerX - bbw/2 - winX, 
-            this.y + centerY - bbh/2 - winY, 
+        // Top half of sprite
+        this.engine.submitImageForDraw(5,
+            this.spr, 
+            this.currentAnimationFrame * this.sprWidth, 
+            this.sprHeightCutline, 
+            this.sprWidth, 
+            this.sprHeight - this.sprHeightCutline, 
+            this.x - this.engine.winX, 
+            this.y + this.sprHeightCutline - this.engine.winY, 
+            this.sprWidth, 
+            this.sprHeight - this.sprHeightCutline);
+
+        // Draw hitbox
+        this.engine.submitBoundingBoxForDraw(99, "red",
+            this.x + centerX - bbw/2 - this.engine.winX, 
+            this.y + centerY - bbh/2 - this.engine.winY, 
             bbw, 
             bbh);
-        ctx.closePath()
+
+
+        // ctx.beginPath();
+        // ctx.strokeStyle = "red";
+        // ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.winX, 
+        //     this.y + centerY - bbh/2 - this.engine.winY, 
+        //     bbw, 
+        //     bbh);
+        // ctx.closePath()
 
         // Draw activation hitbox
         // ctx.beginPath();
         // ctx.strokeStyle = "blue";
-        // ctx.strokeRect(this.x + centerX - bbw/2 - winX, 
-        //     this.y + centerY - bbh/2 - winY, 
+        // ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.this.engine.winX, 
+        //     this.y + centerY - bbh/2 - this.engine.winY, 
         //     bbw, 
         //     bbh);
         // ctx.closePath()

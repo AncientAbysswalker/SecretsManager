@@ -18,7 +18,7 @@ const engine = new Engine(ctx, 50, 50);
 engine.setMapCollision(mapCollision);
 
 
-let redChest = new Chest(chestColor.RED);
+let redChest = new Chest(engine, 3*32, 14*32, chestColor.RED);
 engine.addObjectSolid(redChest);
 
 let fox = new Fox(engine, 2 * 32, 14 * 32);
@@ -57,6 +57,8 @@ function tick(timestamp) {
                 }
             }
         }
+
+        engine.drawCachedLayers();
     }
 
     requestAnimationFrame(tick);
