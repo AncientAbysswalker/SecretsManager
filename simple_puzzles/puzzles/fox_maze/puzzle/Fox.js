@@ -12,11 +12,13 @@ const foxState = Object.freeze({
     STANDING: 'STANDING',
 });
 
-// Bounding Box
+// Bounding Box - Static Definitions
 const centerX = 16;
 const centerY = 28;
 const bbWidth = 20;
 const bbHeight = 8;
+
+// Bounding Box - Calculated
 const bbLeftX = centerX - bbWidth / 2;
 const bbRightX = centerX + bbWidth / 2;
 const bbTopY = centerY - bbHeight / 2;
@@ -27,10 +29,14 @@ class Fox {
         this.engine = engine;
 
         // Animation Constants
-        this.sprFoxL = new Image();
-        this.sprFoxR = new Image();
-        this.sprFoxL.src = './fox_l.png';
-        this.sprFoxR.src = './fox_r.png';
+        this.sprL = new Image();
+        this.sprR = new Image();
+        this.sprOutlineL = new Image();
+        this.sprOutlineR = new Image();
+        this.sprL.src = './fox_l.png';
+        this.sprR.src = './fox_r.png';
+        this.sprOutlineL.src = './fox_l_outline.png';
+        this.sprOutlineR.src = './fox_r_outline.png';
         this.frameWidth = 32;
         this.frameHeight = 32;
 
@@ -233,17 +239,8 @@ class Fox {
         this.checkForSpriteStateUpdate();
 
         // Draw fox
-        // ctx.drawImage(this.faceRight ? this.sprFoxR : this.sprFoxL, 
-        //     this.currentAnimationFrame * this.frameWidth, 
-        //     this.currentAnimationSpritesheetRow*this.frameHeight, 
-        //     this.frameWidth, 
-        //     this.frameHeight, 
-        //     this.x - this.engine.winX, 
-        //     this.y - this.engine.winY, 
-        //     this.frameWidth, 
-        //     this.frameHeight);
         this.engine.submitImageForDraw(10,
-            this.faceRight ? this.sprFoxR : this.sprFoxL, 
+            this.faceRight ? this.sprR : this.sprL, 
             this.currentAnimationFrame * this.frameWidth, 
             this.currentAnimationSpritesheetRow*this.frameHeight, 
             this.frameWidth, 
@@ -253,11 +250,26 @@ class Fox {
             this.frameWidth, 
             this.frameHeight);
 
-        this.engine.submitBoundingBoxForDraw(99, "red",
-            this.x + bbLeftX - this.engine.winX, 
-            this.y + bbTopY - this.engine.winY, 
-            bbWidth, 
-            bbHeight);
+        // Draw fox outline
+        this.engine.submitImageForDraw(60,
+            this.faceRight ? this.sprOutlineR : this.sprOutlineL, 
+            this.currentAnimationFrame * this.frameWidth, 
+            this.currentAnimationSpritesheetRow*this.frameHeight, 
+            this.frameWidth, 
+            this.frameHeight, 
+            this.x - this.engine.winX, 
+            this.y - this.engine.winY, 
+            this.frameWidth, 
+            this.frameHeight);
+
+            
+        if (this.engine.drawHitboxes) {
+            this.engine.submitBoundingBoxForDraw(99, "red",
+                this.x + bbLeftX - this.engine.winX, 
+                this.y + bbTopY - this.engine.winY, 
+                bbWidth, 
+                bbHeight);
+        }
         
         // Setup properties for next rendered frame
         this.setupNextAnimationFrame();    

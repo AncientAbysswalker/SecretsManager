@@ -1,13 +1,16 @@
 class Engine {
     constructor(ctx, winX, winY) {
+        // Context and Window
         this.ctx = ctx;
         this.winX = winX;
         this.winY = winY;
 
+        // Collision Information
         this.mapCollision;
         this.objectSolidList = [];
 
         // Drawing
+        this.drawHitboxes = false;
         this.renderCache = {};
     }
 

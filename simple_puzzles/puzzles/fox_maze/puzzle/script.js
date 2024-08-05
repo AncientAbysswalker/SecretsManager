@@ -10,9 +10,11 @@ const ctx = canvas.getContext('2d');
 const mapCollision = require('./map.json')
 
 // Map
-let map = new Image();
+let map_lower = new Image();
+let map_upper = new Image();
 // map.src = './6FsdxmA.jpg';
-map.src = './testnew.png';
+map_lower.src = './layer_lower.png';
+map_upper.src = './layer_upper.png';
 
 const engine = new Engine(ctx, 50, 50);
 engine.setMapCollision(mapCollision);
@@ -36,24 +38,30 @@ function tick(timestamp) {
         fox.checkAndUpdateMovement();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Background color in case we go outside the maze
+        ctx.fillStyle = "#00E098";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-        // ctx.drawImage(map, 300 - winX, 300 - winY);
+        // Map layers
+        engine.submitImageForDraw(0, map_lower, - engine.winX, - engine.winY);
+        engine.submitImageForDraw(50, map_upper, - engine.winX, - engine.winY);
         
         fox.draw(ctx);
 
         redChest.draw(ctx);
     
         // Draw map hitboxes
-        for (let row = 0; row < mapCollision.length; row++) {
-            for (let col = 0; col < mapCollision[row].length; col++) {
-                if (mapCollision[row][col]) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = "yellow";
-                    ctx.strokeRect(col * 32 - engine.winX, 
-                        row * 32 - engine.winY, 
-                        32, 
-                        32);
-                    ctx.closePath()
+        if (engine.drawHitboxes) {
+            for (let row = 0; row < mapCollision.length; row++) {
+                for (let col = 0; col < mapCollision[row].length; col++) {
+                    if (mapCollision[row][col]) {
+                        engine.submitBoundingBoxForDraw(99, "yellow",
+                            col * 32 - engine.winX, 
+                            row * 32 - engine.winY, 
+                            32, 
+                            32);
+                    }
                 }
             }
         }
@@ -66,7 +74,5 @@ function tick(timestamp) {
 
 // Listen for the window-moved event from the main process
 ipcRenderer.on('window-moved', (event, bounds) => {
-    winX = bounds.x;
-    winY = bounds.y;
-    engine.setWindowPosition(winX, winY);
+    engine.setWindowPosition(bounds.x, bounds.y);
 });

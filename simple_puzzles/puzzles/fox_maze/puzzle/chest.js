@@ -9,10 +9,19 @@ const chestState = Object.freeze({
     OPEN: 'OPEN',
 });
 
+
+// Bounding Box - Static Definitions
 const centerX = 16;
 const centerY = 20;
-const bbw = 18;
-const bbh = 16;
+const bbWidth = 18;
+const bbHeight = 16;
+const activationDistance = 2;
+
+// Bounding Box - Calculated
+const bbLeftX = centerX - bbWidth / 2;
+const bbRightX = centerX + bbWidth / 2;
+const bbTopY = centerY - bbHeight / 2;
+const bbBottomY = centerY + bbHeight / 2;
 class Chest {
     constructor(engine, startingX, startingY, color) {
         this.engine = engine;
@@ -39,16 +48,16 @@ class Chest {
 
     // Bounding Box
     getBoundingLeft() {
-        return this.x + centerX - bbw/2;
+        return this.x + bbLeftX;
     }
     getBoundingRight() {
-        return this.x + centerX + bbw/2;
+        return this.x + bbRightX;
     }
     getBoundingTop() {
-        return this.y + centerY - bbh/2;
+        return this.y + bbTopY;
     }
     getBoundingBottom() {
-        return this.y + centerY + bbh/2;
+        return this.y + bbBottomY;
     }
 
     draw(ctx) {
@@ -90,21 +99,22 @@ class Chest {
             this.sprWidth, 
             this.sprHeight - this.sprHeightCutline);
 
-        // Draw collision hitbox
-        this.engine.submitBoundingBoxForDraw(99, "red",
-            this.x + centerX - bbw/2 - this.engine.winX, 
-            this.y + centerY - bbh/2 - this.engine.winY, 
-            bbw, 
-            bbh);
+        // Draw Hitboxes
+        if (this.engine.drawHitboxes) {
+            // Draw collision hitbox
+            this.engine.submitBoundingBoxForDraw(99, "red",
+                this.x + bbLeftX - this.engine.winX, 
+                this.y + bbTopY - this.engine.winY, 
+                bbWidth, 
+                bbHeight);
 
-        // Draw activation hitbox
-        // ctx.beginPath();
-        // ctx.strokeStyle = "blue";
-        // ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.this.engine.winX, 
-        //     this.y + centerY - bbh/2 - this.engine.winY, 
-        //     bbw, 
-        //     bbh);
-        // ctx.closePath()
+            // Draw activation hitbox
+            this.engine.submitBoundingBoxForDraw(99, "blue",
+                this.x + bbLeftX - activationDistance - this.engine.winX, 
+                this.y + bbTopY - activationDistance - this.engine.winY, 
+                bbWidth + 2* activationDistance, 
+                bbHeight + 2* activationDistance);
+        }
         
         // Setup properties for next rendered frame
         // this.setupNextAnimationFrame();    
