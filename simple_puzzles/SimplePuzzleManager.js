@@ -27,7 +27,7 @@ module.exports = class SimplePuzzleManager {
                 activeWindow: null,
             };
             this.createWindowCurrentIndex(puzzleEnumValue);
-        } else if (puzzleState[puzzleEnumValue]['activeWindow'] == null) {
+        } else if (this.puzzleState[puzzleEnumValue]['activeWindow'] == null) {
             this.createWindowCurrentIndex(puzzleEnumValue);
         }
     }
@@ -94,15 +94,15 @@ module.exports = class SimplePuzzleManager {
                 ipc.removeAllListeners(ipc_event);
                 this.getNextPuzzle(puzzleEnumValue);
             });
-
-            // If the current puzzle window is closed prematurely, remove the listener for puzzle completion. Without this, bugs arise with multiple listeners being created
-            win.on('close', () => {
-                ipc.removeAllListeners(ipc_event);
-                if (this.puzzleState[puzzleEnumValue]['activeWindow'] === win) {
-                    this.puzzleState[puzzleEnumValue]['activeWindow'] = null;
-                }
-            });
         }
+
+        // If the current puzzle window is closed prematurely, remove the listener for puzzle completion. Without this, bugs arise with multiple listeners being created
+        win.on('close', () => {
+            ipc.removeAllListeners(ipc_event);
+            if (this.puzzleState[puzzleEnumValue]['activeWindow'] === win) {
+                this.puzzleState[puzzleEnumValue]['activeWindow'] = null;
+            }        
+        });
 
         // Special Window Handlers
         if (puzzleEnumValue === puzzleEnum.HANOI) {
