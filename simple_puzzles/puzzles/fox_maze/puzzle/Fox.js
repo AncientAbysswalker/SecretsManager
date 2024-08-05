@@ -12,10 +12,16 @@ const foxState = Object.freeze({
     STANDING: 'STANDING',
 });
 
+// Bounding Box
 const centerX = 16;
 const centerY = 28;
-const bbw = 20;
-const bbh = 8;
+const bbWidth = 20;
+const bbHeight = 8;
+const bbLeftX = centerX - bbWidth / 2;
+const bbRightX = centerX + bbWidth / 2;
+const bbTopY = centerY - bbHeight / 2;
+const bbBottomY = centerY + bbHeight / 2;
+
 class Fox {
     constructor(engine, startingX, startingY) {
         this.engine = engine;
@@ -52,16 +58,16 @@ class Fox {
 
     // Bounding Box
     getBoundingLeft() {
-        return this.x + centerX - bbw/2;
+        return this.x + bbLeftX;
     }
     getBoundingRight() {
-        return this.x + centerX + bbw/2;
+        return this.x + bbRightX;
     }
     getBoundingTop() {
-        return this.y + centerY - bbh/2;
+        return this.y + bbTopY;
     }
     getBoundingBottom() {
-        return this.y + centerY + bbh/2;
+        return this.y + bbBottomY;
     }
 
     checkForSolidMap(x, y) {
@@ -79,7 +85,7 @@ class Fox {
 
         // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolidMap(x - this.maxSpeed, y1) || this.checkForSolidMap(x - this.maxSpeed, y2)) {
-            this.x = Math.floor(x / 32) * 32 + bbw/2 - centerX + 1;
+            this.x = Math.floor(x / 32) * 32 - bbLeftX + 1;
         } else {
             let isCollided = false;
             for (const objectSolid of this.engine.getObjectSolidList()) {
@@ -101,7 +107,7 @@ class Fox {
 
         // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolidMap(x + this.maxSpeed, y1) || this.checkForSolidMap(x + this.maxSpeed, y2)) {
-            this.x = Math.floor((x + this.maxSpeed) / 32) * 32 - bbw/2 - centerX - 1;
+            this.x = Math.floor((x + this.maxSpeed) / 32) * 32 - bbRightX - 1;
         } else {
             let isCollided = false;
             for (const objectSolid of this.engine.getObjectSolidList()) {
@@ -123,7 +129,7 @@ class Fox {
 
         // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolidMap(x1, y - this.maxSpeed) || this.checkForSolidMap(x2, y - this.maxSpeed)) {
-            this.y = Math.floor(y / 32) * 32 + bbh/2 - centerY + 1;
+            this.y = Math.floor(y / 32) * 32 -bbTopY + 1;
         } else {
             let isCollided = false;
             for (const objectSolid of this.engine.getObjectSolidList()) {
@@ -145,7 +151,7 @@ class Fox {
 
         // Check for map collision, then object solids, then otherwise move unrestricted
         if (this.checkForSolidMap(x1, y + this.maxSpeed) || this.checkForSolidMap(x2, y + this.maxSpeed)) {
-            this.y = Math.floor((y + this.maxSpeed) / 32) * 32 - bbh/2 - centerY - 1;
+            this.y = Math.floor((y + this.maxSpeed) / 32) * 32 - bbBottomY - 1;
         } else {
             let isCollided = false;
             for (const objectSolid of this.engine.getObjectSolidList()) {
@@ -247,19 +253,11 @@ class Fox {
             this.frameWidth, 
             this.frameHeight);
 
-        // Draw hitbox
-        // ctx.beginPath();
-        // ctx.strokeStyle = "red";
-        // ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.winX, 
-        //     this.y + centerY - bbh/2 - this.engine.winY, 
-        //     bbw, 
-        //     bbh);
-        // ctx.closePath()
         this.engine.submitBoundingBoxForDraw(99, "red",
-            this.x + centerX - bbw/2 - this.engine.winX, 
-            this.y + centerY - bbh/2 - this.engine.winY, 
-            bbw, 
-            bbh);
+            this.x + bbLeftX - this.engine.winX, 
+            this.y + bbTopY - this.engine.winY, 
+            bbWidth, 
+            bbHeight);
         
         // Setup properties for next rendered frame
         this.setupNextAnimationFrame();    

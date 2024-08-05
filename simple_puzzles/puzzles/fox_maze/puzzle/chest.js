@@ -90,21 +90,12 @@ class Chest {
             this.sprWidth, 
             this.sprHeight - this.sprHeightCutline);
 
-        // Draw hitbox
+        // Draw collision hitbox
         this.engine.submitBoundingBoxForDraw(99, "red",
             this.x + centerX - bbw/2 - this.engine.winX, 
             this.y + centerY - bbh/2 - this.engine.winY, 
             bbw, 
             bbh);
-
-
-        // ctx.beginPath();
-        // ctx.strokeStyle = "red";
-        // ctx.strokeRect(this.x + centerX - bbw/2 - this.engine.winX, 
-        //     this.y + centerY - bbh/2 - this.engine.winY, 
-        //     bbw, 
-        //     bbh);
-        // ctx.closePath()
 
         // Draw activation hitbox
         // ctx.beginPath();
