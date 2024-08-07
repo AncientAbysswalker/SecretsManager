@@ -1,3 +1,5 @@
+const { checkBoundingBoxesCollision } = require('./helpers/collision');
+
 const chestColor = Object.freeze({
     RED: 'RED',
     GREEN: 'GREEN',
@@ -9,6 +11,8 @@ const chestState = Object.freeze({
     OPEN: 'OPEN',
 });
 
+// Audio
+const audio = new Audio('chest.mp3');
 
 // Bounding Box - Static Definitions
 const centerX = 16;
@@ -23,12 +27,26 @@ const bbRightX = centerX + bbWidth / 2;
 const bbTopY = centerY - bbHeight / 2;
 const bbBottomY = centerY + bbHeight / 2;
 class Chest {
-    constructor(engine, startingX, startingY, color) {
+    constructor(engine, startingX, startingY, color, key) {
         this.engine = engine;
+        this.key = key;
         
         // Animation Constants
         this.spr = new Image();
-        this.spr.src = './chest-an.png';
+        this.spr = new Image();
+        switch(color) {
+            case keyColor.RED:
+                this.spr.src = './chest_red.png';
+                break;
+            case keyColor.BLUE:
+                this.spr.src = './chest_blue.png';
+                break;
+            case keyColor.GREEN:
+                this.spr.src = './chest_green.png';
+                break;
+            default:
+                throw new Error(`Invalid color provided: ${color}`);
+        }
         this.sprWidth = 32;
         this.sprHeight = 32;
         this.sprHeightCutline = 16;
@@ -61,12 +79,13 @@ class Chest {
     }
 
     update() {
-        // for (const objectSolid of this.engine.getObjectSolidList()) {
-        //     if (checkBoundingBoxesCollision(this, objectSolid, 0, this.maxSpeed)) {
-        //         isCollided = true;
-        //         moveToBoundingBoxCollisionTop(this, objectSolid);
-        //     }
-        // }
+        if (!this.isOpened() && checkBoundingBoxesCollision(this, this.key)) {
+            console.log("opened");
+            audio.currentTime = 0;
+            audio.play();
+            this.updateState(chestState.OPEN);
+            this.key.consumeKey();
+        }
     }
 
     draw(ctx) {
@@ -127,6 +146,16 @@ class Chest {
         
         // Setup properties for next rendered frame
         // this.setupNextAnimationFrame();    
+    }
+
+    isOpened() {
+        return this.state === chestState.OPEN;
+    }
+
+    updateState(newState) {
+        if (newState !== this.state) {
+            this.state = newState;
+        }
     }
 }
 

@@ -8,10 +8,12 @@ class Engine {
         // Game Object Information
         this.mapCollision;
         this.playerObject;
-        this.objectSolidList = [];
+        this.renderList = [];
+        this.objectList = [];
+        this.solidObjectList = [];
 
         // Drawing
-        this.drawHitboxes = false;
+        this.drawHitboxes = true;
         this.renderCache = {};
     }
 
@@ -31,12 +33,44 @@ class Engine {
         return this.mapCollision[row][col];
     }
 
-    addObjectSolid(o) {
-        this.objectSolidList.push(o);
+    addObject(o) {
+        this.renderList.push(o);
+        this.objectList.push(o);
     }
 
-    getObjectSolidList() {
-        return this.objectSolidList;
+    addSolidObject(o) {
+        this.renderList.push(o);
+        this.solidObjectList.push(o);
+    }
+
+    removeObject(o) {
+        console.log('remove')
+        const renderIndex = this.renderList.findIndex(i => i === o);
+        const objectIndex = this.objectList.findIndex(i => i === o);
+
+        console.log(this.renderList.length)
+        if (renderIndex !== -1 && objectIndex !== -1) {
+            this.renderList.splice(renderIndex, 1);
+            this.objectList.splice(objectIndex, 1);
+        }
+        console.log(this.renderList.length)
+    }
+
+    removeSolidObject(o) {
+        this.renderList.remove(o);
+        this.solidObjectList.remove(o);
+    }
+
+    getRenderList() {
+        return this.renderList;
+    }
+
+    getObjectList() {
+        return this.objectList;
+    }
+
+    getSolidObjectList() {
+        return this.solidObjectList;
     }
 
     setWindowPosition(winX, winY) {

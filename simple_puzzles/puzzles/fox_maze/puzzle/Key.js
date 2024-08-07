@@ -1,4 +1,3 @@
-const { keys } = require('object-hash');
 const { checkBoundingBoxesCollision } = require('./helpers/collision');
 
 const keyColor = Object.freeze({
@@ -15,20 +14,42 @@ const keyState = Object.freeze({
 // Audio
 const audio = new Audio('collect.mp3');
 
-// Sprite
-const offsetY = -12;
+// Bounding Box - Player - Static Definitions
+let boundingData = {
+    [keyState.UNCOLLECTED]: {
+        centerX: 16,
+        centerY: 28,
+        bbWidth: 10,
+        bbHeight: 10,
+        // bbLeftX: centerX - bbWidth / 2,
+        // bbRightX: centerX + bbWidth / 2,
+        // bbTopY: centerY - bbHeight / 2,
+        // bbBottomY: centerY + bbHeight / 2
+    },
+    [keyState.COLLECTED]: {
+        centerX: 16,
+        centerY: 16,
+        bbWidth: 10,
+        bbHeight: 20,
+        // bbLeftX: centerX - bbWidth / 2,
+        // bbRightX: centerX + bbWidth / 2,
+        // bbTopY: centerY - bbHeight / 2,
+        // bbBottomY: centerY + bbHeight / 2
+    }
+}
+boundingData = Object.fromEntries(
+    Object.entries(boundingData).map(([state, data]) => {
+        const { centerX, centerY, bbWidth, bbHeight } = data;
+        return [state, {
+            ...data,
+            bbLeftX: centerX - bbWidth / 2,
+            bbRightX: centerX + bbWidth / 2,
+            bbTopY: centerY - bbHeight / 2,
+            bbBottomY: centerY + bbHeight / 2
+        }];
+    })
+);
 
-// Bounding Box - Static Definitions
-const centerX = 16;
-const centerY = 28;
-const bbWidth = 10;
-const bbHeight = 10;
-
-// Bounding Box - Calculated
-const bbLeftX = centerX - bbWidth / 2;
-const bbRightX = centerX + bbWidth / 2;
-const bbTopY = centerY - bbHeight / 2;
-const bbBottomY = centerY + bbHeight / 2;
 class Key {
     constructor(engine, startingX, startingY, color) {
         this.engine = engine;
@@ -66,24 +87,31 @@ class Key {
 
     // Bounding Box
     getBoundingLeft() {
-        return this.x + bbLeftX;
+        return this.x + boundingData[this.state].bbLeftX;
     }
     getBoundingRight() {
-        return this.x + bbRightX;
+        return this.x + boundingData[this.state].bbRightX;
     }
     getBoundingTop() {
-        return this.y + bbTopY + offsetY;
+        return this.y + boundingData[this.state].bbTopY;
     }
     getBoundingBottom() {
-        return this.y + bbBottomY + offsetY;
+        return this.y + boundingData[this.state].bbBottomY;
     }
 
     update() {
-        if (!this.isCollected() && checkBoundingBoxesCollision(this, this.engine.getPlayerObject())) {
-            console.log("collected");
-            audio.currentTime = 0;
-            audio.play();
-            this.updateState(keyState.COLLECTED);
+        if (!this.isCollected()) {
+            if (checkBoundingBoxesCollision(this, this.engine.getPlayerObject())) {
+                console.log("collected");
+                audio.currentTime = 0;
+                audio.play();
+                this.updateState(keyState.COLLECTED);
+                this.x = 50;
+                this.y = 50;
+            }
+        } else {
+            this.x = 50 + this.engine.winX;
+            this.y = 50 + this.engine.winY;
         }
     }
 
@@ -95,11 +123,13 @@ class Key {
         this.engine.submitImageForDraw(70,
             this.spr, 
             this.currentAnimationFrame * this.sprWidth, 
-            this.currentAnimationSpritesheetRow, 
-            this.sprWidth, 
-            this.sprHeight, 
-            this.isCollected() ? 50 : (this.x - this.engine.winX), 
-            this.isCollected() ? 50 : (this.y - this.engine.winY + offsetY), 
+            this.currentAnimationSpritesheetRow * this.sprHeight, 
+            this.sprWidth,
+            this.sprHeight,
+            this.x - this.engine.winX,
+            this.y - this.engine.winY,
+            // this.x - (this.isCollected() ? 0 : this.engine.winX), 
+            // this.y - (this.isCollected() ? 0 : this.engine.winY), 
             this.sprWidth, 
             this.sprHeight);
 
@@ -107,10 +137,12 @@ class Key {
         if (this.engine.drawHitboxes) {
             // Draw collision hitbox
             this.engine.submitBoundingBoxForDraw(99, "red",
-                this.x + bbLeftX - this.engine.winX, 
-                this.y + bbTopY - this.engine.winY + offsetY, 
-                bbWidth, 
-                bbHeight);
+                this.x + boundingData[this.state].bbLeftX - this.engine.winX, 
+                this.y + boundingData[this.state].bbTopY - this.engine.winY, 
+                // this.x + boundingData[this.state].bbLeftX - (this.isCollected() ? 0 : this.engine.winX), 
+                // this.y + boundingData[this.state].bbTopY - (this.isCollected() ? 0 : this.engine.winY), 
+                boundingData[this.state].bbWidth, 
+                boundingData[this.state].bbHeight);
         }
         
         // Setup properties for next rendered frame
@@ -161,6 +193,10 @@ class Key {
 
     isCollected() {
         return this.state === keyState.COLLECTED;
+    }
+
+    consumeKey() {
+        this.engine.removeObject(this);
     }
 
     updateState(newState) {

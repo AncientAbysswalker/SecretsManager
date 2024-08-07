@@ -21,9 +21,10 @@ const engine = new Engine(ctx, 50, 50);
 engine.setMapCollision(mapCollision);
 
 
-const redKey = new Key(engine, 1*32, 12*32, keyColor.RED);
-const redChest = new Chest(engine, 3*32, 14*32, chestColor.RED);
-engine.addObjectSolid(redChest);
+const redKey = new Key(engine, 1*32, 12*32 - 12, keyColor.RED);
+const redChest = new Chest(engine, 3*32, 14*32, chestColor.RED, redKey);
+engine.addObject(redKey);
+engine.addSolidObject(redChest);
 
 let fox = new Fox(engine, 2 * 32, 14 * 32);
 engine.setPlayerObject(fox);
@@ -40,7 +41,12 @@ function tick(timestamp) {
 
         fox.checkAndUpdateMovement();
 
-        redKey.update();
+        for (renderObject of engine.getRenderList()) {
+            renderObject.update();
+        }
+        // redKey.update();
+        
+        // redChest.update();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
@@ -54,8 +60,12 @@ function tick(timestamp) {
         
         fox.draw(ctx);
 
-        redKey.draw(ctx);
-        redChest.draw(ctx);
+        // redKey.draw(ctx);
+        // redChest.draw(ctx);
+
+        for (renderObject of engine.getRenderList()) {
+            renderObject.draw();
+        }
     
         // Draw map hitboxes
         if (engine.drawHitboxes) {

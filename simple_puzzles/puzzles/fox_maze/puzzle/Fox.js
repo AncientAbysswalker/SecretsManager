@@ -94,7 +94,7 @@ class Fox {
             this.x = Math.floor(x / 32) * 32 - bbLeftX + 1;
         } else {
             let isCollided = false;
-            for (const objectSolid of this.engine.getObjectSolidList()) {
+            for (const objectSolid of this.engine.getSolidObjectList()) {
                 if (checkMovingBoundingBoxesCollision(this, objectSolid, - this.maxSpeed, 0)) {
                     isCollided = true;
                     moveToBoundingBoxCollisionRight(this, objectSolid);
@@ -116,7 +116,7 @@ class Fox {
             this.x = Math.floor((x + this.maxSpeed) / 32) * 32 - bbRightX - 1;
         } else {
             let isCollided = false;
-            for (const objectSolid of this.engine.getObjectSolidList()) {
+            for (const objectSolid of this.engine.getSolidObjectList()) {
                 if (checkMovingBoundingBoxesCollision(this, objectSolid, this.maxSpeed, 0)) {
                     isCollided = true;
                     moveToBoundingBoxCollisionLeft(this, objectSolid);
@@ -138,7 +138,7 @@ class Fox {
             this.y = Math.floor(y / 32) * 32 -bbTopY + 1;
         } else {
             let isCollided = false;
-            for (const objectSolid of this.engine.getObjectSolidList()) {
+            for (const objectSolid of this.engine.getSolidObjectList()) {
                 if (checkMovingBoundingBoxesCollision(this, objectSolid, 0, - this.maxSpeed)) {
                     isCollided = true;
                     moveToBoundingBoxCollisionBottom(this, objectSolid);
@@ -160,7 +160,7 @@ class Fox {
             this.y = Math.floor((y + this.maxSpeed) / 32) * 32 - bbBottomY - 1;
         } else {
             let isCollided = false;
-            for (const objectSolid of this.engine.getObjectSolidList()) {
+            for (const objectSolid of this.engine.getSolidObjectList()) {
                 if (checkMovingBoundingBoxesCollision(this, objectSolid, 0, this.maxSpeed)) {
                     isCollided = true;
                     moveToBoundingBoxCollisionTop(this, objectSolid);
@@ -234,7 +234,7 @@ class Fox {
     }
 
     draw(ctx) {
-        console.log(this.engine.winX, this.engine.winY)
+        // console.log(this.engine.winX, this.engine.winY)
         // Check fox sprite for state update
         this.checkForSpriteStateUpdate();
 
