@@ -1,3 +1,7 @@
+function checkBoundingBoxesCollision(o1, o2) {
+    return checkMovingBoundingBoxesCollision(o1, o2, 0, 0);
+}
+
 function checkMovingBoundingBoxesCollision(o1, o2, xMov, yMov) {
     return !(
         ((o1.getBoundingTop() + yMov) > (o2.getBoundingBottom())) || // Collide at bottom
@@ -21,6 +25,7 @@ function moveToBoundingBoxCollisionLeft(o1, o2) {
 }
 
 module.exports = {
+    checkBoundingBoxesCollision ,
     checkMovingBoundingBoxesCollision, 
     moveToBoundingBoxCollisionBottom,
     moveToBoundingBoxCollisionTop,

@@ -40,7 +40,7 @@ class Chest {
         this.currentAnimationMaxFrames;
 
         // State
-        this.state = chestState.CLOSED; // Standing
+        this.state = chestState.CLOSED;
         this.lastState;
         this.x = startingX;
         this.y = startingY;
@@ -58,6 +58,15 @@ class Chest {
     }
     getBoundingBottom() {
         return this.y + bbBottomY;
+    }
+
+    update() {
+        // for (const objectSolid of this.engine.getObjectSolidList()) {
+        //     if (checkBoundingBoxesCollision(this, objectSolid, 0, this.maxSpeed)) {
+        //         isCollided = true;
+        //         moveToBoundingBoxCollisionTop(this, objectSolid);
+        //     }
+        // }
     }
 
     draw(ctx) {

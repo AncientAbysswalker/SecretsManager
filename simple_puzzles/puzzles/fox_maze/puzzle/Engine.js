@@ -5,13 +5,22 @@ class Engine {
         this.winX = winX;
         this.winY = winY;
 
-        // Collision Information
+        // Game Object Information
         this.mapCollision;
+        this.playerObject;
         this.objectSolidList = [];
 
         // Drawing
         this.drawHitboxes = false;
         this.renderCache = {};
+    }
+
+    setPlayerObject(playerObject) {
+        this.playerObject = playerObject;
+    }
+
+    getPlayerObject() {
+        return this.playerObject;
     }
 
     setMapCollision(mapCollision) {

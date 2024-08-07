@@ -47,9 +47,9 @@ class Fox {
         this.engineFramesPerAnimationFrame = 3;
         this.currentAnimationMaxFrames;
         this.currentAnimationSpritesheetRow;
-        this.maxSpeed = 7;
+        this.maxSpeed = 4;
 
-        // Fox State
+        // State
         this.state = foxState.STANDING; // Standing
         this.lastState;
         this.x = startingX;
@@ -223,8 +223,8 @@ class Fox {
                         this.currentAnimationSpritesheetRow = 0;
                     }
                 }
-                this.currentAnimationFrame = 0;
 
+                this.currentAnimationFrame = 0;
                 return;
             }
             

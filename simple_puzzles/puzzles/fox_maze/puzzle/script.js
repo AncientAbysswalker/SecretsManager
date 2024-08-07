@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const { Chest, chestColor } = require('./Chest');
+const { Key, keyColor } = require('./Key');
 const { Fox } = require('./Fox');
 const { Engine } = require('./Engine');
 
@@ -20,10 +21,12 @@ const engine = new Engine(ctx, 50, 50);
 engine.setMapCollision(mapCollision);
 
 
-let redChest = new Chest(engine, 3*32, 14*32, chestColor.RED);
+const redKey = new Key(engine, 1*32, 12*32, keyColor.RED);
+const redChest = new Chest(engine, 3*32, 14*32, chestColor.RED);
 engine.addObjectSolid(redChest);
 
 let fox = new Fox(engine, 2 * 32, 14 * 32);
+engine.setPlayerObject(fox);
 
 let lastEngineFrame = -1;
 tick(0);
@@ -37,6 +40,8 @@ function tick(timestamp) {
 
         fox.checkAndUpdateMovement();
 
+        redKey.update();
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         // Background color in case we go outside the maze
@@ -49,6 +54,7 @@ function tick(timestamp) {
         
         fox.draw(ctx);
 
+        redKey.draw(ctx);
         redChest.draw(ctx);
     
         // Draw map hitboxes
