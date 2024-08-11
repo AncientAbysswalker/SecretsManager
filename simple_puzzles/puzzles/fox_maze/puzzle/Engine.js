@@ -1,7 +1,8 @@
 class Engine {
-    constructor(ctx, winX, winY) {
+    constructor(canvas, ctx, winX, winY) {
         // Context and Window
         this.ctx = ctx;
+        this.canvas = canvas;
         this.winX = winX;
         this.winY = winY;
 
@@ -15,6 +16,8 @@ class Engine {
         // Drawing
         this.drawHitboxes = true;
         this.renderCache = {};
+
+        this.lastEngineFrame = -1;
     }
 
     setPlayerObject(playerObject) {
@@ -76,6 +79,64 @@ class Engine {
     setWindowPosition(winX, winY) {
         this.winX = winX;
         this.winY = winY;
+    }
+
+    startEngine() {
+        this.tick(0);
+    }
+
+    tick = (timestamp) => {
+        const currentEngineFrame = Math.floor(timestamp / 1000 * 30);
+
+        // Only run update once per frame
+        console.log(this.lastEngineFrame)
+        console.log(this.ctx)
+        if (currentEngineFrame > this.lastEngineFrame) {
+            this.lastEngineFrame = currentEngineFrame;
+
+            // Reset Canvas
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            
+            // Background color in case we go outside the maze
+            this.ctx.fillStyle = "#00E098";
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+            // Map layers
+            this.submitImageForDraw(0, map_lower, - this.winX, - this.winY);
+            this.submitImageForDraw(50, map_upper, - this.winX, - this.winY);
+
+            // Update all objects
+            this.playerObject.update();
+            for (const renderObject of this.getRenderList()) {
+                renderObject.update();
+            }
+            
+            // Submit all objects for draw
+            this.playerObject.draw();
+            for (const renderObject of this.getRenderList()) {
+                renderObject.draw();
+            }
+        
+            // Submit map hitboxes for draw
+            if (this.drawHitboxes) {
+                for (let row = 0; row < mapCollision.length; row++) {
+                    for (let col = 0; col < mapCollision[row].length; col++) {
+                        if (mapCollision[row][col]) {
+                            this.submitBoundingBoxForDraw(99, "yellow",
+                                col * 32 - this.winX, 
+                                row * 32 - this.winY, 
+                                32, 
+                                32);
+                        }
+                    }
+                }
+            }
+
+            // Draw everything
+            this.drawCachedLayers();
+        }
+
+        requestAnimationFrame(this.tick);
     }
 
     submitImageForDraw(zIndex, ...args) {

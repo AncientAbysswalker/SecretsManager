@@ -88,7 +88,7 @@ class Chest {
         }
     }
 
-    draw(ctx) {
+    draw() {
         // Check fox sprite for state update
         // this.checkForSpriteStateUpdate();
 

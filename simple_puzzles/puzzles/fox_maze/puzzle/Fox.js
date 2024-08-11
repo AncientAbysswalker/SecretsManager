@@ -57,11 +57,6 @@ class Fox {
         this.faceRight = true;
     }
 
-    updateAndDraw(ctx) {
-        this.checkAndUpdateMovement();
-        this.draw(ctx);
-    }
-
     // Bounding Box
     getBoundingLeft() {
         return this.x + bbLeftX;
@@ -233,7 +228,7 @@ class Fox {
         }
     }
 
-    draw(ctx) {
+    draw() {
         // console.log(this.engine.winX, this.engine.winY)
         // Check fox sprite for state update
         this.checkForSpriteStateUpdate();
@@ -275,7 +270,7 @@ class Fox {
         this.setupNextAnimationFrame();    
     }
 
-    checkAndUpdateMovement() {
+    update() {
         if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
             if (keyPressed["left"] != keyPressed["right"]) {
                 // Left

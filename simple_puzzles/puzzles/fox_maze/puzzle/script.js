@@ -17,7 +17,7 @@ let map_upper = new Image();
 map_lower.src = './layer_lower.png';
 map_upper.src = './layer_upper.png';
 
-const engine = new Engine(ctx, 50, 50);
+const engine = new Engine(canvas, ctx, 50, 50);
 engine.setMapCollision(mapCollision);
 
 
@@ -29,64 +29,7 @@ engine.addSolidObject(redChest);
 let fox = new Fox(engine, 2 * 32, 14 * 32);
 engine.setPlayerObject(fox);
 
-let lastEngineFrame = -1;
-tick(0);
-
-function tick(timestamp) {
-    const currentEngineFrame = Math.floor(timestamp / 1000 * 30);
-
-    // Only run update once per frame
-    if (currentEngineFrame > lastEngineFrame) {
-        lastEngineFrame = currentEngineFrame;
-
-        fox.checkAndUpdateMovement();
-
-        for (renderObject of engine.getRenderList()) {
-            renderObject.update();
-        }
-        // redKey.update();
-        
-        // redChest.update();
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Background color in case we go outside the maze
-        ctx.fillStyle = "#00E098";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-        // Map layers
-        engine.submitImageForDraw(0, map_lower, - engine.winX, - engine.winY);
-        engine.submitImageForDraw(50, map_upper, - engine.winX, - engine.winY);
-        
-        fox.draw(ctx);
-
-        // redKey.draw(ctx);
-        // redChest.draw(ctx);
-
-        for (renderObject of engine.getRenderList()) {
-            renderObject.draw();
-        }
-    
-        // Draw map hitboxes
-        if (engine.drawHitboxes) {
-            for (let row = 0; row < mapCollision.length; row++) {
-                for (let col = 0; col < mapCollision[row].length; col++) {
-                    if (mapCollision[row][col]) {
-                        engine.submitBoundingBoxForDraw(99, "yellow",
-                            col * 32 - engine.winX, 
-                            row * 32 - engine.winY, 
-                            32, 
-                            32);
-                    }
-                }
-            }
-        }
-
-        engine.drawCachedLayers();
-    }
-
-    requestAnimationFrame(tick);
-}
+engine.startEngine();
 
 // Listen for the window-moved event from the main process
 ipcRenderer.on('window-moved', (event, bounds) => {

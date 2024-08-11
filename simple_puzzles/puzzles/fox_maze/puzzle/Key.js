@@ -20,21 +20,13 @@ let boundingData = {
         centerX: 16,
         centerY: 28,
         bbWidth: 10,
-        bbHeight: 10,
-        // bbLeftX: centerX - bbWidth / 2,
-        // bbRightX: centerX + bbWidth / 2,
-        // bbTopY: centerY - bbHeight / 2,
-        // bbBottomY: centerY + bbHeight / 2
+        bbHeight: 10
     },
     [keyState.COLLECTED]: {
         centerX: 16,
         centerY: 16,
         bbWidth: 10,
-        bbHeight: 20,
-        // bbLeftX: centerX - bbWidth / 2,
-        // bbRightX: centerX + bbWidth / 2,
-        // bbTopY: centerY - bbHeight / 2,
-        // bbBottomY: centerY + bbHeight / 2
+        bbHeight: 20
     }
 }
 boundingData = Object.fromEntries(
@@ -106,16 +98,16 @@ class Key {
                 audio.currentTime = 0;
                 audio.play();
                 this.updateState(keyState.COLLECTED);
-                this.x = 50;
-                this.y = 50;
+                this.x = this.engine.winX + 50;
+                this.y = this.engine.winY + 50;
             }
         } else {
-            this.x = 50 + this.engine.winX;
-            this.y = 50 + this.engine.winY;
+            this.x = this.engine.winX + 50;
+            this.y = this.engine.winY + 50;
         }
     }
 
-    draw(ctx) {
+    draw() {
         // Check sprite for state update
         this.checkForSpriteStateUpdate();
 
