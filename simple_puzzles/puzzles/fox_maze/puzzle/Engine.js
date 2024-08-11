@@ -47,16 +47,13 @@ class Engine {
     }
 
     removeObject(o) {
-        console.log('remove')
         const renderIndex = this.renderList.findIndex(i => i === o);
         const objectIndex = this.objectList.findIndex(i => i === o);
 
-        console.log(this.renderList.length)
         if (renderIndex !== -1 && objectIndex !== -1) {
             this.renderList.splice(renderIndex, 1);
             this.objectList.splice(objectIndex, 1);
         }
-        console.log(this.renderList.length)
     }
 
     removeSolidObject(o) {
@@ -89,8 +86,6 @@ class Engine {
         const currentEngineFrame = Math.floor(timestamp / 1000 * 30);
 
         // Only run update once per frame
-        console.log(this.lastEngineFrame)
-        console.log(this.ctx)
         if (currentEngineFrame > this.lastEngineFrame) {
             this.lastEngineFrame = currentEngineFrame;
 
@@ -102,8 +97,8 @@ class Engine {
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
             // Map layers
-            this.submitImageForDraw(0, map_lower, - this.winX, - this.winY);
-            this.submitImageForDraw(50, map_upper, - this.winX, - this.winY);
+            this.submitImageForDraw(0, map_lower, - this.winX, - this.winY - 32);
+            this.submitImageForDraw(50, map_upper, - this.winX, - this.winY - 32);
 
             // Update all objects
             this.playerObject.update();
