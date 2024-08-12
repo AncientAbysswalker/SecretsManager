@@ -17,6 +17,7 @@ class Engine {
         this.drawHitboxes = true;
         this.renderCache = {};
 
+        this.timestamp;
         this.lastEngineFrame = -1;
     }
 
@@ -83,6 +84,7 @@ class Engine {
     }
 
     tick = (timestamp) => {
+        this.timestamp = timestamp;
         const currentEngineFrame = Math.floor(timestamp / 1000 * 30);
 
         // Only run update once per frame

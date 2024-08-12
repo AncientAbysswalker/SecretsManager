@@ -8,6 +8,9 @@ const {
 
 const foxState = Object.freeze({
     INITIAL_SLEEPING: 'INITIAL_SLEEPING',
+    SLEEPING: 'SLEEPING',
+    WAKING_UP: 'WAKING_UP',
+    FALLING_ASLEEP: 'FALLING_ASLEEP',
     WALKING: 'WALKING',
     STANDING: 'STANDING',
 });
@@ -42,15 +45,17 @@ class Fox {
 
         // Animation and Movement
         this.specialAnimationChance = 0.1;
-        this.currentAnimationFrame = 0;
-        this.currentAnimationWaitFrame = 0;
-        this.engineFramesPerAnimationFrame = 3;
+        this.currentAnimationReversed;
+        this.currentAnimationFrame;
+        this.currentAnimationWaitFrame;
+        this.engineFramesPerAnimationFrame;
         this.currentAnimationMaxFrames;
         this.currentAnimationSpritesheetRow;
         this.maxSpeed = 4;
 
         // State
-        this.state = foxState.STANDING; // Standing
+        this.lastInteractedTime = 0;
+        this.state = foxState.INITIAL_SLEEPING;
         this.lastState;
         this.x = startingX;
         this.y = startingY;
@@ -176,17 +181,39 @@ class Fox {
             switch(this.state)
             {
                 case foxState.STANDING:
-                    this.currentAnimationMaxFrames = 5 - 1;
+                    this.currentAnimationReversed = false;
+                    this.engineFramesPerAnimationFrame = 3;
+                    this.currentAnimationMaxFrames = 5;
                     this.currentAnimationSpritesheetRow = 0;
-                    this.currentAnimationFrame = 0;
                     break;
                 case foxState.WALKING:
-                    this.currentAnimationMaxFrames = 8 - 1;
+                    this.currentAnimationReversed = false;
+                    this.engineFramesPerAnimationFrame = 3;
+                    this.currentAnimationMaxFrames = 8;
                     this.currentAnimationSpritesheetRow = 2;
-                    this.currentAnimationFrame = 0;
                     break;
-                default:
-            } 
+                case foxState.INITIAL_SLEEPING:
+                case foxState.SLEEPING:
+                    this.currentAnimationReversed = false;
+                    this.engineFramesPerAnimationFrame = 9;
+                    this.currentAnimationMaxFrames = 6;
+                    this.currentAnimationSpritesheetRow = 4;
+                    break;
+                case foxState.WAKING_UP:
+                    this.currentAnimationReversed = true;
+                    this.engineFramesPerAnimationFrame = 3;
+                    this.currentAnimationMaxFrames = 6;
+                    this.currentAnimationSpritesheetRow = 3;
+                    break;
+                case foxState.FALLING_ASLEEP:
+                    this.currentAnimationReversed = false;
+                    this.engineFramesPerAnimationFrame = 3;
+                    this.currentAnimationMaxFrames = 6;
+                    this.currentAnimationSpritesheetRow = 3;
+                    break;
+            }
+            this.currentAnimationFrame = 0;
+            this.currentAnimationWaitFrame = 0;
         }
     }
 
@@ -205,20 +232,40 @@ class Fox {
             }
 
             // Special handling for end of animation
-            if (this.currentAnimationFrame == this.currentAnimationMaxFrames) {
+            if (this.currentAnimationFrame == this.currentAnimationMaxFrames - 1) {
+                // Transition to standing at end of wake up
+                if (this.state == foxState.WAKING_UP) {
+                    this.updateState(foxState.STANDING);
+                    return;
+                }
+
+                // Transition to sleeping at end of falling asleep - BUGGED
+                if (this.state == foxState.FALLING_ASLEEP) {
+                    this.updateState(foxState.SLEEPING);
+                    return;
+                }
+
+                // Transition to falling asleep if too idle
+                if ((this.state != foxState.INITIAL_SLEEPING && this.state != foxState.SLEEPING)
+                    && (this.engine.timestamp - this.lastInteractedTime > 5)) {
+                    this.updateState(foxState.FALLING_ASLEEP);
+                    return;
+                }
+
                 // Special alternate resting animation
                 if (this.state == foxState.STANDING) {
                     // Potentially start special animation, else end it
                     if (this.currentAnimationSpritesheetRow == 0 && Math.random() < this.specialAnimationChance) {
                         this.specialAnimationChance = 0;
-                        this.currentAnimationMaxFrames = 14 - 1;
+                        this.currentAnimationMaxFrames = 14;
                         this.currentAnimationSpritesheetRow = 1;
                     } else {
-                        this.currentAnimationMaxFrames = 5 - 1;
+                        this.currentAnimationMaxFrames = 5;
                         this.currentAnimationSpritesheetRow = 0;
                     }
                 }
 
+                // Reset animation at end of animation
                 this.currentAnimationFrame = 0;
                 return;
             }
@@ -236,7 +283,9 @@ class Fox {
         // Draw fox
         this.engine.submitImageForDraw(10,
             this.faceRight ? this.sprR : this.sprL, 
-            this.currentAnimationFrame * this.frameWidth, 
+            this.frameWidth * (this.currentAnimationReversed 
+                ? this. currentAnimationMaxFrames - this.currentAnimationFrame - 1
+                : this.currentAnimationFrame),
             this.currentAnimationSpritesheetRow*this.frameHeight, 
             this.frameWidth, 
             this.frameHeight, 
@@ -248,7 +297,9 @@ class Fox {
         // Draw fox outline
         this.engine.submitImageForDraw(60,
             this.faceRight ? this.sprOutlineR : this.sprOutlineL, 
-            this.currentAnimationFrame * this.frameWidth, 
+            this.frameWidth * (this.currentAnimationReversed 
+                ? this. currentAnimationMaxFrames - this.currentAnimationFrame - 1
+                : this.currentAnimationFrame),
             this.currentAnimationSpritesheetRow*this.frameHeight, 
             this.frameWidth, 
             this.frameHeight, 
@@ -271,36 +322,48 @@ class Fox {
     }
 
     update() {
-        if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
-            if (keyPressed["left"] != keyPressed["right"]) {
-                // Left
-                if (keyPressed["left"]) {
-                    this.faceRight = false;
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveLeft();
+        if (this.state == foxState.STANDING || this.state == foxState.WALKING) {
+            if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
+                this.lastInteractedTime = this.engine.timestamp;
+
+                if (keyPressed["left"] != keyPressed["right"]) {
+                    // Left
+                    if (keyPressed["left"]) {
+                        this.faceRight = false;
+                        this.updateState(foxState.WALKING);
+                        this.checkMoveLeft();
+                    }
+                    // Right
+                    if (keyPressed["right"]) {
+                        this.faceRight = true;
+                        this.updateState(foxState.WALKING);
+                        this.checkMoveRight();
+                    }
                 }
-                // Right
-                if (keyPressed["right"]) {
-                    this.faceRight = true;
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveRight();
+                if (keyPressed["up"] != keyPressed["down"]) {
+                    // Up
+                    if (keyPressed["up"]) {
+                        this.updateState(foxState.WALKING);
+                        this.checkMoveUp();
+                    }
+                    // Down
+                    if (keyPressed["down"]) {
+                        this.updateState(foxState.WALKING);
+                        this.checkMoveDown();
+                    }
                 }
-            }
-            if (keyPressed["up"] != keyPressed["down"]) {
-                // Up
-                if (keyPressed["up"]) {
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveUp();
-                }
-                // Down
-                if (keyPressed["down"]) {
-                    this.updateState(foxState.WALKING);
-                    this.checkMoveDown();
+            } else {
+                if (this.state === foxState.WALKING) {
+                    this.updateState(foxState.STANDING);
                 }
             }
         } else {
-            if (this.state === foxState.WALKING) {
-                this.updateState(foxState.STANDING);
+            if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
+                this.lastInteractedTime = this.engine.timestamp;
+                
+                if (this.state == foxState.INITIAL_SLEEPING || this.state == foxState.SLEEPING) {
+                    this.updateState(foxState.WAKING_UP);
+                }
             }
         }
     }
