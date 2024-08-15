@@ -358,10 +358,18 @@ class Fox {
                 }
             }
         } else {
+            console.log((this.x + bbLeftX - this.engine.winX > 0
+                && this.x + bbRightX - this.engine.winX < 550
+                && this.y + bbTopY - this.engine.winY > 0
+                && this.y + bbBottomY - this.engine.winY < 1000))
             if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
                 this.lastInteractedTime = this.engine.timestamp;
                 
-                if (this.state == foxState.INITIAL_SLEEPING || this.state == foxState.SLEEPING) {
+                if ((this.state == foxState.INITIAL_SLEEPING || this.state == foxState.SLEEPING)
+                    && (this.x + bbLeftX - this.engine.winX > 0
+                        && this.x + bbRightX - this.engine.winX < 550 // CANVAS W
+                        && this.y + bbTopY - this.engine.winY > 0
+                        && this.y + bbBottomY - this.engine.winY < 1000)) { // CANVAS H
                     this.updateState(foxState.WAKING_UP);
                 }
             }

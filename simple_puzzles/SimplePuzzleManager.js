@@ -55,12 +55,15 @@ module.exports = class SimplePuzzleManager {
         let currentPuzzleProps = puzzleProps[puzzleEnumValue][currentIndex];
 
         // Create the puzzle window
+        const absPath = path.join(__dirname, currentPuzzleProps['icon']);
         const win = new BrowserWindow({
             useContentSize: true,
             width: currentPuzzleProps['w'],
             height: currentPuzzleProps['h'],
             resizable: false,
-            icon: currentPuzzleProps['icon'],
+            minimizable: false,
+            maximizable: false,
+            icon: absPath,
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
@@ -113,6 +116,23 @@ module.exports = class SimplePuzzleManager {
                 win.webContents.send('window-moved', bounds);
             });
             win.setPosition(50, 50);
+
+            // repeatUntilConditionMet(win);
         }
     }
 };
+
+function repeatUntilConditionMet(win) {
+    let bounds = win.getBounds()
+    console.log(bounds)
+    if (bounds.width > 128) {
+        return; // Exit if the condition is met
+    }
+
+    win.setContentSize(bounds.width + 1, bounds.height + 1)
+
+    // repeatUntilConditionMet(win);
+    setTimeout(function() {
+        repeatUntilConditionMet(win);
+    }, 10); // 100ms delay (0.1 second)
+}

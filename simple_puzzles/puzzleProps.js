@@ -4,13 +4,13 @@ const puzzleProps = {
     [puzzleEnum.COMBO_LOCK]: [
         {
             path: 'simple_puzzles/puzzles/combo_lock/puzzle/index.html',
-            icon: 'simple_puzzles/puzzles/combo_lock/icon.png',
+            icon: 'puzzles/combo_lock/icon.png',
             w: 500,
             h: 500,
         },
         {
             path: 'simple_puzzles/puzzles/combo_lock/prize/index.html',
-            icon: 'simple_puzzles/prize.png',
+            icon: 'prize.png',
             w: 500,
             h: 500,
         },
@@ -18,19 +18,19 @@ const puzzleProps = {
     [puzzleEnum.CATSTERMIND]: [
         {
             path: 'simple_puzzles/puzzles/catstermind/puzzle/index.html',
-            icon: 'simple_puzzles/puzzles/catstermind/icon.png',
+            icon: 'puzzles/catstermind/icon.png',
             w: 800,
             h: 1200,
         },
         {
             path: 'simple_puzzles/puzzles/catstermind/petcat/index.html',
-            icon: 'simple_puzzles/prize.png',
+            icon: 'prize.png',
             w: 498,
             h: 498,
         },
         {
             path: 'simple_puzzles/puzzles/catstermind/prize/index.html',
-            icon: 'simple_puzzles/prize.png',
+            icon: 'prize.png',
             w: 500,
             h: 500,
         },
@@ -38,7 +38,7 @@ const puzzleProps = {
     [puzzleEnum.HANOI]: [
         {
             path: 'simple_puzzles/puzzles/hanoi/puzzle/index.html',
-            icon: 'simple_puzzles/puzzles/hanoi/icon.png',
+            icon: 'puzzles/hanoi/icon.png',
             w: 600,
             h: 400,
         },
@@ -46,15 +46,17 @@ const puzzleProps = {
     [puzzleEnum.FOX_MAZE]: [
         {
             path: 'simple_puzzles/puzzles/fox_maze/puzzle/index.html',
-            icon: 'simple_puzzles/puzzles/fox_maze/icon.png',
-            w: 1920,
-            h: 1000,
+            icon: 'puzzles/fox_maze/icon.png',
+            // w: 1920,
+            // h: 1000,
+            w: 170,
+            h: 170,
         },
     ],
     [puzzleEnum.TEST]: [
         {
             path: 'simple_puzzles/puzzles/test/index.html',
-            icon: 'simple_puzzles/prize.png',
+            icon: 'prize.png',
             w: 432,
             h: 432,
         },
