@@ -14,7 +14,7 @@ class Engine {
         this.solidObjectList = [];
 
         // Drawing
-        this.drawHitboxes = true;
+        this.drawHitboxes = false;
         this.renderCache = {};
 
         this.timestamp;

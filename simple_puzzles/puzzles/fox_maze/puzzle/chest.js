@@ -8,6 +8,7 @@ const chestColor = Object.freeze({
 
 const chestState = Object.freeze({
     CLOSED: 'CLOSED',
+    OPENING: 'OPENING',
     OPEN: 'OPEN',
 });
 
@@ -53,9 +54,10 @@ class Chest {
 
         // Animation and Movement
         this.currentAnimationFrame = 0;
+        this.currentAnimationLockFrame;
         this.currentAnimationWaitFrame = 0;
         this.engineFramesPerAnimationFrame = 3;
-        this.currentAnimationMaxFrames;
+        this.currentAnimationMaxFrames = 6;
 
         // State
         this.state = chestState.CLOSED;
@@ -80,28 +82,17 @@ class Chest {
 
     update() {
         if (!this.isOpened() && checkBoundingBoxesCollision(this, this.key)) {
-            console.log("opened");
+            ipcRenderer.send('fox_maze_increase_size');
             audio.currentTime = 0;
             audio.play();
-            this.updateState(chestState.OPEN);
+            this.updateState(chestState.OPENING);
             this.key.consumeKey();
         }
     }
 
     draw() {
-        // Check fox sprite for state update
-        // this.checkForSpriteStateUpdate();
-
-        // Draw sprite
-        // ctx.drawImage(this.spr,
-        //     this.currentAnimationFrame * this.sprWidth, 
-        //     0, 
-        //     this.sprWidth, 
-        //     this.sprHeight, 
-        //     this.x - this.engine.winX, 
-        //     this.y - this.engine.winY, 
-        //     this.sprWidth, 
-        //     this.sprHeight);
+        // Check sprite for state update
+        this.checkForSpriteStateUpdate();
 
         // Top half of sprite
         this.engine.submitImageForDraw(20,
@@ -145,11 +136,66 @@ class Chest {
         }
         
         // Setup properties for next rendered frame
-        // this.setupNextAnimationFrame();    
+        this.setupNextAnimationFrame();    
+    }
+
+    checkForSpriteStateUpdate() {
+        // If state changed, cut to new animation
+        if (this.lastState != this.state) {
+            this.lastState = this.state;
+
+            switch(this.state)
+            {
+                case chestState.CLOSED:
+                    this.currentAnimationLockFrame = true;
+                    this.currentAnimationFrame = 0;
+                    break;
+                case chestState.OPENING:
+                    this.currentAnimationLockFrame = false;
+                    this.currentAnimationFrame = 0;
+                    break;
+                case chestState.OPEN:
+                    this.currentAnimationLockFrame = true;
+                    this.currentAnimationFrame = this.currentAnimationMaxFrames - 1;
+                    break;
+            } 
+            this.currentAnimationWaitFrame = 0;
+        }
+    }
+
+    setupNextAnimationFrame() {
+        // Skip frame checks if we have locked animation to a frame
+        if (this.currentAnimationLockFrame) {
+            return;
+        }
+
+        // Continue to wait is there remain wait frames
+        if (this.currentAnimationWaitFrame != this.engineFramesPerAnimationFrame) {
+            this.currentAnimationWaitFrame++;
+            
+        // Else move to setup next frame and reset current wait frame to 0
+        } else {
+            this.currentAnimationWaitFrame = 0;
+            
+            // Special handling for end of animation
+            if (this.currentAnimationFrame == this.currentAnimationMaxFrames - 1) {
+                // Transition to open at end of opening
+                if (this.state == chestState.OPENING) {
+                    this.updateState(chestState.OPEN);
+                    return;
+                }
+
+                // Reset animation at end of animation
+                this.currentAnimationFrame = 0;
+                return;
+            }
+
+            this.currentAnimationFrame++;
+        }
     }
 
     isOpened() {
-        return this.state === chestState.OPEN;
+        return this.state === chestState.OPEN || this.state === chestState.OPENING;
     }
 
     updateState(newState) {

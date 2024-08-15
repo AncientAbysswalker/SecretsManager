@@ -239,7 +239,7 @@ class Fox {
                     return;
                 }
 
-                // Transition to sleeping at end of falling asleep - BUGGED
+                // Transition to sleeping at end of falling asleep
                 if (this.state == foxState.FALLING_ASLEEP) {
                     this.updateState(foxState.SLEEPING);
                     return;
@@ -365,11 +365,12 @@ class Fox {
             if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
                 this.lastInteractedTime = this.engine.timestamp;
                 
-                if ((this.state == foxState.INITIAL_SLEEPING || this.state == foxState.SLEEPING)
+                if (this.state == foxState.SLEEPING || 
+                    (this.state == foxState.INITIAL_SLEEPING // Only restrict for the initial
                     && (this.x + bbLeftX - this.engine.winX > 0
                         && this.x + bbRightX - this.engine.winX < 550 // CANVAS W
                         && this.y + bbTopY - this.engine.winY > 0
-                        && this.y + bbBottomY - this.engine.winY < 1000)) { // CANVAS H
+                        && this.y + bbBottomY - this.engine.winY < 1000))) { // CANVAS H
                     this.updateState(foxState.WAKING_UP);
                 }
             }

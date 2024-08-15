@@ -98,12 +98,12 @@ class Key {
                 audio.currentTime = 0;
                 audio.play();
                 this.updateState(keyState.COLLECTED);
-                this.x = this.engine.winX + 50;
-                this.y = this.engine.winY + 50;
+                this.x = this.engine.winX + 5;
+                this.y = this.engine.winY + 5; // TODO SLOT OFFSetS
             }
         } else {
-            this.x = this.engine.winX + 50;
-            this.y = this.engine.winY + 50;
+            this.x = this.engine.winX + 5;
+            this.y = this.engine.winY + 5;
         }
     }
 

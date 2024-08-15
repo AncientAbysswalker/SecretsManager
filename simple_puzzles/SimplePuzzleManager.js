@@ -117,22 +117,42 @@ module.exports = class SimplePuzzleManager {
             });
             win.setPosition(50, 50);
 
-            // repeatUntilConditionMet(win);
+            // Add listener for increasing the window's size
+            ipc.on('fox_maze_increase_size', (event, message) => {
+                increaseWindowSize(win);
+            });
+            win.on('close', () => {
+                ipc.removeAllListeners('fox_maze_increase_size');
+            });
         }
     }
 };
 
-function repeatUntilConditionMet(win) {
-    let bounds = win.getBounds()
-    console.log(bounds)
-    if (bounds.width > 128) {
-        return; // Exit if the condition is met
+function increaseWindowSize(win) {
+    const bounds = win.getBounds();
+    const newWidth = bounds.width + 64;
+    const newHeight = bounds.height + 64;
+    
+    repeatWindowResize(win, newWidth, newHeight)
+}
+
+function repeatWindowResize(win, width, height) {
+    try {
+        const bounds = win.getBounds();
+
+        if (width == bounds.width && height == bounds.height) {
+            return;
+        }
+
+        const newWidth = Math.min(width, bounds.width + 1);
+        const newHeight = Math.min(height, bounds.height + 1);
+
+        win.setContentSize(newWidth, newHeight);
+    } catch {
+        return;
     }
 
-    win.setContentSize(bounds.width + 1, bounds.height + 1)
-
-    // repeatUntilConditionMet(win);
     setTimeout(function() {
-        repeatUntilConditionMet(win);
-    }, 10); // 100ms delay (0.1 second)
+        repeatWindowResize(win, width, height)
+    }, 100); // 100ms delay (0.1 second)
 }
