@@ -358,10 +358,10 @@ class Fox {
                 }
             }
         } else {
-            console.log((this.x + bbLeftX - this.engine.winX > 0
-                && this.x + bbRightX - this.engine.winX < 550
-                && this.y + bbTopY - this.engine.winY > 0
-                && this.y + bbBottomY - this.engine.winY < 1000))
+            // console.log((this.x + bbLeftX - this.engine.winX > 0
+            //     && this.x + bbRightX - this.engine.winX < 550
+            //     && this.y + bbTopY - this.engine.winY > 0
+            //     && this.y + bbBottomY - this.engine.winY < 1000))
             if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
                 this.lastInteractedTime = this.engine.timestamp;
                 

@@ -35,7 +35,6 @@ chestLocations[COLOR.GREEN] = { x: 34, y: 28 };
 
 // Register Keys and Chests - Colors must match
 Object.keys(keyLocations).forEach((color, index) => {
-    console.log(index, color)
     const key = new Key(engine, keyLocations[color].x * 32, keyLocations[color].y * 32 - 12, color, index);
     const chest = new Chest(engine, chestLocations[color].x * 32, chestLocations[color].y * 32, color, key);
 
@@ -44,7 +43,7 @@ Object.keys(keyLocations).forEach((color, index) => {
 });
 
 const foxLocation = dummy ? { x: 27, y: 29 } : { x: 2, y: 14 };
-let fox = new Fox(engine, foxLocation.x * 32, foxLocation.y * 32);
+let fox = new Fox(engine, foxLocation.x * 32, foxLocation.y * 32 - 2); // -2 to prevent collision at initial spawn location
 engine.setPlayerObject(fox);
 
 engine.startEngine();
