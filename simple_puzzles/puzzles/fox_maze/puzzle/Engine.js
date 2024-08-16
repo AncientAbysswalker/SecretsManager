@@ -1,3 +1,5 @@
+inventoryWidth = 16;
+
 class Engine {
     constructor(canvas, ctx, winX, winY) {
         // Context and Window
@@ -170,5 +172,6 @@ class Engine {
 }
 
 module.exports = {
-    Engine
+    Engine,
+    inventoryWidth
 }

@@ -1,10 +1,5 @@
 const { checkBoundingBoxesCollision } = require('./helpers/collision');
-
-const chestColor = Object.freeze({
-    RED: 'RED',
-    GREEN: 'GREEN',
-    BLUE: 'BLUE',
-});
+const { COLOR } = require('./helpers/color');
 
 const chestState = Object.freeze({
     CLOSED: 'CLOSED',
@@ -36,13 +31,13 @@ class Chest {
         this.spr = new Image();
         this.spr = new Image();
         switch(color) {
-            case keyColor.RED:
+            case COLOR.RED:
                 this.spr.src = './chest_red.png';
                 break;
-            case keyColor.BLUE:
+            case COLOR.BLUE:
                 this.spr.src = './chest_blue.png';
                 break;
-            case keyColor.GREEN:
+            case COLOR.GREEN:
                 this.spr.src = './chest_green.png';
                 break;
             default:
@@ -205,6 +200,4 @@ class Chest {
     }
 }
 
-module.exports = {
-    chestColor, Chest
-}
+module.exports = { Chest }

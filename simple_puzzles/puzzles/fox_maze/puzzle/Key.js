@@ -1,10 +1,5 @@
 const { checkBoundingBoxesCollision } = require('./helpers/collision');
-
-const keyColor = Object.freeze({
-    RED: 'RED',
-    GREEN: 'GREEN',
-    BLUE: 'BLUE',
-});
+const { COLOR } = require('./helpers/color');
 
 const keyState = Object.freeze({
     UNCOLLECTED: 'UNCOLLECTED',
@@ -43,19 +38,20 @@ boundingData = Object.fromEntries(
 );
 
 class Key {
-    constructor(engine, startingX, startingY, color) {
+    constructor(engine, startingX, startingY, color, slotIndex) {
         this.engine = engine;
+        this.inventoryOffsetX = (slotIndex + 0.5) * inventoryWidth - boundingData[keyState.COLLECTED].centerX;
         
         // Animation Constants
         this.spr = new Image();
         switch(color) {
-            case keyColor.RED:
+            case COLOR.RED:
                 this.spr.src = './key_red.png';
                 break;
-            case keyColor.BLUE:
+            case COLOR.BLUE:
                 this.spr.src = './key_blue.png';
                 break;
-            case keyColor.GREEN:
+            case COLOR.GREEN:
                 this.spr.src = './key_green.png';
                 break;
             default:
@@ -98,11 +94,11 @@ class Key {
                 audio.currentTime = 0;
                 audio.play();
                 this.updateState(keyState.COLLECTED);
-                this.x = this.engine.winX + 5;
+                this.x = this.engine.winX + this.inventoryOffsetX;
                 this.y = this.engine.winY + 5; // TODO SLOT OFFSetS
             }
         } else {
-            this.x = this.engine.winX + 5;
+            this.x = this.engine.winX + this.inventoryOffsetX;
             this.y = this.engine.winY + 5;
         }
     }
@@ -112,7 +108,7 @@ class Key {
         this.checkForSpriteStateUpdate();
 
         // Draw Sprite
-        this.engine.submitImageForDraw(70,
+        this.engine.submitImageForDraw(this.isCollected() ? 70 : 20,
             this.spr, 
             this.currentAnimationFrame * this.sprWidth, 
             this.currentAnimationSpritesheetRow * this.sprHeight, 
@@ -120,8 +116,6 @@ class Key {
             this.sprHeight,
             this.x - this.engine.winX,
             this.y - this.engine.winY,
-            // this.x - (this.isCollected() ? 0 : this.engine.winX), 
-            // this.y - (this.isCollected() ? 0 : this.engine.winY), 
             this.sprWidth, 
             this.sprHeight);
 
@@ -131,8 +125,6 @@ class Key {
             this.engine.submitBoundingBoxForDraw(99, "red",
                 this.x + boundingData[this.state].bbLeftX - this.engine.winX, 
                 this.y + boundingData[this.state].bbTopY - this.engine.winY, 
-                // this.x + boundingData[this.state].bbLeftX - (this.isCollected() ? 0 : this.engine.winX), 
-                // this.y + boundingData[this.state].bbTopY - (this.isCollected() ? 0 : this.engine.winY), 
                 boundingData[this.state].bbWidth, 
                 boundingData[this.state].bbHeight);
         }
@@ -198,6 +190,4 @@ class Key {
     }
 }
 
-module.exports = {
-    keyColor, Key
-}
+module.exports = { Key }

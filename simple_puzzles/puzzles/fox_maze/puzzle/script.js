@@ -1,11 +1,14 @@
 const { ipcRenderer } = require('electron');
-const { Chest, chestColor } = require('./Chest');
-const { Key, keyColor } = require('./Key');
+const { COLOR } = require('./helpers/color');
+const { Chest } = require('./Chest');
+const { Key } = require('./Key');
 const { Fox } = require('./Fox');
 const { Engine } = require('./Engine');
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+
+const dummy = true;
 
 // Map data is stored with indices of row then col
 const mapCollision = require('./map.json')
@@ -20,13 +23,28 @@ map_upper.src = './layer_upper.png';
 const engine = new Engine(canvas, ctx, 50, 50);
 engine.setMapCollision(mapCollision);
 
+// Define Keys and Chests
+let keyLocations = {};
+let chestLocations = {};
+keyLocations[COLOR.RED] = dummy ? { x: 32, y: 27 } : { x: 3, y: 29 };
+chestLocations[COLOR.RED] = { x: 32, y: 28 };
+keyLocations[COLOR.BLUE] = dummy ? { x: 30, y: 27 } : { x: 33, y: 5 };
+chestLocations[COLOR.BLUE] = { x: 30, y: 28 };
+keyLocations[COLOR.GREEN] = dummy ? { x: 34, y: 27 } : { x: 57, y: 14 };
+chestLocations[COLOR.GREEN] = { x: 34, y: 28 };
 
-const redKey = new Key(engine, 1*32, 12*32 - 12, keyColor.RED);
-const redChest = new Chest(engine, 3*32, 14*32, chestColor.RED, redKey);
-engine.addObject(redKey);
-engine.addSolidObject(redChest);
+// Register Keys and Chests - Colors must match
+Object.keys(keyLocations).forEach((color, index) => {
+    console.log(index, color)
+    const key = new Key(engine, keyLocations[color].x * 32, keyLocations[color].y * 32 - 12, color, index);
+    const chest = new Chest(engine, chestLocations[color].x * 32, chestLocations[color].y * 32, color, key);
 
-let fox = new Fox(engine, 2 * 32, 14 * 32);
+    engine.addObject(key);
+    engine.addSolidObject(chest);
+});
+
+const foxLocation = dummy ? { x: 27, y: 29 } : { x: 2, y: 14 };
+let fox = new Fox(engine, foxLocation.x * 32, foxLocation.y * 32);
 engine.setPlayerObject(fox);
 
 engine.startEngine();
