@@ -4,7 +4,7 @@ const {
     moveToBoundingBoxCollisionTop,
     moveToBoundingBoxCollisionRight,
     moveToBoundingBoxCollisionLeft
-} = require('./helpers/collision');
+} = require('../helpers/collision');
 
 const foxState = Object.freeze({
     INITIAL_SLEEPING: 'INITIAL_SLEEPING',
@@ -36,10 +36,10 @@ class Fox {
         this.sprR = new Image();
         this.sprOutlineL = new Image();
         this.sprOutlineR = new Image();
-        this.sprL.src = './fox_l.png';
-        this.sprR.src = './fox_r.png';
-        this.sprOutlineL.src = './fox_l_outline.png';
-        this.sprOutlineR.src = './fox_r_outline.png';
+        this.sprL.src = './graphics/sprites/fox_l.png';
+        this.sprR.src = './graphics/sprites/fox_r.png';
+        this.sprOutlineL.src = './graphics/sprites/fox_l_outline.png';
+        this.sprOutlineR.src = './graphics/sprites/fox_r_outline.png';
         this.frameWidth = 32;
         this.frameHeight = 32;
 

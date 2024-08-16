@@ -1,5 +1,6 @@
-const { checkBoundingBoxesCollision } = require('./helpers/collision');
-const { COLOR } = require('./helpers/color');
+const { checkBoundingBoxesCollision } = require('../helpers/collision');
+const { COLOR } = require('../helpers/color');
+const { inventoryWidth } = require('../Engine');
 
 const keyState = Object.freeze({
     UNCOLLECTED: 'UNCOLLECTED',
@@ -7,7 +8,7 @@ const keyState = Object.freeze({
 });
 
 // Audio
-const audio = new Audio('collect.mp3');
+const audio = new Audio('sounds/collect.mp3');
 
 // Bounding Box - Player - Static Definitions
 let boundingData = {
@@ -46,13 +47,13 @@ class Key {
         this.spr = new Image();
         switch(color) {
             case COLOR.RED:
-                this.spr.src = './key_red.png';
+                this.spr.src = 'graphics/sprites/key_red.png';
                 break;
             case COLOR.BLUE:
-                this.spr.src = './key_blue.png';
+                this.spr.src = 'graphics/sprites/key_blue.png';
                 break;
             case COLOR.GREEN:
-                this.spr.src = './key_green.png';
+                this.spr.src = 'graphics/sprites/key_green.png';
                 break;
             default:
                 throw new Error(`Invalid color provided: ${color}`);

@@ -1,5 +1,5 @@
-const { checkBoundingBoxesCollision } = require('./helpers/collision');
-const { COLOR } = require('./helpers/color');
+const { checkBoundingBoxesCollision } = require('../helpers/collision');
+const { COLOR } = require('../helpers/color');
 
 const chestState = Object.freeze({
     CLOSED: 'CLOSED',
@@ -8,7 +8,7 @@ const chestState = Object.freeze({
 });
 
 // Audio
-const audio = new Audio('chest.mp3');
+const audio = new Audio('sounds/chest.mp3');
 
 // Bounding Box - Static Definitions
 const centerX = 16;
@@ -32,13 +32,13 @@ class Chest {
         this.spr = new Image();
         switch(color) {
             case COLOR.RED:
-                this.spr.src = './chest_red.png';
+                this.spr.src = 'graphics/sprites/chest_red.png';
                 break;
             case COLOR.BLUE:
-                this.spr.src = './chest_blue.png';
+                this.spr.src = 'graphics/sprites/chest_blue.png';
                 break;
             case COLOR.GREEN:
-                this.spr.src = './chest_green.png';
+                this.spr.src = 'graphics/sprites/chest_green.png';
                 break;
             default:
                 throw new Error(`Invalid color provided: ${color}`);

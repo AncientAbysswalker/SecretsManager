@@ -1,8 +1,8 @@
 const { ipcRenderer } = require('electron');
 const { COLOR } = require('./helpers/color');
-const { Chest } = require('./Chest');
-const { Key } = require('./Key');
-const { Fox } = require('./Fox');
+const { Chest } = require('./objects/Chest');
+const { Key } = require('./objects/Key');
+const { Fox } = require('./objects/Fox');
 const { Engine } = require('./Engine');
 
 const canvas = document.getElementById('canvas');
@@ -17,8 +17,8 @@ const mapCollision = require('./map.json')
 let map_lower = new Image();
 let map_upper = new Image();
 // map.src = './6FsdxmA.jpg';
-map_lower.src = './layer_lower.png';
-map_upper.src = './layer_upper.png';
+map_lower.src = 'graphics/map/layer_lower.png';
+map_upper.src = 'graphics/map/layer_upper.png';
 
 const engine = new Engine(canvas, ctx, 50, 50);
 engine.setMapCollision(mapCollision);
