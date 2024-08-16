@@ -49,8 +49,8 @@ const puzzleProps = {
             icon: 'puzzles/fox_maze/icon.png',
             // w: 1920,
             // h: 1000,
-            w: 570,
-            h: 170,
+            w: 160,
+            h: 160,
         },
     ],
     [puzzleEnum.TEST]: [

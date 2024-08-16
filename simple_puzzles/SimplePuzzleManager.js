@@ -71,7 +71,7 @@ module.exports = class SimplePuzzleManager {
         });
         win.removeMenu();
         win.setAlwaysOnTop(true);
-        win.webContents.openDevTools();
+        // win.webContents.openDevTools();
 
         // Load puzzle HTML
         win.loadFile(currentPuzzleProps['path']);
@@ -119,7 +119,12 @@ module.exports = class SimplePuzzleManager {
 
             // Add listener for increasing the window's size
             ipc.on('fox_maze_increase_size', (event, message) => {
-                increaseWindowSize(win);
+                if (typeof this.increaseCount === 'undefined') {
+                    this.increaseCount = 1; // Set num to 1 if it's not defined
+                } else {
+                    this.increaseCount += 1; // Increment num if it's already defined
+                }
+                increaseWindowSize(win, this.increaseCount);
             });
             win.on('close', () => {
                 ipc.removeAllListeners('fox_maze_increase_size');
@@ -128,10 +133,9 @@ module.exports = class SimplePuzzleManager {
     }
 };
 
-function increaseWindowSize(win) {
-    const bounds = win.getBounds();
-    const newWidth = bounds.width + 64;
-    const newHeight = bounds.height + 64;
+function increaseWindowSize(win, increaseCount) {
+    const newWidth = 160 + increaseCount * 64
+    const newHeight = 160 + increaseCount * 64
     
     repeatWindowResize(win, newWidth, newHeight)
 }
@@ -140,19 +144,19 @@ function repeatWindowResize(win, width, height) {
     try {
         const bounds = win.getBounds();
 
-        if (width == bounds.width && height == bounds.height) {
+        if (width <= bounds.width && height <= bounds.height) {
             return;
         }
 
         const newWidth = Math.min(width, bounds.width + 1);
         const newHeight = Math.min(height, bounds.height + 1);
 
-        win.setContentSize(newWidth, newHeight);
+        win.setSize(newWidth, newHeight);
     } catch {
         return;
     }
 
     setTimeout(function() {
         repeatWindowResize(win, width, height)
-    }, 100); // 100ms delay (0.1 second)
+    }, 10); // 10ms delay (0.01 second)
 }

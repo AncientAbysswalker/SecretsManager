@@ -96,11 +96,11 @@ class Key {
                 audio.play();
                 this.updateState(keyState.COLLECTED);
                 this.x = this.engine.winX + this.inventoryOffsetX;
-                this.y = this.engine.winY + 5; // TODO SLOT OFFSetS
+                this.y = this.engine.winY + 4;
             }
         } else {
             this.x = this.engine.winX + this.inventoryOffsetX;
-            this.y = this.engine.winY + 5;
+            this.y = this.engine.winY + 4;
         }
     }
 

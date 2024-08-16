@@ -1,4 +1,4 @@
-inventoryWidth = 16;
+inventoryWidth = 24;
 
 class Engine {
     constructor(canvas, ctx, winX, winY) {
