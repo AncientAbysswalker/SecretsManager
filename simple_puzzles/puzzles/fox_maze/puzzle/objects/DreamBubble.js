@@ -1,3 +1,5 @@
+const { checkPointToBoundingBoxCollision } = require('../helpers/collision');
+
 const state = Object.freeze({
     OFFSCREEN: 'OFFSCREEN',
     DREAMING: 'DREAMING',
@@ -22,6 +24,7 @@ boundingData = {
 class DreamBubble {
     constructor(engine) {
         this.engine = engine;
+        this.engine.registerClickable(this);
         
         // Animation Constants
         this.spr = new Image();
@@ -57,21 +60,7 @@ class DreamBubble {
         return this.y + boundingData.bbBottomY;
     }
 
-    update() {
-        // if (!this.isCollected()) {
-        //     if (checkBoundingBoxesCollision(this, this.engine.getPlayerObject())) {
-        //         console.log("collected");
-        //         audio.currentTime = 0;
-        //         audio.play();
-        //         this.updateState(keyState.COLLECTED);
-        //         this.x = this.engine.winX + this.inventoryOffsetX;
-        //         this.y = this.engine.winY + 4;
-        //     }
-        // } else {
-        //     this.x = this.engine.winX + this.inventoryOffsetX;
-        //     this.y = this.engine.winY + 4;
-        // }
-    }
+    update() {}
 
     draw() {
         // Check sprite for state update
@@ -169,6 +158,12 @@ class DreamBubble {
 
             // Progress to next frame of current animation
             this.currentAnimationFrame++;
+        }
+    }
+
+    checkClick(x, y) {
+        if (checkPointToBoundingBoxCollision(x, y, this)) {
+            emitPuzzleSolvedEvent();
         }
     }
 

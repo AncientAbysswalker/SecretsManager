@@ -52,6 +52,12 @@ const puzzleProps = {
             w: 1600,
             h: 160,
         },
+        {
+            path: 'simple_puzzles/puzzles/fox_maze/prize/index.html',
+            icon: 'prize.png',
+            w: 500,
+            h: 500,
+        },
     ],
     [puzzleEnum.TEST]: [
         {

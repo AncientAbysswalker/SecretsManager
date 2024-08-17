@@ -12,6 +12,7 @@ class Engine {
         this.mapCollision;
         this.playerObject;
         this.renderList = [];
+        this.clickableList = [];
         this.objectList = [];
         this.solidObjectList = [];
 
@@ -40,6 +41,18 @@ class Engine {
 
     getMapCollision(row, col) {
         return this.mapCollision[row][col];
+    }
+
+    registerClickable(o) {
+        this.clickableList.push(o);
+    }
+
+    deregisterClickable(o) {
+        const index = this.clickableList.findIndex(i => i === o);
+
+        if (index !== -1) {
+            this.clickableList.splice(index, 1);
+        }
     }
 
     addObject(o) {
@@ -174,24 +187,12 @@ class Engine {
     }
 
     clickEvent(event) {
-        console.log(event)
-        var ClientRect = this.canvas.getBoundingClientRect();
-        
-        console.log({ //objeto
-            x: Math.round(event.clientX - ClientRect.left),
-            y: Math.round(event.clientY - ClientRect.top)
-        })
-        return { //objeto
-            x: Math.round(event.clientX - ClientRect.left),
-            y: Math.round(event.clientY - ClientRect.top)
-        }
-    }
+        const clientRect = this.canvas.getBoundingClientRect();
+        const x = Math.round(event.clientX - clientRect.left + this.winX);
+        const y = Math.round(event.clientY - clientRect.top + this.winY);
 
-    oMousePos(evt) {
-        var ClientRect = this.canvas.getBoundingClientRect();
-        return { //objeto
-            x: Math.round(evt.clientX - ClientRect.left),
-            y: Math.round(evt.clientY - ClientRect.top)
+        for (const clickable of this.clickableList) {
+            clickable.checkClick(x, y);
         }
     }
 }
