@@ -5,7 +5,7 @@ const { app, BrowserWindow } = require('electron');
 
 const { puzzleProps } = require('./puzzleProps');
 const { puzzleEnum } = require('./puzzleEnum');
-const { TitlePuzzleHandler } = require('./WindowHandlers');
+const { TitlePuzzleHandler, IncrementalWindowResizeHandler } = require('./WindowHandlers');
 
 module.exports = class SimplePuzzleManager {
     constructor() {
@@ -118,13 +118,10 @@ module.exports = class SimplePuzzleManager {
             win.setPosition(50, 50);
 
             // Add listener for increasing the window's size
+            const incrementalWindowResizeHandler = new IncrementalWindowResizeHandler(
+                win, currentPuzzleProps['w'], currentPuzzleProps['h'], 64, 64);
             ipc.on('fox_maze_increase_size', (event, message) => {
-                if (typeof this.increaseCount === 'undefined') {
-                    this.increaseCount = 1; // Set num to 1 if it's not defined
-                } else {
-                    this.increaseCount += 1; // Increment num if it's already defined
-                }
-                increaseWindowSize(win, this.increaseCount);
+                incrementalWindowResizeHandler.increaseWindowSize();
             });
             win.on('close', () => {
                 ipc.removeAllListeners('fox_maze_increase_size');

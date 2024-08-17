@@ -76,6 +76,48 @@ class TitlePuzzleHandler {
     }
 }
 
+class IncrementalWindowResizeHandler {
+    constructor(win, initialWidth, initialHeight, incrementWidth, incrementHeight) {
+        this.initialHeight = initialHeight;
+        this.incrementHeight = incrementHeight;
+        this.initialWidth = initialWidth;
+        this.incrementWidth = incrementWidth;
+        this.resizeCount = 0;
+        this.win = win;
+        // this.repeatWindowResize = this.repeatWindowResize.bind(this);
+    }
+
+    increaseWindowSize() {
+        this.resizeCount++;
+        const newWidth = this.initialWidth + this.resizeCount * this.incrementWidth;
+        const newHeight = this.initialHeight + this.resizeCount * this.incrementHeight;
+
+        this.repeatWindowResize(newWidth, newHeight)
+    }
+
+    repeatWindowResize(width, height) {
+        try {
+            const bounds = this.win.getBounds();
+    
+            if (width <= bounds.width && height <= bounds.height) {
+                return;
+            }
+    
+            const newWidth = Math.min(width, bounds.width + 1);
+            const newHeight = Math.min(height, bounds.height + 1);
+    
+            this.win.setSize(newWidth, newHeight);
+        } catch {
+            return;
+        }
+    
+        setTimeout(() => {
+            this.repeatWindowResize(width, height)
+        }, 10); // 10ms delay (0.01 second)
+    }
+}
+
 module.exports = {
-    TitlePuzzleHandler: TitlePuzzleHandler,
+    TitlePuzzleHandler, 
+    IncrementalWindowResizeHandler,
 };
