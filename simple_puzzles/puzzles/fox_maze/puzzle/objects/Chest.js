@@ -1,7 +1,7 @@
 const { checkBoundingBoxesCollision } = require('../helpers/collision');
 const { COLOR } = require('../helpers/color');
 
-const chestState = Object.freeze({
+const state = Object.freeze({
     CLOSED: 'CLOSED',
     OPENING: 'OPENING',
     OPEN: 'OPEN',
@@ -55,7 +55,7 @@ class Chest {
         this.currentAnimationMaxFrames = 6;
 
         // State
-        this.state = chestState.CLOSED;
+        this.state = state.CLOSED;
         this.lastState;
         this.x = startingX;
         this.y = startingY;
@@ -80,7 +80,7 @@ class Chest {
             ipcRenderer.send('fox_maze_increase_size');
             audio.currentTime = 0;
             audio.play();
-            this.updateState(chestState.OPENING);
+            this.updateState(state.OPENING);
             this.key.consumeKey();
         }
     }
@@ -141,15 +141,15 @@ class Chest {
 
             switch(this.state)
             {
-                case chestState.CLOSED:
+                case state.CLOSED:
                     this.currentAnimationLockFrame = true;
                     this.currentAnimationFrame = 0;
                     break;
-                case chestState.OPENING:
+                case state.OPENING:
                     this.currentAnimationLockFrame = false;
                     this.currentAnimationFrame = 0;
                     break;
-                case chestState.OPEN:
+                case state.OPEN:
                     this.currentAnimationLockFrame = true;
                     this.currentAnimationFrame = this.currentAnimationMaxFrames - 1;
                     break;
@@ -175,8 +175,8 @@ class Chest {
             // Special handling for end of animation
             if (this.currentAnimationFrame == this.currentAnimationMaxFrames - 1) {
                 // Transition to open at end of opening
-                if (this.state == chestState.OPENING) {
-                    this.updateState(chestState.OPEN);
+                if (this.state == state.OPENING) {
+                    this.updateState(state.OPEN);
                     return;
                 }
 
@@ -190,7 +190,7 @@ class Chest {
     }
 
     isOpened() {
-        return this.state === chestState.OPEN || this.state === chestState.OPENING;
+        return this.state === state.OPEN || this.state === state.OPENING;
     }
 
     updateState(newState) {

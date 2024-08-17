@@ -2,7 +2,7 @@ const { checkBoundingBoxesCollision } = require('../helpers/collision');
 const { COLOR } = require('../helpers/color');
 const { inventoryWidth } = require('../Engine');
 
-const keyState = Object.freeze({
+const state = Object.freeze({
     UNCOLLECTED: 'UNCOLLECTED',
     COLLECTED: 'COLLECTED',
 });
@@ -12,13 +12,13 @@ const audio = new Audio('sounds/collect.mp3');
 
 // Bounding Box - Player - Static Definitions
 let boundingData = {
-    [keyState.UNCOLLECTED]: {
+    [state.UNCOLLECTED]: {
         centerX: 16,
         centerY: 28,
         bbWidth: 10,
         bbHeight: 10
     },
-    [keyState.COLLECTED]: {
+    [state.COLLECTED]: {
         centerX: 16,
         centerY: 16,
         bbWidth: 10,
@@ -41,7 +41,7 @@ boundingData = Object.fromEntries(
 class Key {
     constructor(engine, startingX, startingY, color, slotIndex) {
         this.engine = engine;
-        this.inventoryOffsetX = (slotIndex + 0.5) * inventoryWidth - boundingData[keyState.COLLECTED].centerX;
+        this.inventoryOffsetX = (slotIndex + 0.5) * inventoryWidth - boundingData[state.COLLECTED].centerX;
         
         // Animation Constants
         this.spr = new Image();
@@ -68,7 +68,7 @@ class Key {
         this.currentAnimationMaxFrames;
 
         // State
-        this.state = keyState.UNCOLLECTED;
+        this.state = state.UNCOLLECTED;
         this.lastState;
         this.x = startingX;
         this.y = startingY;
@@ -94,7 +94,7 @@ class Key {
                 console.log("collected");
                 audio.currentTime = 0;
                 audio.play();
-                this.updateState(keyState.COLLECTED);
+                this.updateState(state.COLLECTED);
                 this.x = this.engine.winX + this.inventoryOffsetX;
                 this.y = this.engine.winY + 4;
             }
@@ -141,17 +141,16 @@ class Key {
 
             switch(this.state)
             {
-                case keyState.UNCOLLECTED:
-                    this.currentAnimationMaxFrames = 4 - 1;
+                case state.UNCOLLECTED:
+                    this.currentAnimationMaxFrames = 4;
                     this.currentAnimationSpritesheetRow = 0;
                     this.currentAnimationFrame = 0;
                     break;
-                case keyState.COLLECTED:
-                    this.currentAnimationMaxFrames = 1 - 1;
+                case state.COLLECTED:
+                    this.currentAnimationMaxFrames = 1;
                     this.currentAnimationSpritesheetRow = 1;
                     this.currentAnimationFrame = 0;
                     break;
-                default:
             } 
         }
     }
@@ -166,7 +165,7 @@ class Key {
             this.currentAnimationWaitFrame = 0;
             
             // Loop at end of animation
-            if (this.currentAnimationFrame == this.currentAnimationMaxFrames) {
+            if (this.currentAnimationFrame == this.currentAnimationMaxFrames - 1) {
                 this.currentAnimationFrame = 0;
                 return;
             }
@@ -177,7 +176,7 @@ class Key {
     }
 
     isCollected() {
-        return this.state === keyState.COLLECTED;
+        return this.state === state.COLLECTED;
     }
 
     consumeKey() {

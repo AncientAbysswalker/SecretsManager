@@ -1,7 +1,7 @@
 inventoryWidth = 24;
 
 class Engine {
-    constructor(canvas, ctx, winX, winY) {
+    constructor(canvas, ctx, winX, winY, drawHitboxes) {
         // Context and Window
         this.ctx = ctx;
         this.canvas = canvas;
@@ -16,11 +16,14 @@ class Engine {
         this.solidObjectList = [];
 
         // Drawing
-        this.drawHitboxes = false;
+        this.drawHitboxes = drawHitboxes;
         this.renderCache = {};
 
         this.timestamp;
         this.lastEngineFrame = -1;
+
+        // Binding for this-related conflicts
+        this.clickEvent = this.clickEvent.bind(this);
     }
 
     setPlayerObject(playerObject) {
@@ -168,6 +171,28 @@ class Engine {
 
         // Clear Cache
         this.renderCache = {};
+    }
+
+    clickEvent(event) {
+        console.log(event)
+        var ClientRect = this.canvas.getBoundingClientRect();
+        
+        console.log({ //objeto
+            x: Math.round(event.clientX - ClientRect.left),
+            y: Math.round(event.clientY - ClientRect.top)
+        })
+        return { //objeto
+            x: Math.round(event.clientX - ClientRect.left),
+            y: Math.round(event.clientY - ClientRect.top)
+        }
+    }
+
+    oMousePos(evt) {
+        var ClientRect = this.canvas.getBoundingClientRect();
+        return { //objeto
+            x: Math.round(evt.clientX - ClientRect.left),
+            y: Math.round(evt.clientY - ClientRect.top)
+        }
     }
 }
 

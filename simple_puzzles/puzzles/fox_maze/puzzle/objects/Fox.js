@@ -6,7 +6,9 @@ const {
     moveToBoundingBoxCollisionLeft
 } = require('../helpers/collision');
 
-const foxState = Object.freeze({
+const { DreamBubble } = require('./DreamBubble');
+
+const state = Object.freeze({
     INITIAL_SLEEPING: 'INITIAL_SLEEPING',
     SLEEPING: 'SLEEPING',
     WAKING_UP: 'WAKING_UP',
@@ -55,11 +57,15 @@ class Fox {
 
         // State
         this.lastInteractedTime = 0;
-        this.state = foxState.INITIAL_SLEEPING;
+        this.state = state.INITIAL_SLEEPING;
         this.lastState;
         this.x = startingX;
         this.y = startingY;
         this.faceRight = true;
+
+        // Dream Bubble
+        this.dreamBubble = new DreamBubble(engine);
+        this.engine.addObject(this.dreamBubble);
     }
 
     // Bounding Box
@@ -180,32 +186,32 @@ class Fox {
 
             switch(this.state)
             {
-                case foxState.STANDING:
+                case state.STANDING:
                     this.currentAnimationReversed = false;
                     this.engineFramesPerAnimationFrame = 3;
                     this.currentAnimationMaxFrames = 5;
                     this.currentAnimationSpritesheetRow = 0;
                     break;
-                case foxState.WALKING:
+                case state.WALKING:
                     this.currentAnimationReversed = false;
                     this.engineFramesPerAnimationFrame = 3;
                     this.currentAnimationMaxFrames = 8;
                     this.currentAnimationSpritesheetRow = 2;
                     break;
-                case foxState.INITIAL_SLEEPING:
-                case foxState.SLEEPING:
+                case state.INITIAL_SLEEPING:
+                case state.SLEEPING:
                     this.currentAnimationReversed = false;
                     this.engineFramesPerAnimationFrame = 9;
                     this.currentAnimationMaxFrames = 6;
                     this.currentAnimationSpritesheetRow = 4;
                     break;
-                case foxState.WAKING_UP:
+                case state.WAKING_UP:
                     this.currentAnimationReversed = true;
                     this.engineFramesPerAnimationFrame = 3;
                     this.currentAnimationMaxFrames = 6;
                     this.currentAnimationSpritesheetRow = 3;
                     break;
-                case foxState.FALLING_ASLEEP:
+                case state.FALLING_ASLEEP:
                     this.currentAnimationReversed = false;
                     this.engineFramesPerAnimationFrame = 3;
                     this.currentAnimationMaxFrames = 6;
@@ -234,26 +240,27 @@ class Fox {
             // Special handling for end of animation
             if (this.currentAnimationFrame == this.currentAnimationMaxFrames - 1) {
                 // Transition to standing at end of wake up
-                if (this.state == foxState.WAKING_UP) {
-                    this.updateState(foxState.STANDING);
+                if (this.state == state.WAKING_UP) {
+                    this.updateState(state.STANDING);
                     return;
                 }
 
                 // Transition to sleeping at end of falling asleep
-                if (this.state == foxState.FALLING_ASLEEP) {
-                    this.updateState(foxState.SLEEPING);
+                if (this.state == state.FALLING_ASLEEP) {
+                    this.updateState(state.SLEEPING);
+                    this.dreamBubble.startDreaming(this.x, this.y);
                     return;
                 }
 
                 // Transition to falling asleep if too idle
-                if ((this.state != foxState.INITIAL_SLEEPING && this.state != foxState.SLEEPING)
+                if ((this.state != state.INITIAL_SLEEPING && this.state != state.SLEEPING)
                     && (this.engine.timestamp - this.lastInteractedTime > 5)) {
-                    this.updateState(foxState.FALLING_ASLEEP);
+                    this.updateState(state.FALLING_ASLEEP);
                     return;
                 }
 
                 // Special alternate resting animation
-                if (this.state == foxState.STANDING) {
+                if (this.state == state.STANDING) {
                     // Potentially start special animation, else end it
                     if (this.currentAnimationSpritesheetRow == 0 && Math.random() < this.specialAnimationChance) {
                         this.specialAnimationChance = 0;
@@ -322,7 +329,7 @@ class Fox {
     }
 
     update() {
-        if (this.state == foxState.STANDING || this.state == foxState.WALKING) {
+        if (this.state == state.STANDING || this.state == state.WALKING) {
             if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
                 this.lastInteractedTime = this.engine.timestamp;
 
@@ -330,31 +337,31 @@ class Fox {
                     // Left
                     if (keyPressed["left"]) {
                         this.faceRight = false;
-                        this.updateState(foxState.WALKING);
+                        this.updateState(state.WALKING);
                         this.checkMoveLeft();
                     }
                     // Right
                     if (keyPressed["right"]) {
                         this.faceRight = true;
-                        this.updateState(foxState.WALKING);
+                        this.updateState(state.WALKING);
                         this.checkMoveRight();
                     }
                 }
                 if (keyPressed["up"] != keyPressed["down"]) {
                     // Up
                     if (keyPressed["up"]) {
-                        this.updateState(foxState.WALKING);
+                        this.updateState(state.WALKING);
                         this.checkMoveUp();
                     }
                     // Down
                     if (keyPressed["down"]) {
-                        this.updateState(foxState.WALKING);
+                        this.updateState(state.WALKING);
                         this.checkMoveDown();
                     }
                 }
             } else {
-                if (this.state === foxState.WALKING) {
-                    this.updateState(foxState.STANDING);
+                if (this.state === state.WALKING) {
+                    this.updateState(state.STANDING);
                 }
             }
         } else {
@@ -365,13 +372,14 @@ class Fox {
             if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
                 this.lastInteractedTime = this.engine.timestamp;
                 
-                if (this.state == foxState.SLEEPING || 
-                    (this.state == foxState.INITIAL_SLEEPING // Only restrict for the initial
+                if (this.state == state.SLEEPING || 
+                    (this.state == state.INITIAL_SLEEPING // Only restrict for the initial
                     && (this.x + bbLeftX - this.engine.winX > 0
                         && this.x + bbRightX - this.engine.winX < 550 // CANVAS W
                         && this.y + bbTopY - this.engine.winY > 0
                         && this.y + bbBottomY - this.engine.winY < 1000))) { // CANVAS H
-                    this.updateState(foxState.WAKING_UP);
+                    this.updateState(state.WAKING_UP);
+                    this.dreamBubble.wakeUp();
                 }
             }
         }
@@ -419,6 +427,4 @@ window.addEventListener("keyup", (e) => {
     }
 });
 
-module.exports = {
-    foxState, Fox
-}
+module.exports = { Fox }
