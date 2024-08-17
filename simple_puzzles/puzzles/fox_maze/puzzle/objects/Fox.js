@@ -283,7 +283,6 @@ class Fox {
     }
 
     draw() {
-        // console.log(this.engine.winX, this.engine.winY)
         // Check fox sprite for state update
         this.checkForSpriteStateUpdate();
 
@@ -365,19 +364,16 @@ class Fox {
                 }
             }
         } else {
-            // console.log((this.x + bbLeftX - this.engine.winX > 0
-            //     && this.x + bbRightX - this.engine.winX < 550
-            //     && this.y + bbTopY - this.engine.winY > 0
-            //     && this.y + bbBottomY - this.engine.winY < 1000))
             if (keyPressed["left"] || keyPressed["right"] || keyPressed["up"] || keyPressed["down"]) {
                 this.lastInteractedTime = this.engine.timestamp;
                 
+                // If the fox is visible in the original 160x160 pane (10px of give) then wake up
                 if (this.state == state.SLEEPING || 
                     (this.state == state.INITIAL_SLEEPING // Only restrict for the initial
-                    && (this.x + bbLeftX - this.engine.winX > 0
-                        && this.x + bbRightX - this.engine.winX < 550 // CANVAS W
-                        && this.y + bbTopY - this.engine.winY > 0
-                        && this.y + bbBottomY - this.engine.winY < 1000))) { // CANVAS H
+                    && (this.x + bbLeftX - this.engine.winX > -10
+                        && this.x + bbRightX - this.engine.winX < 170 // CANVAS W
+                        && this.y + bbTopY - this.engine.winY > -10
+                        && this.y + bbBottomY - this.engine.winY < 170))) { // CANVAS H
                     this.updateState(state.WAKING_UP);
                     this.dreamBubble.wakeUp();
                 }
