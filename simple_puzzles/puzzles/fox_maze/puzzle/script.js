@@ -3,12 +3,13 @@ const { COLOR } = require('./helpers/color');
 const { Chest } = require('./objects/Chest');
 const { Key } = require('./objects/Key');
 const { Fox } = require('./objects/Fox');
+const { MusicNote } = require('./objects/MusicNote');
 const { Engine } = require('./Engine');
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const debug = true;
+const debug = false//true;
 
 // Map data is stored with indices of row then col
 const mapCollision = require('./map.json')
@@ -16,7 +17,6 @@ const mapCollision = require('./map.json')
 // Map
 let map_lower = new Image();
 let map_upper = new Image();
-// map.src = './6FsdxmA.jpg';
 map_lower.src = 'graphics/map/layer_lower.png';
 map_upper.src = 'graphics/map/layer_upper.png';
 
@@ -41,6 +41,11 @@ Object.keys(keyLocations).forEach((color, index) => {
     engine.addObject(key);
     engine.addSolidObject(chest);
 });
+
+// Fun music note
+musicLocation = debug ? { x: 31, y: 26 } : { x: 43, y: 29 };
+const musicNote = new MusicNote(engine, musicLocation.x * 32, musicLocation.y * 32 - 12);
+engine.addObject(musicNote);
 
 const foxLocation = debug ? { x: 27, y: 29 } : { x: 2, y: 14 };
 let fox = new Fox(engine, foxLocation.x * 32, foxLocation.y * 32 - 2); // -2 to prevent collision at initial spawn location

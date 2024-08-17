@@ -91,7 +91,6 @@ class Key {
     update() {
         if (!this.isCollected()) {
             if (checkBoundingBoxesCollision(this, this.engine.getPlayerObject())) {
-                console.log("collected");
                 audio.currentTime = 0;
                 audio.play();
                 this.updateState(state.COLLECTED);
