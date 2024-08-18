@@ -17,6 +17,8 @@ const state = Object.freeze({
     STANDING: 'STANDING',
 });
 
+const millisecondsBeforeFallingAsleep = 15000;
+
 // Bounding Box - Static Definitions
 const centerX = 16;
 const centerY = 28;
@@ -254,7 +256,7 @@ class Fox {
 
                 // Transition to falling asleep if too idle
                 if ((this.state != state.INITIAL_SLEEPING && this.state != state.SLEEPING)
-                    && (this.engine.timestamp - this.lastInteractedTime > 5)) {
+                    && (this.engine.timestamp - this.lastInteractedTime > millisecondsBeforeFallingAsleep)) {
                     this.updateState(state.FALLING_ASLEEP);
                     return;
                 }
