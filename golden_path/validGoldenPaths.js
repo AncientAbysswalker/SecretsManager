@@ -35,9 +35,28 @@ module.exports = [
         },
     },
     {
-        // Fox Maze
+        // Starts: Start Fox Maze
+        // From: ???
         id: '????',
         path: [LEFT, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
+        },
+    },
+    {
+        // Starts: Bunny #X
+        // From: Fox Maze Flower Puzzle
+        id: '????',
+        path: [UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
+        },
+    },
+    {
+        // Starts: ??
+        // From: Fox Maze Chest Arrows Puzzle
+        id: '????',
+        path: [DOWN, RIGHT, DOWN, RIGHT, RIGHT, LEFT, LEFT, RIGHT, LEFT, UP, RIGHT, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
         },
