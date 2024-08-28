@@ -71,7 +71,7 @@ module.exports = class SimplePuzzleManager {
         });
         win.removeMenu();
         win.setAlwaysOnTop(true);
-        win.webContents.openDevTools();
+        // win.webContents.openDevTools();
 
         // Load puzzle HTML
         win.loadFile(currentPuzzleProps['path']);

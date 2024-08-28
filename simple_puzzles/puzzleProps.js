@@ -59,6 +59,14 @@ const puzzleProps = {
             h: 500,
         },
     ],
+    [puzzleEnum.TEST_BAR]: [
+        {
+            path: 'simple_puzzles/puzzles/test_bar/index.html',
+            icon: 'prize.png',
+            w: 432,
+            h: 432,
+        },
+    ],
     [puzzleEnum.TEST]: [
         {
             path: 'simple_puzzles/puzzles/test/index.html',

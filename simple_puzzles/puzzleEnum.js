@@ -3,6 +3,7 @@ const puzzleEnum = Object.freeze({
     CATSTERMIND: 'CATSTERMIND',
     HANOI: 'HANOI',
     FOX_MAZE: 'FOX_MAZE',
+    TEST_BAR: 'TEST_BAR',
     TEST: 'TEST',
 });
 
