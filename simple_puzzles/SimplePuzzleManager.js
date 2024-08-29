@@ -60,7 +60,7 @@ module.exports = class SimplePuzzleManager {
         let currentPuzzleProps = puzzleProps[puzzleEnumValue][currentIndex];
 
         // Create the puzzle window
-        const absPath = path.join(__dirname, currentPuzzleProps['icon']);
+        const iconPath = path.join(__dirname, currentPuzzleProps['icon']);
         const win = new BrowserWindow({
             useContentSize: true,
             width: currentPuzzleProps['w'],
@@ -68,7 +68,7 @@ module.exports = class SimplePuzzleManager {
             resizable: false,
             minimizable: false,
             maximizable: false,
-            icon: absPath,
+            icon: iconPath,
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,

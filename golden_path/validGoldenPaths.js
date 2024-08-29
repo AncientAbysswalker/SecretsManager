@@ -3,7 +3,7 @@ const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 
 module.exports = [
     {
-        // The Witness
+        // Starts: The Witness
         id: '3adb72f3dda22a186d72700e190b228e1880a606',
         path: [UP, UP, UP, DOWN],
         action: (gpm) => {
@@ -11,7 +11,7 @@ module.exports = [
         },
     },
     {
-        // Combo Lock
+        // Starts: Combo Lock
         id: '????',
         path: [DOWN, DOWN],
         action: (gpm) => {
@@ -19,7 +19,7 @@ module.exports = [
         },
     },
     {
-        // Catstermind
+        // Starts: Catstermind
         id: '????',
         path: [LEFT, LEFT],
         action: (gpm) => {
@@ -27,9 +27,24 @@ module.exports = [
         },
     },
     {
-        // Hanoi
+        // Starts: Hanoi
         id: '????',
         path: [RIGHT, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.HANOI);
+        },
+    },
+    {
+        // Starts: ???
+        // From: Super Simple Face Path
+        id: '????',
+        path: [
+            UP, UP, DOWN, LEFT, DOWN, 
+            RIGHT, LEFT, RIGHT, RIGHT, UP,
+            DOWN, UP, DOWN, UP, DOWN, 
+            RIGHT, LEFT, RIGHT, RIGHT, LEFT,
+            UP, LEFT, DOWN, LEFT, RIGHT
+        ],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.HANOI);
         },
@@ -62,9 +77,18 @@ module.exports = [
         },
     },
     {
-        // Test
+        // Starts: Simple Face Mural
+        // From: ???
         id: '????',
         path: [RIGHT, LEFT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.SIMPLE_FACES);
+        },
+    },
+    {
+        // Test
+        id: '????',
+        path: [UP, RIGHT, LEFT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST_BAR);
         },

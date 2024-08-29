@@ -59,6 +59,14 @@ const puzzleProps = {
             ignoreCheckpoint: true,
         },
     ],
+    [puzzleEnum.SIMPLE_FACES]: [
+        {
+            path: 'simple_puzzles/puzzles/simple_faces/index.html',
+            icon: 'puzzles/simple_faces/icon.png',
+            w: 432,
+            h: 432,
+        },
+    ],
     [puzzleEnum.TEST_BAR]: [
         {
             path: 'simple_puzzles/puzzles/test_bar/index.html',

@@ -1,3 +1,5 @@
+const path = require('path');
+
 const ipc = require('electron').ipcMain;
 const { app, BrowserWindow } = require('electron');
 
@@ -46,13 +48,14 @@ module.exports = class WitnessManager {
         const puzzleRows = puzzleDefinition['rows'];
 
         // Create new puzzle window
+        const iconPath = path.join(__dirname, 'data/favicon_half.png');
         const win = new BrowserWindow({
             useContentSize: true,
             width: WitnessManager.cellCountToWindowSize(puzzleCols),
             height: WitnessManager.cellCountToWindowSize(puzzleRows),
             zoomFactor: 0.5,
             resizable: false,
-            icon: 'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
+            icon: iconPath,//'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
