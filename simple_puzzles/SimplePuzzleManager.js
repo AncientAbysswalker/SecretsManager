@@ -22,22 +22,27 @@ module.exports = class SimplePuzzleManager {
 
         if (this.puzzleState[puzzleEnumValue] == null) {
             this.puzzleState[puzzleEnumValue] = {
-                index: 0,
+                currentIndex: 0,
+                checkpointIndex: 0,
                 maxIndex: puzzleProps[puzzleEnumValue].length - 1,
                 activeWindow: null,
             };
             this.createWindowCurrentIndex(puzzleEnumValue);
         } else if (this.puzzleState[puzzleEnumValue]['activeWindow'] == null) {
+            this.puzzleState[puzzleEnumValue]['currentIndex'] = this.puzzleState[puzzleEnumValue]['checkpointIndex'];
             this.createWindowCurrentIndex(puzzleEnumValue);
         }
     }
 
     getNextPuzzle(puzzleEnumValue) {
-        const currentIndex = this.puzzleState[puzzleEnumValue]['index'];
+        const currentIndex = this.puzzleState[puzzleEnumValue]['currentIndex'];
         const maxIndex = this.puzzleState[puzzleEnumValue]['maxIndex'];
         if (currentIndex < maxIndex) {
             this.puzzleState[puzzleEnumValue]['activeWindow'].close();
-            this.puzzleState[puzzleEnumValue]['index'] = currentIndex + 1;
+            this.puzzleState[puzzleEnumValue]['currentIndex'] = currentIndex + 1;
+            if (!puzzleProps[puzzleEnumValue][currentIndex + 1]['ignoreCheckpoint']) {
+                this.puzzleState[puzzleEnumValue]['checkpointIndex'] = currentIndex + 1;
+            }
             this.createWindowCurrentIndex(puzzleEnumValue);
         } else {
             console.error(
@@ -47,7 +52,7 @@ module.exports = class SimplePuzzleManager {
     }
 
     createWindowCurrentIndex(puzzleEnumValue) {
-        const currentIndex = this.puzzleState[puzzleEnumValue]['index'];
+        const currentIndex = this.puzzleState[puzzleEnumValue]['currentIndex'];
         const maxIndex = this.puzzleState[puzzleEnumValue]['maxIndex'];
         const ipc_event = `spm::evt::solved::${puzzleEnumValue}::${currentIndex}`;
 

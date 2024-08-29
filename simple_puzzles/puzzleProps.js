@@ -27,6 +27,7 @@ const puzzleProps = {
             icon: 'prize.png',
             w: 498,
             h: 498,
+            ignoreCheckpoint: true,
         },
         {
             path: 'simple_puzzles/puzzles/catstermind/prize/index.html',
@@ -47,8 +48,6 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/fox_maze/puzzle/index.html',
             icon: 'puzzles/fox_maze/icon.png',
-            // w: 1920,
-            // h: 1000,
             w: 1600,
             h: 160,
         },
@@ -57,6 +56,7 @@ const puzzleProps = {
             icon: 'prize.png',
             w: 500,
             h: 500,
+            ignoreCheckpoint: true,
         },
     ],
     [puzzleEnum.TEST_BAR]: [
