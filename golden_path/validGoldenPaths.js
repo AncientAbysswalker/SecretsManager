@@ -4,6 +4,7 @@ const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 module.exports = [
     {
         // Starts: The Witness
+        // From: ???
         id: '3adb72f3dda22a186d72700e190b228e1880a606',
         path: [UP, UP, UP, DOWN],
         action: (gpm) => {
@@ -12,6 +13,7 @@ module.exports = [
     },
     {
         // Starts: Combo Lock
+        // From: ???
         id: '????',
         path: [DOWN, DOWN],
         action: (gpm) => {
@@ -20,6 +22,7 @@ module.exports = [
     },
     {
         // Starts: Catstermind
+        // From: ???
         id: '????',
         path: [LEFT, LEFT],
         action: (gpm) => {
@@ -28,6 +31,7 @@ module.exports = [
     },
     {
         // Starts: Hanoi
+        // From: ???
         id: '????',
         path: [RIGHT, RIGHT],
         action: (gpm) => {
