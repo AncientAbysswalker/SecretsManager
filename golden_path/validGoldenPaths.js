@@ -3,12 +3,12 @@ const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 
 module.exports = [
     {
-        // Starts: The Witness
+        // Starts: Loading Bar and then The Witness
         // From: ???
         id: '3adb72f3dda22a186d72700e190b228e1880a606',
         path: [UP, UP, UP, DOWN],
         action: (gpm) => {
-            gpm.witnessManager.initiatePuzzles();
+            gpm.witnessManager.initiateLoadingBar(gpm.simplePuzzleManager);
         },
     },
     {
@@ -93,6 +93,14 @@ module.exports = [
         // Test
         id: '????',
         path: [UP, RIGHT, LEFT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST);
+        },
+    },
+    {
+        // Test Bar
+        id: '????',
+        path: [UP, LEFT, RIGHT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST_BAR);
         },

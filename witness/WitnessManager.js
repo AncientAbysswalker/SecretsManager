@@ -5,6 +5,8 @@ const { app, BrowserWindow } = require('electron');
 
 const puzzlesList = require('./puzzlesList');
 
+const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
+
 module.exports = class WitnessManager {
     constructor() {
         this.fullPuzzleList = puzzlesList;
@@ -13,6 +15,51 @@ module.exports = class WitnessManager {
         this.currentPuzzle = null;
         this.currentPuzzleWindow = null;
         this.puzzlesCompleted = false;
+    }
+
+    // We pass in SPM as we use it to govern the second, hidden, window
+    initiateLoadingBar(spm) {
+        // Create loading window
+        const iconPath = path.join(__dirname, 'data/favicon_half.png');
+        const win = new BrowserWindow({
+            useContentSize: true,
+            width: 432,
+            height: 432,
+            resizable: false,
+            minimizable: false,
+            maximizable: false,
+            icon: iconPath,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
+        });
+        win.removeMenu();
+        win.setAlwaysOnTop(true);
+        
+        // Load HTML
+        win.loadFile(`witness/loading_bar/index.html`);
+
+        // Note we don't need to worry about storing state of the bar as much as the puzzles, as the window 
+        // auto-closes faster than the 5sec time to allow for path re-entry. That said, the hidden window 
+        // will be handled by SPM, as I have higher confidence in that code!
+
+        // Add listener for load completion
+        ipc.on(
+            'loading_bar_complete',
+            (event, message) => {
+                ipc.removeAllListeners('loading_bar_complete');
+                win.removeAllListeners('close');
+                win.close();
+                this.initiatePuzzles();
+            }
+        );
+
+        // If we prematurely close the window, trigger the hidden window
+        win.on('close', () => {
+            ipc.removeAllListeners('loading_bar_complete');
+            spm.initiatePuzzle(puzzleEnum.TEST);
+        });
     }
 
     initiatePuzzles() {
