@@ -214,6 +214,8 @@ module.exports = [
             console.log('original golden path');
         },
     },
+    // Starts: Loading Bar and then The Witness
+    // From: Cat Sleeping at Desk Page
     {
         id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
         path: [DOWN, RIGHT, UP, LEFT, UP, RIGHT],
@@ -221,6 +223,8 @@ module.exports = [
             console.log('learning golden path');
         },
     },
+    // Starts: Loading Bar and then The Witness
+    // From: Cat Sleeping at Desk Page
     {
         id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
         path: [DOWN, LEFT, UP, RIGHT, UP, LEFT],

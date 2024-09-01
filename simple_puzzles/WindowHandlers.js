@@ -1,8 +1,3 @@
-// The time ranges CAN and WILL overlap. i.e. 5000 and 1000 means 1s show and 4s gap actually
-const showLetterMillis = 1000;
-const betweenLettersMillis = 5000;
-const intervalsBetweenOccurrances = 4;
-
 function replaceSubstringAtIndex(original, index, replacement) {
     return (
         original.substring(0, index) +
@@ -11,25 +6,22 @@ function replaceSubstringAtIndex(original, index, replacement) {
     );
 }
 
+// The time ranges CAN and WILL overlap. i.e. 5000 and 1000 means 1s show and 4s gap actually
+const showLetterMillis = 1000;
+const betweenLettersMillis = 5000;
+const intervalsBetweenOccurrances = 4;
 class TitlePuzzleHandler {
-    constructor(hiddenMessage) {
+    constructor(win, hiddenMessage) {
         this.index = -intervalsBetweenOccurrances;
         this.hiddenMessage = hiddenMessage;
-        this.interval = null;
-        this.window;
+        this.interval = this.startLoop();
+        this.win = win;
     }
 
-    affectedWindow(win) {
-        this.window = win;
-
-        if (this.interval !== null) {
-            // Interval is already running, so do not create another
-            return;
-        }
-
-        this.interval = setInterval(() => {
+    startLoop() {
+        return setInterval(() => {
             try {
-                const originalTitle = this.window.getTitle();
+                const originalTitle = this.win.getTitle();
                 const replaceIndex = Math.floor(
                     Math.random() * originalTitle.length
                 );
@@ -41,7 +33,7 @@ class TitlePuzzleHandler {
                     return;
                 }
 
-                this.window.setTitle(
+                this.win.setTitle(
                     replaceSubstringAtIndex(
                         originalTitle,
                         replaceIndex,
@@ -51,7 +43,7 @@ class TitlePuzzleHandler {
 
                 setTimeout(() => {
                     try {
-                        this.window.setTitle(originalTitle);
+                        this.win.setTitle(originalTitle);
                         if (this.index + 1 === this.hiddenMessage.length) {
                             this.index = -intervalsBetweenOccurrances;
                         } else {
@@ -68,11 +60,7 @@ class TitlePuzzleHandler {
     }
 
     stopLoop() {
-        if (this.interval !== null) {
-            clearInterval(this.interval);
-            this.interval = null;
-            this.index = 0;
-        }
+        clearInterval(this.interval);
     }
 }
 
@@ -84,7 +72,6 @@ class IncrementalWindowResizeHandler {
         this.incrementWidth = incrementWidth;
         this.resizeCount = 0;
         this.win = win;
-        // this.repeatWindowResize = this.repeatWindowResize.bind(this);
     }
 
     increaseWindowSize() {
@@ -118,6 +105,6 @@ class IncrementalWindowResizeHandler {
 }
 
 module.exports = {
-    TitlePuzzleHandler, 
+    TitlePuzzleHandler,
     IncrementalWindowResizeHandler,
 };

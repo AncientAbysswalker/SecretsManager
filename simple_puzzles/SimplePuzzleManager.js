@@ -10,7 +10,6 @@ const { TitlePuzzleHandler, IncrementalWindowResizeHandler } = require('./Window
 module.exports = class SimplePuzzleManager {
     constructor() {
         this.puzzleState = {};
-        this.titlePuzzleHandler = new TitlePuzzleHandler('↑↓→←');
     }
 
     initiatePuzzle(puzzleEnumValue) {
@@ -114,8 +113,9 @@ module.exports = class SimplePuzzleManager {
 
         // Special Window Handlers
         if (puzzleEnumValue === puzzleEnum.HANOI) {
-            this.titlePuzzleHandler.affectedWindow(win);
+            const titlePuzzleHandler = new TitlePuzzleHandler(win, '↑↓→←');
         } else if (puzzleEnumValue === puzzleEnum.FOX_MAZE) {
+            // Handle moving window as viewing pane
             win.on('move', () => {
                 let bounds = win.getBounds();
                 win.webContents.send('window-moved', bounds);
@@ -134,31 +134,3 @@ module.exports = class SimplePuzzleManager {
         }
     }
 };
-
-function increaseWindowSize(win, increaseCount) {
-    const newWidth = 160 + increaseCount * 64
-    const newHeight = 160 + increaseCount * 64
-    
-    repeatWindowResize(win, newWidth, newHeight)
-}
-
-function repeatWindowResize(win, width, height) {
-    try {
-        const bounds = win.getBounds();
-
-        if (width <= bounds.width && height <= bounds.height) {
-            return;
-        }
-
-        const newWidth = Math.min(width, bounds.width + 1);
-        const newHeight = Math.min(height, bounds.height + 1);
-
-        win.setSize(newWidth, newHeight);
-    } catch {
-        return;
-    }
-
-    setTimeout(function() {
-        repeatWindowResize(win, width, height)
-    }, 10); // 10ms delay (0.01 second)
-}
