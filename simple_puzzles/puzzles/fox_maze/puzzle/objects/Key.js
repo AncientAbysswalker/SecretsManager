@@ -178,7 +178,7 @@ class Key {
         return this.state === state.COLLECTED;
     }
 
-    consumeKey() {
+    consume() {
         this.engine.removeObject(this);
     }
 

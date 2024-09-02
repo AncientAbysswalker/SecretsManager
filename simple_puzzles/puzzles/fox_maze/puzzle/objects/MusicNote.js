@@ -9,6 +9,7 @@ const state = Object.freeze({
 // Audio
 const audio = new Audio('sounds/collect.mp3');
 const music = new Audio('sounds/music.mp3');
+const secret = new Audio('sounds/collect.mp3');
 
 // Bounding Box - Player - Static Definitions
 let boundingData = {
@@ -93,6 +94,14 @@ class MusicNote {
         } else {
             this.x = this.engine.winX + this.inventoryOffsetX;
             this.y = this.engine.winY + 4;
+
+            // Check if colliding with player after collected
+            if (checkBoundingBoxesCollision(this, this.engine.getPlayerObject())) {
+                music.pause();
+                secret.currentTime = 0;
+                secret.play();
+                this.consume();
+            }
         }
     }
 
@@ -169,6 +178,10 @@ class MusicNote {
 
     isCollected() {
         return this.state === state.COLLECTED;
+    }
+
+    consume() {
+        this.engine.removeObject(this);
     }
 
     updateState(newState) {

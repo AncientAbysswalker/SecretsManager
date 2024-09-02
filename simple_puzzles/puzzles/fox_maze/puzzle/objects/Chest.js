@@ -81,7 +81,7 @@ class Chest {
             audio.currentTime = 0;
             audio.play();
             this.updateState(state.OPENING);
-            this.key.consumeKey();
+            this.key.consume();
         }
     }
 

@@ -17,6 +17,8 @@ class Engine {
         this.solidObjectList = [];
 
         // Drawing
+        this.backgroundColor = "#FFFFFF";
+        this.mapLayers = [];
         this.drawHitboxes = drawHitboxes;
         this.renderCache = {};
 
@@ -33,6 +35,20 @@ class Engine {
 
     getPlayerObject() {
         return this.playerObject;
+    }
+
+    
+    setBackgroundColor(color) {
+        this.backgroundColor = color;
+    }
+
+    addMapLayer(sprite, layer, offsetX, offsetY) {
+        this.mapLayers.push({
+            sprite: sprite,
+            layer: layer,
+            offsetX: offsetX,
+            offsetY: offsetY
+        });
     }
 
     setMapCollision(mapCollision) {
@@ -113,12 +129,13 @@ class Engine {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             
             // Background color in case we go outside the maze
-            this.ctx.fillStyle = "#00E098";
+            this.ctx.fillStyle = this.backgroundColor;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
             // Map layers
-            this.submitImageForDraw(0, map_lower, - this.winX, - this.winY - 32);
-            this.submitImageForDraw(50, map_upper, - this.winX, - this.winY - 32);
+            for (const mapLayer of this.mapLayers) {
+                this.submitImageForDraw(mapLayer.layer, mapLayer.sprite, mapLayer.offsetX - this.winX, mapLayer.offsetY - this.winY);
+            }
 
             // Update all objects
             this.playerObject.update();
@@ -134,9 +151,9 @@ class Engine {
         
             // Submit map hitboxes for draw
             if (this.drawHitboxes) {
-                for (let row = 0; row < mapCollision.length; row++) {
-                    for (let col = 0; col < mapCollision[row].length; col++) {
-                        if (mapCollision[row][col]) {
+                for (let row = 0; row < this.mapCollision.length; row++) {
+                    for (let col = 0; col < this.mapCollision[row].length; col++) {
+                        if (this.mapCollision[row][col]) {
                             this.submitBoundingBoxForDraw(99, "yellow",
                                 col * 32 - this.winX, 
                                 row * 32 - this.winY, 

@@ -21,7 +21,10 @@ map_lower.src = 'graphics/map/layer_lower.png';
 map_upper.src = 'graphics/map/layer_upper.png';
 
 const engine = new Engine(canvas, ctx, 50, 50, debug);
+engine.setBackgroundColor("#00E098");
 engine.setMapCollision(mapCollision);
+engine.addMapLayer(map_lower, 0, 0, -32);
+engine.addMapLayer(map_upper, 50, 0, -32);
 
 // Define Keys and Chests
 let keyLocations = {};
