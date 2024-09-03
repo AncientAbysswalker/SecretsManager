@@ -106,6 +106,14 @@ module.exports = [
         },
     },
     {
+        // Test Bunnies
+        id: '????',
+        path: [UP, UP, LEFT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
         // True Golden Path
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [

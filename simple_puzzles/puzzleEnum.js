@@ -6,6 +6,7 @@ const puzzleEnum = Object.freeze({
     SIMPLE_FACES: 'SIMPLE_FACES',
     TEST_BAR: 'TEST_BAR',
     TEST: 'TEST',
+    BUN_0: 'BUN_0',
 });
 
 module.exports = {

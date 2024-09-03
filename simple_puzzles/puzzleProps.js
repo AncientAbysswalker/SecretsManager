@@ -83,6 +83,14 @@ const puzzleProps = {
             h: 432,
         },
     ],
+    [puzzleEnum.BUN_0]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b0/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 432,
+            h: 432,
+        },
+    ],
 };
 
 module.exports = {

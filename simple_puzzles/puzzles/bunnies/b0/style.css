@@ -1,0 +1,24 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Optional: Sets a light background color */
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#prize-text {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+}
+
+/* img {
+    max-width: 100%;
+    height: auto;
+} */
