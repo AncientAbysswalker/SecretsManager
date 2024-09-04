@@ -2,10 +2,8 @@ const { GlobalKeyboardListener } = require('node-global-key-listener');
 const gkl = new GlobalKeyboardListener();
 var hash = require('object-hash');
 
-const { app, BrowserWindow } = require('electron');
-
 const goldenPaths = require('./validGoldenPaths');
-const { arrowKeys } = require('./arrowKeys');
+const { arrowKeys, shiftKeys, LSHIFT, RSHIFT, UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, INVALID } = require('./arrowKeys');
 
 const logHashes = true;
 
@@ -13,11 +11,18 @@ module.exports = class GoldenPathManager {
     static pathTimeout = 5 * 1000;
 
     constructor(witnessManager, simplePuzzleManager) {
+        // Valid Path Management
         this.currentTime = 0;
         this.currentIndex = 0;
         this.remainingPaths = [];
+
+        // Other Puzzle Managers
         this.witnessManager = witnessManager;
         this.simplePuzzleManager = simplePuzzleManager;
+
+        // Buffering Variables
+        let buf0;
+        let buf1;
 
         if (logHashes) {
             for (const goldenPath of goldenPaths) {
@@ -28,13 +33,46 @@ module.exports = class GoldenPathManager {
 
         const gpm = this;
         gkl.addListener(function (e, down) {
+            // Standard Keypress
             if (
                 e.state == 'DOWN' &&
                 Object.values(arrowKeys).includes(e.name)
             ) {
-                gpm.pressedArrowKey(e.name);
+                // If shift is held down we should buffer
+                if (down[LSHIFT] || down[RSHIFT]) {
+                    gpm.addToBuffer(e.name);
+                } else {
+                    gpm.pressedArrowKey(e.name);
+                }
+            } else if (
+                e.state == 'UP' &&
+                Object.values(shiftKeys).includes(e.name)
+            ) {
+                gpm.flushBufferToKey();
             }
         });
+    }
+
+    addToBuffer(arrowKey) {
+        this.buf0 = this.buf1;
+        this.buf1 = arrowKey;
+    }
+
+    flushBufferToKey() {
+        let flush;
+        if (this.buf0 === UP && this.buf1 === LEFT || this.buf1 === UP && this.buf0 === LEFT) {
+            flush = UP_LEFT;
+        } else if (this.buf0 === UP && this.buf1 === RIGHT || this.buf1 === UP && this.buf0 === RIGHT) {
+            flush = UP_RIGHT;
+        } else if (this.buf0 === DOWN && this.buf1 === RIGHT || this.buf1 === DOWN && this.buf0 === RIGHT) {
+            flush = DOWN_RIGHT;
+        } else if (this.buf0 === DOWN && this.buf1 === LEFT || this.buf1 === DOWN && this.buf0 === LEFT) {
+            flush = DOWN_LEFT;
+        } else {
+            flush = INVALID;
+        }
+
+        this.pressedArrowKey(flush); 
     }
 
     pressedArrowKey(arrowKey) {
