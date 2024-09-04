@@ -87,7 +87,7 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/bunnies/b0/index.html',
             icon: 'puzzles/bunnies/icon.png',
-            w: 432,
+            w: 600,
             h: 432,
         },
     ],
