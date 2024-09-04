@@ -72,6 +72,8 @@ module.exports = class GoldenPathManager {
             flush = INVALID;
         }
 
+        this.buf0 = null;
+        this.buf1 = null;
         this.pressedArrowKey(flush); 
     }
 
