@@ -43,6 +43,12 @@ const puzzleProps = {
             w: 600,
             h: 400,
         },
+        {
+            path: 'simple_puzzles/puzzles/hanoi/prize/index.html',
+            icon: 'puzzles/hanoi/icon.png',
+            w: 500,
+            h: 500,
+        },
     ],
     [puzzleEnum.FOX_MAZE]: [
         {
@@ -77,7 +83,7 @@ const puzzleProps = {
     ],
     [puzzleEnum.TEST]: [
         {
-            path: 'simple_puzzles/puzzles/test/index.html',
+            path: 'simple_puzzles/puzzles/test_frog/index.html',
             icon: 'prize.png',
             w: 432,
             h: 432,

@@ -66,22 +66,20 @@ $(document).ready(function () {
                 $tower.eq(1).children().length === disksNum ||
                 $tower.eq(2).children().length === disksNum
             ) {
-                alert(9);
                 swal({
                     allowEscapeKey: false,
                     allowOutsideClick: false,
-                    title: 'Congratulations! You Won!',
-                    text: 'Boom Shaka Lak',
+                    title: 'Congratulations!',
+                    text: 'Things were really stacked in your favor!',
                     type: 'success',
                     showCancelButton: false, // There won't be any cancel button
                     showConfirmButton: false, // There won't be any confirm button
                     // confirmButtonColor: '#8bc34a',
                     // confirmButtonText: 'Play again!',
-                }).then(function (isConfirm) {
-                    if (isConfirm) {
-                        initGame($tower.eq(0));
-                    }
                 });
+                setTimeout(() => {
+                    emitPuzzleSolvedEvent();
+                }, 1500);
             }
         }
 
