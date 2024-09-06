@@ -90,6 +90,21 @@ module.exports = [
         },
     },
     {
+        // Starts: ???
+        // From: Assembling all cipher page borders
+        id: '????',
+        path: [
+            RIGHT, RIGHT, RIGHT,
+            UP, UP, RIGHT,
+            DOWN, LEFT, LEFT,
+            DOWN, LEFT, RIGHT,
+            DOWN, DOWN, DOWN
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.SIMPLE_FACES);
+        },
+    },
+    {
         // Test
         id: '????',
         path: [UP, RIGHT, LEFT],
