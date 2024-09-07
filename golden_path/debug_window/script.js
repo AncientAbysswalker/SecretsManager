@@ -30,7 +30,7 @@ const textShadowColor = '#e2ffb7';
 const textShadowStyle = (color) => `1px 1px 2px ${color}, 0 0 1em ${color}, 0 0 0.2em ${color}`;
 const screenColor = '#008000';
 
-const inputText = document.getElementById("console");
+const inputText = document.getElementById("input");
 const cursorText = document.getElementById("cursor");
 
 ipcRenderer.on('arrow-pressed', (event, arrowText) => {
@@ -45,7 +45,7 @@ ipcRenderer.on('buffer-arrow-pressed', (event, arrowText) => {
 });
 
 ipcRenderer.on('buffer-on', (event) => {
-    cursorText.innerText = 'abc';
+    cursorText.innerText = '__';
     cursorText.classList.add("buffer-cursor");
     cursorText.classList.remove("blinking-cursor");
 });

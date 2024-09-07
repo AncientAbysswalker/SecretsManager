@@ -152,7 +152,7 @@ module.exports = class GoldenPathManager {
             useContentSize: true,
             width: 800,
             height: 500,
-            resizable: true,
+            resizable: false,
             minimizable: false,
             maximizable: false,
             icon: iconPath,
