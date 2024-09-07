@@ -40,21 +40,23 @@ module.exports = class GoldenPathManager {
 
         const gpm = this;
         gkl.addListener(function (e, down) {
-            // Standard Keypress
-            if (
-                e.state == 'DOWN' &&
-                Object.values(arrowKeys).includes(e.name)
-            ) {
-                // If shift is held down we should buffer
-                if (down[LSHIFT] || down[RSHIFT]) {
-                    gpm.addToBuffer(e.name);
-                } else {
-                    gpm.pressedArrowKey(e.name);
+            if (e.state == 'DOWN') {
+                if (Object.values(arrowKeys).includes(e.name)) {
+                    // If shift is held down we should buffer
+                    if (down[LSHIFT] || down[RSHIFT]) {
+                        gpm.debugSendBufferArrow(e.name);
+                        gpm.addToBuffer(e.name);
+                    } else {
+                        gpm.pressedArrowKey(e.name);
+                    }
+                } else if (Object.values(shiftKeys).includes(e.name)) {
+                    gpm.debugSendBufferOn();
                 }
             } else if (
                 e.state == 'UP' &&
                 Object.values(shiftKeys).includes(e.name)
             ) {
+                gpm.debugSendBufferOff();
                 gpm.flushBufferToKey();
             }
         });
@@ -85,7 +87,6 @@ module.exports = class GoldenPathManager {
     }
 
     pressedArrowKey(arrowKey) {
-        console.log(arrowKey)
         // Check if we've waited too long for the next input. If so, set our pointer to the start and re-initiate the available list of valid golden paths
         const now = Date.now();
         if (now - this.currentTime > GoldenPathManager.pathTimeout) {
@@ -94,9 +95,7 @@ module.exports = class GoldenPathManager {
         }
 
         // Send our key to the debug if it's open
-        if (this.debugWindow) {
-            this.debugWindow.webContents.send('arrow-pressed', arrowKey);
-        }
+        this.debugSendArrow(arrowKey);
 
         // Regardless, set time to now
         this.currentTime = now;
@@ -117,6 +116,30 @@ module.exports = class GoldenPathManager {
 
         this.currentIndex += 1;
     }
+    
+    debugSendArrow(arrowKey) {
+        if (this.debugWindow) {
+            this.debugWindow.webContents.send('arrow-pressed', arrowKey);
+        }
+    }
+    
+    debugSendBufferArrow(arrowKey) {
+        if (this.debugWindow) {
+            this.debugWindow.webContents.send('buffer-arrow-pressed', arrowKey);
+        }
+    }
+    
+    debugSendBufferOn() {
+        if (this.debugWindow) {
+            this.debugWindow.webContents.send('buffer-on');
+        }
+    }
+    
+    debugSendBufferOff() {
+        if (this.debugWindow) {
+            this.debugWindow.webContents.send('buffer-off');
+        }
+    }
 
     createDebugWindow() {
         if (this.debugWindow) {
@@ -127,8 +150,10 @@ module.exports = class GoldenPathManager {
         const iconPath = path.join(__dirname, 'debug_window/icon.png');
         const win = new BrowserWindow({
             useContentSize: true,
-            width: 500,
+            width: 800,
             height: 500,
+            resizable: true,
+            minimizable: false,
             maximizable: false,
             icon: iconPath,
             webPreferences: {

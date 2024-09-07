@@ -1,7 +1,7 @@
 const path = require('path');
 
 const ipc = require('electron').ipcMain;
-const { app, BrowserWindow } = require('electron');
+const { BrowserWindow } = require('electron');
 
 const { puzzleProps } = require('./puzzleProps');
 const { puzzleEnum } = require('./puzzleEnum');
