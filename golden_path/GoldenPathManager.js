@@ -1,3 +1,7 @@
+const path = require('path');
+
+const { BrowserWindow } = require('electron');
+
 const { GlobalKeyboardListener } = require('node-global-key-listener');
 const gkl = new GlobalKeyboardListener();
 var hash = require('object-hash');
@@ -11,6 +15,9 @@ module.exports = class GoldenPathManager {
     static pathTimeout = 5 * 1000;
 
     constructor(witnessManager, simplePuzzleManager) {
+        // Debug Window
+        this.debugWindow;
+
         // Valid Path Management
         this.currentTime = 0;
         this.currentIndex = 0;
@@ -78,11 +85,17 @@ module.exports = class GoldenPathManager {
     }
 
     pressedArrowKey(arrowKey) {
+        console.log(arrowKey)
         // Check if we've waited too long for the next input. If so, set our pointer to the start and re-initiate the available list of valid golden paths
         const now = Date.now();
         if (now - this.currentTime > GoldenPathManager.pathTimeout) {
             this.currentIndex = 0;
             this.remainingPaths = goldenPaths.slice(0);
+        }
+
+        // Send our key to the debug if it's open
+        if (this.debugWindow) {
+            this.debugWindow.webContents.send('arrow-pressed', arrowKey);
         }
 
         // Regardless, set time to now
@@ -103,5 +116,35 @@ module.exports = class GoldenPathManager {
         }
 
         this.currentIndex += 1;
+    }
+
+    createDebugWindow() {
+        if (this.debugWindow) {
+            return;
+        }
+
+        // Create the debug window
+        const iconPath = path.join(__dirname, 'debug_window/icon.png');
+        const win = new BrowserWindow({
+            useContentSize: true,
+            width: 500,
+            height: 500,
+            maximizable: false,
+            icon: iconPath,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
+        });
+        win.removeMenu();
+        win.setAlwaysOnTop(true);
+
+        // Load debug window
+        win.loadFile('golden_path/debug_window/index.html');
+        this.debugWindow = win;
+
+        win.on('close', () => {
+            this.debugWindow = undefined; 
+        });
     }
 };

@@ -28,4 +28,5 @@ module.exports = {
     UP_RIGHT: arrowKeys.UP_RIGHT,
     LSHIFT: shiftKeys.LSHIFT,
     RSHIFT: shiftKeys.RSHIFT,
+    INVALID: arrowKeys.INVALID
 };
