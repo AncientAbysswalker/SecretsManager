@@ -58,7 +58,6 @@ ipcRenderer.on('buffer-off', (event) => {
 
 // Fade out timer
 let countdownTimer;
-let resetFlag = false;
 
 function startCountdown() {
   // Reset previous transition
@@ -79,9 +78,6 @@ function startCountdown() {
   }
 
   countdownTimer = setTimeout(() => {
-    if (!resetFlag) {
-        inputText.textContent = "";
-    }
-    resetFlag = false;
-  }, 4950); // 5 seconds fade out
+    inputText.textContent = "";
+  }, 5100); // 5 seconds fade out
 }

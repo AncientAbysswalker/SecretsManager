@@ -69,7 +69,11 @@ module.exports = class GoldenPathManager {
 
     flushBufferToKey() {
         let flush;
-        if (this.buf0 === UP && this.buf1 === LEFT || this.buf1 === UP && this.buf0 === LEFT) {
+        if (this.buf0 === undefined && this.buf1 === undefined) {
+            return;
+        } else if (this.buf0 === undefined || this.buf1 === undefined) {
+            flush = this.buf0 || this.buf1;
+        } else if (this.buf0 === UP && this.buf1 === LEFT || this.buf1 === UP && this.buf0 === LEFT) {
             flush = UP_LEFT;
         } else if (this.buf0 === UP && this.buf1 === RIGHT || this.buf1 === UP && this.buf0 === RIGHT) {
             flush = UP_RIGHT;
@@ -81,8 +85,8 @@ module.exports = class GoldenPathManager {
             flush = INVALID;
         }
 
-        this.buf0 = null;
-        this.buf1 = null;
+        this.buf0 = undefined;
+        this.buf1 = undefined;
         this.pressedArrowKey(flush); 
     }
 

@@ -127,7 +127,32 @@ module.exports = [
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
         },
-    },{
+    },
+    {
+        // Starts: Bunny #8
+        // From: Steganography
+        id: '????',
+        path: [
+            RIGHT, UP, RIGHT, DOWN, RIGHT, RIGHT, UP, RIGHT, UP, RIGHT, DOWN, DOWN, RIGHT, RIGHT, RIGHT, UP, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, RIGHT, DOWN, RIGHT
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #9
+        // From: Collecting Music Note Twice
+        id: '????',
+        path: [
+            UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT,
+            UP, UP, UP, DOWN, DOWN, DOWN, 
+            LEFT, LEFT, RIGHT, LEFT, LEFT, RIGHT, RIGHT
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
         // Test Debug
         id: '????',
         path: [UP, UP_RIGHT, RIGHT],
