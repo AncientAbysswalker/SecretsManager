@@ -4,7 +4,7 @@ const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 module.exports = [
     {
         // Starts: Loading Bar and then The Witness
-        // From: ???
+        // From: Page of Cat Sleeping at Computer
         id: '3adb72f3dda22a186d72700e190b228e1880a606',
         path: [UP, UP, UP, DOWN],
         action: (gpm) => {
@@ -12,8 +12,26 @@ module.exports = [
         },
     },
     {
+        // Starts: Loading Bar and then The Witness
+        // From: Page of Cat Sleeping at Computer
+        id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
+        path: [DOWN, RIGHT, UP, LEFT, UP, RIGHT],
+        action: (gpm) => {
+            gpm.witnessManager.initiateLoadingBar(gpm.simplePuzzleManager);
+        },
+    },
+    {
+        // Starts: Loading Bar and then The Witness
+        // From: Page of Cat Sleeping at Computer
+        id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
+        path: [DOWN, LEFT, UP, RIGHT, UP, LEFT],
+        action: (gpm) => {
+            gpm.witnessManager.initiateLoadingBar(gpm.simplePuzzleManager);
+        },
+    },
+    {
         // Starts: Combo Lock
-        // From: ???
+        // From: Rear of Scrabble
         id: '????',
         path: [DOWN, DOWN],
         action: (gpm) => {
@@ -22,24 +40,15 @@ module.exports = [
     },
     {
         // Starts: Catstermind
-        // From: ???
+        // From: Base64 Encoded Image
         id: '????',
-        path: [LEFT, LEFT],
+        path: [UP, RIGHT, DOWN, DOWN, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.CATSTERMIND);
         },
     },
     {
         // Starts: Hanoi
-        // From: ???
-        id: '????',
-        path: [RIGHT, RIGHT],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.HANOI);
-        },
-    },
-    {
-        // Starts: ???
         // From: Super Simple Face Path
         id: '????',
         path: [
@@ -267,24 +276,6 @@ module.exports = [
         ],
         action: (gpm) => {
             console.log('original golden path');
-        },
-    },
-    // Starts: Loading Bar and then The Witness
-    // From: Cat Sleeping at Desk Page
-    {
-        id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
-        path: [DOWN, RIGHT, UP, LEFT, UP, RIGHT],
-        action: (gpm) => {
-            console.log('learning golden path');
-        },
-    },
-    // Starts: Loading Bar and then The Witness
-    // From: Cat Sleeping at Desk Page
-    {
-        id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
-        path: [DOWN, LEFT, UP, RIGHT, UP, LEFT],
-        action: (gpm) => {
-            console.log('learning golden path (alt)');
         },
     },
 ];
