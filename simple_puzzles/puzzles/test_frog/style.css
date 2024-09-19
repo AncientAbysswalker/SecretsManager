@@ -14,43 +14,58 @@ html {
   position: absolute;
   bottom: 0;
   left: 0;
-  animation: vertical-move 4s ease-in-out infinite;
+  animation: vertical-move 4s infinite;
 }
 .frog-horizontal-container {
   position: absolute;
   bottom: 0;
   left: 0;
-  animation: horizontal-move 4s linear infinite;
+  animation: horizontal-move 4s ease-in-out infinite;
 }
 #frog {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 32px;
-  height: 28px;
+  width: 16px;
+  height: 14px;
   transform-origin: center; /* Ensure rotation is centered */
   animation: rot-move 4s ease-in-out infinite;
 }
 
 @keyframes horizontal-move {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(120px); }
-  50% { transform: translateX(60px); }
-  75% { transform: translateX(60px); }
-  100% { transform: translateX(0); }
+  0%, 10% { transform: translateX(208px); }
+  40%, 50% { transform: translateX(80px); }
+  70%, 80% { transform: translateX(144px); }
+  100% { transform: translateX(208px); }
 }
 
 @keyframes rot-move {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(0deg); }
-  50% { transform: rotate(360deg); }
-  75% { transform: rotate(360deg); }
-  100% { transform: rotate(0deg); }
+  0%, 15% { transform: rotate(0deg); }
+  35%, 55% { transform: rotate(-1080deg); }
+  68%, 85% { transform: rotate(-720deg); }
+  100% { transform: rotate(-720deg); }
 }
 
 @keyframes vertical-move {
-  0%, 25%, 50%, 75%, 100% { transform: translateY(0); }
-  12.5%, 37.5%, 62.5%, 87.5% { transform: translateY(-100px); }
+  0%, 10% { transform: translateY(-16px); }
+  25% { 
+    transform: translateY(-130px);
+    animation-timing-function: ease-out;
+  }
+  40%, 50% { 
+    transform: translateY(-16px); 
+    animation-timing-function: ease-in;
+  }
+  60% { transform: translateY(-90px); }
+  70%, 80% { 
+    transform: translateY(-16px); 
+    animation-timing-function: ease-out;
+  }
+  90% { 
+    transform: translateY(-100px); 
+    animation-timing-function: ease-in;
+  }
+  100% { transform: translateY(-16px); }
 }
   /* animation: jump-animation 4s ease-in-out infinite;
 }
