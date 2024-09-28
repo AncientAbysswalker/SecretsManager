@@ -32,8 +32,8 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/catstermind/prize/index.html',
             icon: 'prize.png',
-            w: 500,
-            h: 500,
+            w: 585,
+            h: 585,
         },
     ],
     [puzzleEnum.HANOI]: [
@@ -85,8 +85,8 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/test_frog/index.html',
             icon: 'prize.png',
-            w: 432,
-            h: 432,
+            w: 272,
+            h: 160,
         },
     ],
     [puzzleEnum.BUN_0]: [

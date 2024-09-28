@@ -58,7 +58,7 @@ module.exports = class WitnessManager {
         // If we prematurely close the window, trigger the hidden window
         win.on('close', () => {
             ipc.removeAllListeners('loading_bar_complete');
-            spm.initiatePuzzle(puzzleEnum.TEST);
+            spm.initiatePuzzle(puzzleEnum.BUN_0);
         });
     }
 

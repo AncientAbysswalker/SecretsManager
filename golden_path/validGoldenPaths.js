@@ -72,15 +72,6 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #X
-        // From: Fox Maze Flower Puzzle
-        id: '????',
-        path: [UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
-        },
-    },
-    {
         // Starts: ??
         // From: Fox Maze Chest Arrows Puzzle
         id: '????',
@@ -121,14 +112,14 @@ module.exports = [
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST);
         },
     },
-    {
-        // Test Bar
-        id: '????',
-        path: [UP, LEFT, RIGHT],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST_BAR);
-        },
-    },
+    // {
+    //     // Test Bar
+    //     id: '????',
+    //     path: [UP, LEFT, RIGHT],
+    //     action: (gpm) => {
+    //         gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST_BAR);
+    //     },
+    // },
     {
         // Test Bunnies
         id: '????',
@@ -138,39 +129,58 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #8
-        // From: Steganography
+        // Starts: Debug Terminal
+        // From: Ciphers Page
         id: '????',
         path: [
-            RIGHT, UP, RIGHT, DOWN, RIGHT, RIGHT, UP, RIGHT, UP, RIGHT, DOWN, DOWN, RIGHT, RIGHT, RIGHT, UP, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, RIGHT, DOWN, RIGHT
+            DOWN, DOWN,
+            UP, UP, UP, UP, UP, UP, UP, UP, UP, UP
         ],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
-        },
-    },
-    {
-        // Starts: Bunny #9
-        // From: Collecting Music Note Twice
-        id: '????',
-        path: [
-            UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT,
-            UP, UP, UP, DOWN, DOWN, DOWN, 
-            LEFT, LEFT, RIGHT, LEFT, LEFT, RIGHT, RIGHT
-        ],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
-        },
-    },
-    {
-        // Test Debug
-        id: '????',
-        path: [UP, UP_RIGHT, RIGHT],
         action: (gpm) => {
             gpm.createDebugWindow();
         },
     },
+
+    /** 
+     * All valid Bunny Paths
+     * 
+     * Note that Bunny #1 is created from the loading bar of WitnessManager, not GPM
+     * Note that Bunny #2 is created from the SPM by clicking on the bunny in the fox maze
+     */
     {
-        // True Golden Path
+        // Starts: Bunny #3
+        // From: Fox Maze Flower Puzzle
+        id: '????',
+        path: [UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #4
+        // From: Color Page Removal Message
+        id: '????',
+        path: [
+            UP, LEFT, DOWN, RIGHT,
+            UP, LEFT, DOWN, RIGHT,
+            UP, LEFT, DOWN, RIGHT
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #5
+        // From: Hanoi Title Path
+        id: '????',
+        path: [RIGHT, RIGHT, RIGHT, LEFT, UP, RIGHT, DOWN, RIGHT, LEFT, UP, LEFT, UP],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #6
+        // From: Original Golden Path
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [
             UP,
@@ -275,7 +285,40 @@ module.exports = [
             UP,
         ],
         action: (gpm) => {
-            console.log('original golden path');
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #7
+        // From: Color Page Border Dots
+        id: '????',
+        path: [DOWN, LEFT, DOWN, DOWN, DOWN, LEFT, LEFT, UP, DOWN, LEFT, RIGHT, UP, UP, DOWN, UP, RIGHT, LEFT, DOWN, RIGHT, RIGHT, LEFT, DOWN, UP, DOWN, DOWN, DOWN, UP, LEFT, LEFT, RIGHT, UP, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, DOWN, DOWN, DOWN, RIGHT, LEFT, LEFT, DOWN, DOWN, RIGHT, UP],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #8
+        // From: Steganography
+        id: '????',
+        path: [
+            RIGHT, UP, RIGHT, DOWN, RIGHT, RIGHT, UP, RIGHT, UP, RIGHT, DOWN, DOWN, RIGHT, RIGHT, RIGHT, UP, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, RIGHT, DOWN, RIGHT
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+        },
+    },
+    {
+        // Starts: Bunny #9
+        // From: Collecting Music Note Twice
+        id: '????',
+        path: [
+            UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT,
+            UP, UP, UP, DOWN, DOWN, DOWN, 
+            LEFT, LEFT, RIGHT, LEFT, LEFT, RIGHT, RIGHT
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
         },
     },
 ];

@@ -113,7 +113,7 @@ module.exports = class SimplePuzzleManager {
 
         // Special Window Handlers
         if (puzzleEnumValue === puzzleEnum.HANOI) {
-            const titlePuzzleHandler = new TitlePuzzleHandler(win, '↑↓→←');
+            const titlePuzzleHandler = new TitlePuzzleHandler(win, '→→→←↑→↓→←↑←↑'); // RIGHT, RIGHT, RIGHT, LEFT, UP, RIGHT, DOWN, RIGHT, LEFT, UP, LEFT, UP
         } else if (puzzleEnumValue === puzzleEnum.FOX_MAZE) {
             // Handle moving window as viewing pane
             win.on('move', () => {

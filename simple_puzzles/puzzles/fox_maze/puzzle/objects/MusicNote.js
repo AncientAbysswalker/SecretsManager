@@ -9,7 +9,7 @@ const state = Object.freeze({
 // Audio
 const audio = new Audio('sounds/collect.mp3');
 const music = new Audio('sounds/music.mp3');
-const secret = new Audio('sounds/collect.mp3');
+const secret = new Audio('sounds/cassette.wav');
 
 // Bounding Box - Player - Static Definitions
 let boundingData = {

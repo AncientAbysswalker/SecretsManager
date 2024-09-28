@@ -41,9 +41,9 @@ html {
 
 @keyframes rot-move {
   0%, 15% { transform: rotate(0deg); }
-  35%, 55% { transform: rotate(-1080deg); }
-  68%, 85% { transform: rotate(-720deg); }
-  100% { transform: rotate(-720deg); }
+  35%, 55% { transform: rotate(1080deg); }
+  68%, 85% { transform: rotate(720deg); }
+  100% { transform: rotate(720deg); }
 }
 
 @keyframes vertical-move {
