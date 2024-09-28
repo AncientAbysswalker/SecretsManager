@@ -131,3 +131,6 @@ secretsmanager-win32-x64/resources/app/witness/talos/paint_3_from_4.js
 secretsmanager-win32-x64/resources/app/witness/talos/paint3.html
 secretsmanager-win32-x64/resources/app/witness/talos/paint4.html
 /secretsmanager-win32-x64
+simple_puzzles/puzzles/fox_maze/puzzle/sounds/cassette.wav
+simple_puzzles/puzzles/fox_maze/puzzle/graphics/map/hidden path.png
+simple_puzzles/puzzles/fox_maze/puzzle/graphics/map/layer_upper.pdn
