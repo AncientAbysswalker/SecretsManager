@@ -45,9 +45,9 @@ const puzzleProps = {
         },
         {
             path: 'simple_puzzles/puzzles/hanoi/prize/index.html',
-            icon: 'puzzles/hanoi/icon.png',
-            w: 500,
-            h: 500,
+            icon: 'puzzles/hanoi/prize/frog.png',
+            w: 272,
+            h: 160,
         },
     ],
     [puzzleEnum.FOX_MAZE]: [

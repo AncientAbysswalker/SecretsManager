@@ -9,7 +9,7 @@ function replaceSubstringAtIndex(original, index, replacement) {
 // The time ranges CAN and WILL overlap. i.e. 5000 and 1000 means 1s show and 4s gap actually
 const showLetterMillis = 1000;
 const betweenLettersMillis = 5000;
-const intervalsBetweenOccurrances = 4;
+const intervalsBetweenOccurrances = 12; // 1 min
 class TitlePuzzleHandler {
     constructor(win, hiddenMessage) {
         this.index = -intervalsBetweenOccurrances;
