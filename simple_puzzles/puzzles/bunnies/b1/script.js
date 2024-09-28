@@ -5,5 +5,3 @@ const prizeText = prizeTextMap[bun];
 
 const element = document.getElementById("prize-text");
 element.innerText = prizeText;
-
-PowerGlitch.glitch('#glitch', {playMode: 'always'})

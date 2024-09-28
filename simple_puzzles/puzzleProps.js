@@ -58,10 +58,10 @@ const puzzleProps = {
             h: 160,
         },
         {
-            path: 'simple_puzzles/puzzles/fox_maze/prize/index.html',
-            icon: 'prize.png',
-            w: 500,
-            h: 500,
+            path: 'simple_puzzles/puzzles/bunnies/b1/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 600,
+            h: 600,
             ignoreCheckpoint: true,
         },
     ],
@@ -93,8 +93,16 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/bunnies/b0/index.html',
             icon: 'puzzles/bunnies/icon.png',
-            w: 600,
-            h: 432,
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_2]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b2/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
         },
     ],
 };
