@@ -1,6 +1,6 @@
 const prizeTextMap = require('../prizeTextMap.json');
 
-const bun = 1;
+const bun = 6;
 const prizeText = prizeTextMap[bun];
 
 const element = document.getElementById("prize-text");

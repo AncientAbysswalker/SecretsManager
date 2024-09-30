@@ -144,8 +144,8 @@ module.exports = [
     /** 
      * All valid Bunny Paths
      * 
-     * Note that Bunny #0 is created from the loading bar of WitnessManager, not GPM
-     * Note that Bunny #1 is created from the SPM by clicking on the bunny in the fox maze
+     * Note that Bunny #0 (Glitch Bun) is created from the loading bar of WitnessManager, not GPM
+     * Note that Bunny #1 (Sleep Bun) is created from the SPM by clicking on the bunny in the fox maze
      */
     {
         // Starts: Bunny #2
@@ -170,7 +170,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #4
+        // Starts: Bunny #4 - Standing Kawaii Bun
         // From: Hanoi Title Path
         id: '????',
         path: [RIGHT, RIGHT, RIGHT, LEFT, UP, RIGHT, DOWN, RIGHT, LEFT, UP, LEFT, UP],
@@ -289,12 +289,13 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #6
+        // Starts: Bunny #6 - Mandarin Bun
         // From: Color Page Border Dots
         id: '????',
+        // path: [LEFT],
         path: [DOWN, LEFT, DOWN, DOWN, DOWN, LEFT, LEFT, UP, DOWN, LEFT, RIGHT, UP, UP, DOWN, UP, RIGHT, LEFT, DOWN, RIGHT, RIGHT, LEFT, DOWN, UP, DOWN, DOWN, DOWN, UP, LEFT, LEFT, RIGHT, UP, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, DOWN, DOWN, DOWN, RIGHT, LEFT, LEFT, DOWN, DOWN, RIGHT, UP],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_6);
         },
     },
     {
@@ -309,7 +310,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #8
+        // Starts: Bunny #8 - Headphones Bun
         // From: Collecting Music Note Twice
         id: '????',
         path: [
@@ -318,7 +319,7 @@ module.exports = [
             LEFT, LEFT, RIGHT, LEFT, LEFT, RIGHT, RIGHT
         ],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_8);
         },
     },
 ];
