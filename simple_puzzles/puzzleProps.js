@@ -60,8 +60,8 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/bunnies/b1/index.html',
             icon: 'puzzles/bunnies/icon.png',
-            w: 600,
-            h: 600,
+            w: 1000,
+            h: 1000,
             ignoreCheckpoint: true,
         },
     ],
@@ -97,9 +97,58 @@ const puzzleProps = {
             h: 1000,
         },
     ],
+    // puzzleEnum.BUN_1 is under FOX_MAZE
     [puzzleEnum.BUN_2]: [
         {
             path: 'simple_puzzles/puzzles/bunnies/b2/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_3]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b3/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_4]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b4/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_5]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b5/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_6]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b6/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_7]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b7/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 1000,
+            h: 1000,
+        },
+    ],
+    [puzzleEnum.BUN_8]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/b8/index.html',
             icon: 'puzzles/bunnies/icon.png',
             w: 1000,
             h: 1000,

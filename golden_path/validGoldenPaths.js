@@ -125,7 +125,7 @@ module.exports = [
         id: '????',
         path: [UP, UP_LEFT, LEFT],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_1);
         },
     },
     {
@@ -144,11 +144,11 @@ module.exports = [
     /** 
      * All valid Bunny Paths
      * 
-     * Note that Bunny #1 is created from the loading bar of WitnessManager, not GPM
-     * Note that Bunny #2 is created from the SPM by clicking on the bunny in the fox maze
+     * Note that Bunny #0 is created from the loading bar of WitnessManager, not GPM
+     * Note that Bunny #1 is created from the SPM by clicking on the bunny in the fox maze
      */
     {
-        // Starts: Bunny #3
+        // Starts: Bunny #2
         // From: Fox Maze Flower Puzzle
         id: '????',
         path: [UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT],
@@ -157,7 +157,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #4
+        // Starts: Bunny #3
         // From: Color Page Removal Message
         id: '????',
         path: [
@@ -170,16 +170,16 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #5
+        // Starts: Bunny #4
         // From: Hanoi Title Path
         id: '????',
         path: [RIGHT, RIGHT, RIGHT, LEFT, UP, RIGHT, DOWN, RIGHT, LEFT, UP, LEFT, UP],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_4);
         },
     },
     {
-        // Starts: Bunny #6
+        // Starts: Bunny #5
         // From: Original Golden Path
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [
@@ -289,7 +289,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #7
+        // Starts: Bunny #6
         // From: Color Page Border Dots
         id: '????',
         path: [DOWN, LEFT, DOWN, DOWN, DOWN, LEFT, LEFT, UP, DOWN, LEFT, RIGHT, UP, UP, DOWN, UP, RIGHT, LEFT, DOWN, RIGHT, RIGHT, LEFT, DOWN, UP, DOWN, DOWN, DOWN, UP, LEFT, LEFT, RIGHT, UP, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, DOWN, DOWN, DOWN, RIGHT, LEFT, LEFT, DOWN, DOWN, RIGHT, UP],
@@ -298,7 +298,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #8
+        // Starts: Bunny #7
         // From: Steganography
         id: '????',
         path: [
@@ -309,7 +309,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #9
+        // Starts: Bunny #8
         // From: Collecting Music Note Twice
         id: '????',
         path: [
