@@ -1,0 +1,34 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Optional: Sets a light background color */
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+@font-face {
+  font-family: odinRounded;
+  src: url(../OdinRounded.otf);
+}
+
+#prize-text {
+  font-family: odinRounded;
+  font-weight: bold;
+  -webkit-text-stroke: 3px #750103; /* width and color */
+  font-size: 72px;
+  color: #FFBCC5;
+  position: fixed;
+  bottom: 50px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+/* img {
+    max-width: 100%;
+    height: auto;
+} */

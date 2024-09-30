@@ -148,16 +148,16 @@ module.exports = [
      * Note that Bunny #1 (Sleep Bun) is created from the SPM by clicking on the bunny in the fox maze
      */
     {
-        // Starts: Bunny #2
+        // Starts: Bunny #2 - Flower Buns
         // From: Fox Maze Flower Puzzle
         id: '????',
         path: [UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_2);
         },
     },
     {
-        // Starts: Bunny #3
+        // Starts: Bunny #3 - Stripey Heart Bun
         // From: Color Page Removal Message
         id: '????',
         path: [
@@ -179,7 +179,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #5
+        // Starts: Bunny #5 - Kawaii Carrot Bun
         // From: Original Golden Path
         id: 'ef361c8dc6409be689ea3bd26d6943152f615823',
         path: [
@@ -299,7 +299,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Bunny #7
+        // Starts: Bunny #7 - Standing Simple Bun
         // From: Steganography
         id: '????',
         path: [
