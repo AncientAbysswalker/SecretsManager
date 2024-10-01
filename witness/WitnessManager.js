@@ -19,47 +19,50 @@ module.exports = class WitnessManager {
 
     // We pass in SPM as we use it to govern the second, hidden, window
     initiateLoadingBar(spm) {
-        // Create loading window
-        const iconPath = path.join(__dirname, 'data/favicon_half.png');
-        const win = new BrowserWindow({
-            useContentSize: true,
-            width: 432,
-            height: 432,
-            resizable: false,
-            minimizable: false,
-            maximizable: false,
-            icon: iconPath,
-            webPreferences: {
-                nodeIntegration: true,
-                contextIsolation: false,
-            },
-        });
-        win.removeMenu();
-        win.setAlwaysOnTop(true);
-        
-        // Load HTML
-        win.loadFile(`witness/loading_bar/index.html`);
+        // Only start it if there is no current puzzle window
+        if (this.currentPuzzleWindow == null) {
+            // Create loading window
+            const iconPath = path.join(__dirname, 'data/favicon_half.png');
+            const win = new BrowserWindow({
+                useContentSize: true,
+                width: 432,
+                height: 432,
+                resizable: false,
+                minimizable: false,
+                maximizable: false,
+                icon: iconPath,
+                webPreferences: {
+                    nodeIntegration: true,
+                    contextIsolation: false,
+                },
+            });
+            win.removeMenu();
+            win.setAlwaysOnTop(true);
+            
+            // Load HTML
+            win.loadFile(`witness/loading_bar/index.html`);
 
-        // Note we don't need to worry about storing state of the bar as much as the puzzles, as the window 
-        // auto-closes faster than the 5sec time to allow for path re-entry. That said, the hidden window 
-        // will be handled by SPM, as I have higher confidence in that code!
+            // Note we don't need to worry about storing state of the bar as much as the puzzles, as the window 
+            // auto-closes faster than the 5sec time to allow for path re-entry. That said, the hidden window 
+            // will be handled by SPM, as I have higher confidence in that code!
 
-        // Add listener for load completion
-        ipc.on(
-            'loading_bar_complete',
-            (event, message) => {
+            // Add listener for load completion
+            ipc.on(
+                'loading_bar_complete',
+                (event, message) => {
+                    ipc.removeAllListeners('loading_bar_complete');
+                    win.removeAllListeners('close');
+                    win.close();
+                    this.initiatePuzzles();
+                }
+            );
+
+            // If we prematurely close the window, trigger the hidden window
+            win.on('close', () => {
                 ipc.removeAllListeners('loading_bar_complete');
-                win.removeAllListeners('close');
-                win.close();
-                this.initiatePuzzles();
-            }
-        );
-
-        // If we prematurely close the window, trigger the hidden window
-        win.on('close', () => {
-            ipc.removeAllListeners('loading_bar_complete');
-            spm.initiatePuzzle(puzzleEnum.BUN_0);
-        });
+                spm.initiatePuzzle(puzzleEnum.BUN_0);
+            });
+        }
     }
 
     initiatePuzzles() {
@@ -102,7 +105,7 @@ module.exports = class WitnessManager {
             height: WitnessManager.cellCountToWindowSize(puzzleRows),
             zoomFactor: 0.5,
             resizable: false,
-            icon: iconPath,//'witness/data/favicon_half.png', // Relative to root as this is where electron is initiated
+            icon: iconPath,
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
@@ -152,7 +155,34 @@ module.exports = class WitnessManager {
     }
 
     createEndingWindow() {
-        console.log('ending!');
+        // Create new puzzle window
+        const iconPath = path.join(__dirname, 'ending/icon.png');
+        const win = new BrowserWindow({
+            useContentSize: true,
+            width: 1333,
+            height: 1000,
+            zoomFactor: 0.5,
+            resizable: false,
+            icon: iconPath,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
+        });
+        win.removeMenu();
+        win.setAlwaysOnTop(true);
+        win.show();
+        // Load puzzle HTML
+        win.loadFile(`witness/ending/index.html`); // Relative to root as this is where electron is initiated
+
+        // Set the current puzzle window to this one (if we need to re-open the puzzle)
+        this.currentPuzzleWindow = win;
+        
+        win.on('close', () => {
+            if (this.currentPuzzleWindow === win) {
+                this.currentPuzzleWindow = null;
+            }
+        });
     }
 };
 
