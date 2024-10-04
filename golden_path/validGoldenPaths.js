@@ -166,7 +166,7 @@ module.exports = [
             UP, LEFT, DOWN, RIGHT
         ],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_3);
         },
     },
     {
@@ -285,7 +285,7 @@ module.exports = [
             UP,
         ],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_5);
         },
     },
     {
@@ -306,7 +306,7 @@ module.exports = [
             RIGHT, UP, RIGHT, DOWN, RIGHT, RIGHT, UP, RIGHT, UP, RIGHT, DOWN, DOWN, RIGHT, RIGHT, RIGHT, UP, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, RIGHT, DOWN, RIGHT
         ],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_0);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_7);
         },
     },
     {
