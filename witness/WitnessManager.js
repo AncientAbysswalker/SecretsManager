@@ -26,7 +26,7 @@ module.exports = class WitnessManager {
             const win = new BrowserWindow({
                 useContentSize: true,
                 width: 432,
-                height: 432,
+                height: 132,
                 resizable: false,
                 minimizable: false,
                 maximizable: false,
