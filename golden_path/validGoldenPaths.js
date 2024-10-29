@@ -5,15 +5,6 @@ module.exports = [
     {
         // Starts: Loading Bar and then The Witness
         // From: Page of Cat Sleeping at Computer
-        id: '3adb72f3dda22a186d72700e190b228e1880a606',
-        path: [UP, UP, UP, DOWN],
-        action: (gpm) => {
-            gpm.witnessManager.initiateLoadingBar(gpm.simplePuzzleManager);
-        },
-    },
-    {
-        // Starts: Loading Bar and then The Witness
-        // From: Page of Cat Sleeping at Computer
         id: '096f2da0ac6ecb18e501656de9e9a7cfa816b192',
         path: [DOWN, RIGHT, UP, LEFT, UP, RIGHT],
         action: (gpm) => {
@@ -31,7 +22,7 @@ module.exports = [
     },
     {
         // Starts: Combo Lock
-        // From: Rear of Scrabble
+        // From: Rear of Scrabble - STILL NEED TO UPDATE
         id: '????',
         path: [DOWN, DOWN],
         action: (gpm) => {
@@ -64,7 +55,7 @@ module.exports = [
     },
     {
         // Starts: Start Fox Maze
-        // From: ???
+        // From: ??? - STILL NEED TO UPDATE PATH
         id: '????',
         path: [LEFT, RIGHT],
         action: (gpm) => {
@@ -91,7 +82,7 @@ module.exports = [
     },
     {
         // Starts: ???
-        // From: Assembling all cipher page borders
+        // From: Assembling all cipher flash card borders
         id: '????',
         path: [
             RIGHT, RIGHT, RIGHT,
@@ -138,6 +129,17 @@ module.exports = [
         ],
         action: (gpm) => {
             gpm.createDebugWindow();
+        },
+    },
+    {
+        // Starts: Photo of Location - Glasses Chest
+        // From: Back of Puzzle
+        id: '????',
+        path: [
+            RIGHT, UP, LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN
+        ],
+        action: (gpm) => {
+            //gpm.createDebugWindow();
         },
     },
 
