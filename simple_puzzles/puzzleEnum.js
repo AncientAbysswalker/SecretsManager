@@ -4,6 +4,8 @@ const puzzleEnum = Object.freeze({
     HANOI: 'HANOI',
     FOX_MAZE: 'FOX_MAZE',
     SIMPLE_FACES: 'SIMPLE_FACES',
+    LOST_CLOCK: 'LOST_CLOCK',
+    TOWER_OF_MEOWS: 'TOWER_OF_MEOWS',
     TEST_BAR: 'TEST_BAR',
     TEST: 'TEST',
     BUN_0: 'BUN_0',

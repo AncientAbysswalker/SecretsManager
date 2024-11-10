@@ -73,6 +73,22 @@ const puzzleProps = {
             h: 432,
         },
     ],
+    [puzzleEnum.LOST_CLOCK]: [
+        {
+            path: 'simple_puzzles/puzzles/lost_clock/index.html',
+            icon: 'puzzles/simple_faces/icon.png',
+            w: 800,
+            h: 800,
+        },
+    ],
+    [puzzleEnum.TOWER_OF_MEOWS]: [
+        {
+            path: 'simple_puzzles/puzzles/tower_of_meows/index.html',
+            icon: 'puzzles/simple_faces/icon.png',
+            w: 450,
+            h: 800,
+        },
+    ],
     [puzzleEnum.TEST_BAR]: [
         {
             path: 'simple_puzzles/puzzles/test_bar/index.html',

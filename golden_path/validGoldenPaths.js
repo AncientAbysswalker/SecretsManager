@@ -63,12 +63,12 @@ module.exports = [
         },
     },
     {
-        // Starts: ??
+        // Starts: Photo of Location - Mimic Chest
         // From: Fox Maze Chest Arrows Puzzle
         id: '????',
-        path: [DOWN, RIGHT, DOWN, RIGHT, RIGHT, LEFT, LEFT, RIGHT, LEFT, UP, RIGHT, DOWN],
+        path: [DOWN],//, RIGHT, DOWN, RIGHT, RIGHT, LEFT, LEFT, RIGHT, LEFT, UP, RIGHT, DOWN],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TOWER_OF_MEOWS);
         },
     },
     {
@@ -136,10 +136,10 @@ module.exports = [
         // From: Back of Puzzle
         id: '????',
         path: [
-            RIGHT, UP, LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN
+            RIGHT//, UP, LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN
         ],
         action: (gpm) => {
-            //gpm.createDebugWindow();
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.LOST_CLOCK);
         },
     },
 
