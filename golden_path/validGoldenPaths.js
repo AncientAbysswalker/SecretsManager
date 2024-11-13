@@ -124,8 +124,8 @@ module.exports = [
         // From: Ciphers Page
         id: '????',
         path: [
-            DOWN, DOWN,
-            UP, UP, UP, UP, UP, UP, UP, UP, UP, UP
+            UP, UP,
+            DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN
         ],
         action: (gpm) => {
             gpm.createDebugWindow();
@@ -319,6 +319,25 @@ module.exports = [
             UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT,
             UP, UP, UP, DOWN, DOWN, DOWN, 
             LEFT, LEFT, RIGHT, LEFT, LEFT, RIGHT, RIGHT
+        ],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_8);
+        },
+    },
+    {
+        // Starts: Bonus Note
+        // From: Post-Bunny Path
+        id: '????',
+        path: [
+            UP,
+            RIGHT, UP, LEFT,
+            DOWN_RIGHT, DOWN,
+            DOWN,
+            DOWN_LEFT, DOWN_RIGHT, UP_RIGHT,
+            DOWN, DOWN, RIGHT,
+            UP_RIGHT, UP_RIGHT, UP,
+            LEFT, UP,
+            UP_RIGHT, DOWN_RIGHT
         ],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_8);
