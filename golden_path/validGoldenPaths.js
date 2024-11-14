@@ -1,6 +1,8 @@
 const { UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT } = require('./arrowKeys');
 const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 
+const { print } = require('pdf-to-printer');
+
 module.exports = [
     {
         // Starts: Loading Bar and then The Witness
@@ -39,6 +41,15 @@ module.exports = [
         },
     },
     {
+        // Starts: Photo of Location - Safe (Monitor Box)
+        // From: CD Gif (End of Catstermind)
+        id: '????',
+        path: [LEFT, LEFT, DOWN, RIGHT, RIGHT, DOWN, UP, DOWN, UP, DOWN, RIGHT],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.MONITORED);
+        },
+    },    
+    {
         // Starts: Hanoi
         // From: Super Simple Face Path
         id: '????',
@@ -63,7 +74,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Photo of Location - Mimic Chest
+        // Starts: Photo of Location - Mimic Chest (Cat Tower Remnant)
         // From: Fox Maze Chest Arrows Puzzle
         id: '????',
         path: [DOWN],//, RIGHT, DOWN, RIGHT, RIGHT, LEFT, LEFT, RIGHT, LEFT, UP, RIGHT, DOWN],
@@ -112,11 +123,11 @@ module.exports = [
     //     },
     // },
     {
-        // Test Bunnies
+        // Test Printer
         id: '????',
         path: [UP, UP_LEFT, LEFT],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_1);
+        action: () => {
+            print('golden_path/test.pdf');//, { printer: 'HP Officejet Pro 8600'});
         },
     },
     {
@@ -132,7 +143,7 @@ module.exports = [
         },
     },
     {
-        // Starts: Photo of Location - Glasses Chest
+        // Starts: Photo of Location - Glasses Chest (Clock Shelf)
         // From: Back of Puzzle
         id: '????',
         path: [

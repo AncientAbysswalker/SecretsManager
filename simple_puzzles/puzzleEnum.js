@@ -8,6 +8,7 @@ const puzzleEnum = Object.freeze({
     TOWER_OF_MEOWS: 'TOWER_OF_MEOWS',
     TEST_BAR: 'TEST_BAR',
     TEST: 'TEST',
+    PRINTER: 'PRINTER',
     BUN_0: 'BUN_0',
     // BUN_1: 'BUN_1', - Comes from FOX MAZE
     BUN_2: 'BUN_2',
@@ -17,6 +18,7 @@ const puzzleEnum = Object.freeze({
     BUN_6: 'BUN_6',
     BUN_7: 'BUN_7',
     BUN_8: 'BUN_8',
+    POST_BUN: 'POST_BUN',
 });
 
 module.exports = {
