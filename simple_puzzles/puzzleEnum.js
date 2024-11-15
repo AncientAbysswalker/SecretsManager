@@ -1,6 +1,7 @@
 const puzzleEnum = Object.freeze({
     COMBO_LOCK: 'COMBO_LOCK',
     CATSTERMIND: 'CATSTERMIND',
+    LCD_WINDOW: 'LCD_WINDOW',
     HANOI: 'HANOI',
     FOX_MAZE: 'FOX_MAZE',
     SIMPLE_FACES: 'SIMPLE_FACES',

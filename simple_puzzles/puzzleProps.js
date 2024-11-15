@@ -36,6 +36,14 @@ const puzzleProps = {
             h: 585,
         },
     ],
+    [puzzleEnum.LCD_WINDOW]: [
+        {
+            path: 'simple_puzzles/puzzles/lcd_window/index.html',
+            icon: 'puzzles/lcd_window/icon.png',
+            w: 600,
+            h: 800,
+        },
+    ],
     [puzzleEnum.HANOI]: [
         {
             path: 'simple_puzzles/puzzles/hanoi/puzzle/index.html',
@@ -76,7 +84,7 @@ const puzzleProps = {
     [puzzleEnum.LOST_CLOCK]: [
         {
             path: 'simple_puzzles/puzzles/lost_clock/index.html',
-            icon: 'puzzles/simple_faces/icon.png',
+            icon: 'puzzles/lost_clock/icon.png',
             w: 800,
             h: 800,
         },
@@ -84,7 +92,7 @@ const puzzleProps = {
     [puzzleEnum.TOWER_OF_MEOWS]: [
         {
             path: 'simple_puzzles/puzzles/tower_of_meows/index.html',
-            icon: 'puzzles/simple_faces/icon.png',
+            icon: 'puzzles/tower_of_meows/icon.png',
             w: 450,
             h: 800,
         },

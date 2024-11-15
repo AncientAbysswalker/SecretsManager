@@ -46,7 +46,7 @@ module.exports = [
         id: '????',
         path: [LEFT, LEFT, DOWN, RIGHT, RIGHT, DOWN, UP, DOWN, UP, DOWN, RIGHT],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.MONITORED);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.LCD_WINDOW);
         },
     },    
     {
