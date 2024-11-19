@@ -51,7 +51,7 @@ module.exports = [
     },    
     {
         // Starts: Hanoi
-        // From: Super Simple Face Path
+        // From: Simple Face Mural
         id: '????',
         path: [
             UP, UP, DOWN, LEFT, DOWN, 
@@ -84,9 +84,9 @@ module.exports = [
     },
     {
         // Starts: Simple Face Mural
-        // From: ???
+        // From: Memo Pages (Input Pads)
         id: '????',
-        path: [RIGHT, LEFT],
+        path: [LEFT, UP, RIGHT, LEFT, DOWN, RIGHT, UP, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.SIMPLE_FACES);
         },
