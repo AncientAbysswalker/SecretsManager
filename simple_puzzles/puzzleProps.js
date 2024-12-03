@@ -10,9 +10,9 @@ const puzzleProps = {
         },
         {
             path: 'simple_puzzles/puzzles/combo_lock/prize/index.html',
-            icon: 'prize.png',
-            w: 500,
-            h: 500,
+            icon: 'puzzles/combo_lock/prize/icon.png',
+            w: 600,
+            h: 800,
         },
     ],
     [puzzleEnum.CATSTERMIND]: [

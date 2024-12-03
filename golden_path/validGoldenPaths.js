@@ -42,7 +42,7 @@ module.exports = [
     },
     {
         // Starts: Photo of Location - Safe (Monitor Box)
-        // From: CD Gif (End of Catstermind)
+        // From: CD Gif (End of Catstermind) [Out of Frame]
         id: '????',
         path: [LEFT, LEFT, DOWN, RIGHT, RIGHT, DOWN, UP, DOWN, UP, DOWN, RIGHT],
         action: (gpm) => {
@@ -66,9 +66,9 @@ module.exports = [
     },
     {
         // Starts: Start Fox Maze
-        // From: ??? - STILL NEED TO UPDATE PATH
+        // From: Tomato Can [Out of Frame]
         id: '????',
-        path: [LEFT, RIGHT],
+        path: [LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, DOWN, UP, LEFT, DOWN, UP, LEFT, RIGHT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
         },
