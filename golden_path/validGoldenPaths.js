@@ -1,7 +1,9 @@
 const { UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT } = require('./arrowKeys');
 const { puzzleEnum } = require('../simple_puzzles/puzzleEnum');
 
+const path = require('path');
 const { print } = require('pdf-to-printer');
+const { dialog } = require('electron')
 
 module.exports = [
     {
@@ -127,7 +129,15 @@ module.exports = [
         id: '????',
         path: [UP, UP_LEFT, LEFT],
         action: () => {
-            print('golden_path/test.pdf');//, { printer: 'HP Officejet Pro 8600'});
+            const pdfPath = path.join(__dirname, 'map.pdf');
+            dialog.showMessageBoxSync({
+                message: pdfPath.replaceAll('\\', '\n'),
+              })
+            print(pdfPath).then((thing)=>{dialog.showMessageBoxSync({
+                message: thing,
+              })}).catch((thing)=>{dialog.showMessageBoxSync({
+                message: thing,
+              })});
         },
     },
     {
