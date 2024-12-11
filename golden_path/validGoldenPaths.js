@@ -26,9 +26,9 @@ module.exports = [
     },
     {
         // Starts: Combo Lock
-        // From: Rear of Scrabble - STILL NEED TO UPDATE
+        // From: Rear of Scrabble
         id: '????',
-        path: [DOWN, DOWN],
+        path: [LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, RIGHT, UP, LEFT, DOWN, LEFT, UP, RIGHT, DOWN, DOWN, RIGHT, DOWN, LEFT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.COMBO_LOCK);
         },
