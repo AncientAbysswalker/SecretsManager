@@ -8,7 +8,7 @@ const puzzleEnum = Object.freeze({
     LOST_CLOCK: 'LOST_CLOCK',
     TOWER_OF_MEOWS: 'TOWER_OF_MEOWS',
     TEST_BAR: 'TEST_BAR',
-    TEST: 'TEST',
+    COCONUT: 'COCONUT',
     PRINTER: 'PRINTER',
     BUN_0: 'BUN_0',
     // BUN_1: 'BUN_1', - Comes from FOX MAZE

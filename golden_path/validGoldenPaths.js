@@ -94,7 +94,7 @@ module.exports = [
         },
     },
     {
-        // Starts: ???
+        // Starts: Printing Left Map
         // From: Assembling all cipher flash card borders
         id: '????',
         path: [
@@ -104,30 +104,6 @@ module.exports = [
             DOWN, LEFT, RIGHT,
             DOWN, DOWN, DOWN
         ],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.SIMPLE_FACES);
-        },
-    },
-    {
-        // Test
-        id: '????',
-        path: [UP, RIGHT, LEFT],
-        action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST);
-        },
-    },
-    // {
-    //     // Test Bar
-    //     id: '????',
-    //     path: [UP, LEFT, RIGHT],
-    //     action: (gpm) => {
-    //         gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TEST_BAR);
-    //     },
-    // },
-    {
-        // Test Printer
-        id: '????',
-        path: [UP, UP_LEFT, LEFT],
         action: () => {
             const pdfPath = path.join(__dirname, 'map.pdf');
             dialog.showMessageBoxSync({
@@ -138,6 +114,15 @@ module.exports = [
               })}).catch((thing)=>{dialog.showMessageBoxSync({
                 message: thing,
               })});
+        },
+    },
+    {
+        // Starts: Coconut Mall
+        // From: Candy Wrappers
+        id: '????',
+        path: [UP, RIGHT, LEFT, UP, DOWN, RIGHT, RIGHT, LEFT, RIGHT, DOWN],
+        action: (gpm) => {
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.COCONUT);
         },
     },
     {

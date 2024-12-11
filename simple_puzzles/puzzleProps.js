@@ -105,12 +105,12 @@ const puzzleProps = {
             h: 432,
         },
     ],
-    [puzzleEnum.TEST]: [
+    [puzzleEnum.COCONUT]: [
         {
-            path: 'simple_puzzles/puzzles/test_frog/index.html',
-            icon: 'prize.png',
-            w: 272,
-            h: 160,
+            path: 'simple_puzzles/puzzles/coconut/index.html',
+            icon: 'puzzles/coconut/icon.png',
+            w: 450,
+            h: 800,
         },
     ],
     [puzzleEnum.BUN_0]: [
