@@ -106,14 +106,7 @@ module.exports = [
         ],
         action: () => {
             const pdfPath = path.join(__dirname, 'map.pdf');
-            dialog.showMessageBoxSync({
-                message: pdfPath.replaceAll('\\', '\n'),
-              })
-            print(pdfPath).then((thing)=>{dialog.showMessageBoxSync({
-                message: thing,
-              })}).catch((thing)=>{dialog.showMessageBoxSync({
-                message: thing,
-              })});
+            print(pdfPath);
         },
     },
     {

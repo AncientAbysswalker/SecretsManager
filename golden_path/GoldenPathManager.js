@@ -9,7 +9,7 @@ var hash = require('object-hash');
 const goldenPaths = require('./validGoldenPaths');
 const { arrowKeys, shiftKeys, LSHIFT, RSHIFT, UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, INVALID } = require('./arrowKeys');
 
-const logHashes = true;
+const logHashes = false;
 
 module.exports = class GoldenPathManager {
     static pathTimeout = 5 * 1000;
