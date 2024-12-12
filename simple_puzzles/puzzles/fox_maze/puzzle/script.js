@@ -9,7 +9,7 @@ const { Engine } = require('./Engine');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const debug = false//true;
+const debug = false;
 
 // Map data is stored with indices of row then col
 const mapCollision = require('./map.json')

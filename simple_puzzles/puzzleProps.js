@@ -62,7 +62,7 @@ const puzzleProps = {
         {
             path: 'simple_puzzles/puzzles/fox_maze/puzzle/index.html',
             icon: 'puzzles/fox_maze/icon.png',
-            w: 1600,
+            w: 160,
             h: 160,
         },
         {

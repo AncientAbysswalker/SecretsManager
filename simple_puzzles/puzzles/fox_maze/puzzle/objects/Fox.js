@@ -17,7 +17,7 @@ const state = Object.freeze({
     STANDING: 'STANDING',
 });
 
-const millisecondsBeforeFallingAsleep = 15000;
+const millisecondsBeforeFallingAsleep = 180000; // 3 minutes to mimic Animal Well
 
 // Bounding Box - Static Definitions
 const centerX = 16;
