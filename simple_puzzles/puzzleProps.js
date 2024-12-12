@@ -97,14 +97,6 @@ const puzzleProps = {
             h: 800,
         },
     ],
-    [puzzleEnum.TEST_BAR]: [
-        {
-            path: 'simple_puzzles/puzzles/test_bar/index.html',
-            icon: 'prize.png',
-            w: 432,
-            h: 432,
-        },
-    ],
     [puzzleEnum.COCONUT]: [
         {
             path: 'simple_puzzles/puzzles/coconut/index.html',

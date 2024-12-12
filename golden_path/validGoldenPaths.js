@@ -27,7 +27,7 @@ module.exports = [
     {
         // Starts: Combo Lock
         // From: Rear of Scrabble
-        id: '????',
+        id: '7614c031869f0a3cf314b896c0040f16646d6a04',
         path: [LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, RIGHT, UP, LEFT, DOWN, LEFT, UP, RIGHT, DOWN, DOWN, RIGHT, DOWN, LEFT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.COMBO_LOCK);
@@ -36,7 +36,7 @@ module.exports = [
     {
         // Starts: Catstermind
         // From: Base64 Encoded Image
-        id: '????',
+        id: '11a26b4a6eb0509b3434d9836ac7438213c5e676',
         path: [UP, RIGHT, DOWN, DOWN, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.CATSTERMIND);
@@ -45,7 +45,7 @@ module.exports = [
     {
         // Starts: Photo of Location - Safe (Monitor Box)
         // From: CD Gif (End of Catstermind) [Out of Frame]
-        id: '????',
+        id: '6dc2855179dab9ee03dd2ba2cc5fcea7c571cde1',
         path: [LEFT, LEFT, DOWN, RIGHT, RIGHT, DOWN, UP, DOWN, UP, DOWN, RIGHT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.LCD_WINDOW);
@@ -54,7 +54,7 @@ module.exports = [
     {
         // Starts: Hanoi
         // From: Simple Face Mural
-        id: '????',
+        id: '9591d82313628ebff55cfabfe2175a15a781495c',
         path: [
             UP, UP, DOWN, LEFT, DOWN, 
             RIGHT, LEFT, RIGHT, RIGHT, UP,
@@ -69,7 +69,7 @@ module.exports = [
     {
         // Starts: Start Fox Maze
         // From: Tomato Can [Out of Frame]
-        id: '????',
+        id: '40140f0d4116e9ad6a82236cd6f3821dbef20620',
         path: [LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, DOWN, UP, LEFT, DOWN, UP, LEFT, RIGHT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.FOX_MAZE);
@@ -78,8 +78,8 @@ module.exports = [
     {
         // Starts: Photo of Location - Mimic Chest (Cat Tower Remnant)
         // From: Fox Maze Chest Arrows Puzzle
-        id: '????',
-        path: [DOWN],//, RIGHT, DOWN, RIGHT, RIGHT, LEFT, LEFT, RIGHT, LEFT, UP, RIGHT, DOWN],
+        id: '2e20ae5717f54a223ea610725acdaa8b7302cab7',
+        path: [DOWN, RIGHT, DOWN, RIGHT, RIGHT, LEFT, LEFT, RIGHT, LEFT, UP, RIGHT, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.TOWER_OF_MEOWS);
         },
@@ -87,7 +87,7 @@ module.exports = [
     {
         // Starts: Simple Face Mural
         // From: Memo Pages (Input Pads)
-        id: '????',
+        id: '92817efeb8d3549100db0433b0bb5443d4f1347d',
         path: [LEFT, UP, RIGHT, LEFT, DOWN, RIGHT, UP, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.SIMPLE_FACES);
@@ -96,7 +96,7 @@ module.exports = [
     {
         // Starts: Printing Left Map
         // From: Assembling all cipher flash card borders
-        id: '????',
+        id: 'fc5752ac9c3dffcf647a90a04482c02106544d37',
         path: [
             RIGHT, RIGHT, RIGHT,
             UP, UP, RIGHT,
@@ -119,7 +119,7 @@ module.exports = [
     {
         // Starts: Coconut Mall
         // From: Candy Wrappers
-        id: '????',
+        id: '15d38ec860945d1ffb6a88b84d89a15ff0966b11',
         path: [UP, RIGHT, LEFT, UP, DOWN, RIGHT, RIGHT, LEFT, RIGHT, DOWN],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.COCONUT);
@@ -128,7 +128,7 @@ module.exports = [
     {
         // Starts: Debug Terminal
         // From: Ciphers Page
-        id: '????',
+        id: '94aab5e6bc26eaa121be90afcd776a11f91033e6',
         path: [
             UP, UP,
             DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN
@@ -140,9 +140,9 @@ module.exports = [
     {
         // Starts: Photo of Location - Glasses Chest (Clock Shelf)
         // From: Back of Puzzle
-        id: '????',
+        id: '0c8222a91f50d02dea2790af502b3dc0e92263ec',
         path: [
-            RIGHT//, UP, LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN
+            RIGHT, UP, LEFT, UP, RIGHT, RIGHT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, LEFT, DOWN, LEFT, UP, UP, RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN
         ],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.LOST_CLOCK);
@@ -158,7 +158,7 @@ module.exports = [
     {
         // Starts: Bunny #2 - Flower Buns
         // From: Fox Maze Flower Puzzle
-        id: '????',
+        id: '2b295f31aeb328793cf997640abf3a05757491f8',
         path: [UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, LEFT, DOWN, LEFT, DOWN, RIGHT],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_2);
@@ -167,7 +167,7 @@ module.exports = [
     {
         // Starts: Bunny #3 - Stripey Heart Bun
         // From: Color Page Removal Message
-        id: '????',
+        id: 'caa32dcbe25ffb52db82d3fb4cd09adc2a8fbe53',
         path: [
             UP, LEFT, DOWN, RIGHT,
             UP, LEFT, DOWN, RIGHT,
@@ -180,7 +180,7 @@ module.exports = [
     {
         // Starts: Bunny #4 - Standing Kawaii Bun
         // From: Hanoi Title Path
-        id: '????',
+        id: '15d23ce64f94fee1b90c20b4ba6ec3dc2f1976de',
         path: [RIGHT, RIGHT, RIGHT, LEFT, UP, RIGHT, DOWN, RIGHT, LEFT, UP, LEFT, UP],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_4);
@@ -299,8 +299,7 @@ module.exports = [
     {
         // Starts: Bunny #6 - Mandarin Bun
         // From: Color Page Border Dots
-        id: '????',
-        // path: [LEFT],
+        id: 'fe4a8f6eb5e8386f4bae63ad64a3d42058d14972',
         path: [DOWN, LEFT, DOWN, DOWN, DOWN, LEFT, LEFT, UP, DOWN, LEFT, RIGHT, UP, UP, DOWN, UP, RIGHT, LEFT, DOWN, RIGHT, RIGHT, LEFT, DOWN, UP, DOWN, DOWN, DOWN, UP, LEFT, LEFT, RIGHT, UP, LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, DOWN, DOWN, DOWN, RIGHT, LEFT, LEFT, DOWN, DOWN, RIGHT, UP],
         action: (gpm) => {
             gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_6);
@@ -309,7 +308,7 @@ module.exports = [
     {
         // Starts: Bunny #7 - Standing Simple Bun
         // From: Steganography
-        id: '????',
+        id: '4eae93cd60707e9f9a0139f84f93cf8417f1f36e',
         path: [
             RIGHT, UP, RIGHT, DOWN, RIGHT, RIGHT, UP, RIGHT, UP, RIGHT, DOWN, DOWN, RIGHT, RIGHT, RIGHT, UP, RIGHT, DOWN, RIGHT, UP, RIGHT, DOWN, RIGHT, DOWN, RIGHT
         ],
@@ -320,7 +319,7 @@ module.exports = [
     {
         // Starts: Bunny #8 - Headphones Bun
         // From: Collecting Music Note Twice
-        id: '????',
+        id: '0f663ad0b0b08a5992b854a5a6af01c3eafc5b74',
         path: [
             UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT,
             UP, UP, UP, DOWN, DOWN, DOWN, 
@@ -333,7 +332,7 @@ module.exports = [
     {
         // Starts: Bonus Note
         // From: Post-Bunny Path
-        id: '????',
+        id: '199f018bca122b7136bab3b2de06882ca01dab3d',
         path: [
             UP,
             RIGHT, UP, LEFT,

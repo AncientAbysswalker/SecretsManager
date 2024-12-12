@@ -1,12 +1,12 @@
 // Alert box using SweetAlert2 - https://limonte.github.io/sweetalert2
-dummyMode = true;
+dummyMode = false;
 
 $(document).ready(function () {
     // Variables
     var holding = [];
     var moves;
-    var disksNum = 2;
-    var minMoves = 1;
+    var disksNum = 7;
+    var minMoves = 127;
     if (dummyMode) {
         disksNum = 2;
         minMoves = 1;

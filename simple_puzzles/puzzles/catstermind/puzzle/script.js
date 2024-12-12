@@ -1,5 +1,5 @@
 var DEBUG = false;
-dummyMode = true;
+dummyMode = false;
 
 ko.components.register('mastermind-game', {
     template: {

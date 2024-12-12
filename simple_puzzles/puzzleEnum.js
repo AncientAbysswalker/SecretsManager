@@ -7,7 +7,6 @@ const puzzleEnum = Object.freeze({
     SIMPLE_FACES: 'SIMPLE_FACES',
     LOST_CLOCK: 'LOST_CLOCK',
     TOWER_OF_MEOWS: 'TOWER_OF_MEOWS',
-    TEST_BAR: 'TEST_BAR',
     COCONUT: 'COCONUT',
     PRINTER: 'PRINTER',
     BUN_0: 'BUN_0',
