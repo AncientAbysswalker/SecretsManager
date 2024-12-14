@@ -9,5 +9,5 @@
 ### Create new standalone runtime
 
 ```
-electron-packager .
+electron-packager . --overwrite --icon "SecretsManager.ico
 ```
