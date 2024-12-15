@@ -338,7 +338,7 @@ module.exports = [
             UP_RIGHT, DOWN_RIGHT
         ],
         action: (gpm) => {
-            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.BUN_8);
+            gpm.simplePuzzleManager.initiatePuzzle(puzzleEnum.THE_LAST_BUN);
         },
     },
 ];

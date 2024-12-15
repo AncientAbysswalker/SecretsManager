@@ -18,7 +18,7 @@ const puzzleEnum = Object.freeze({
     BUN_6: 'BUN_6',
     BUN_7: 'BUN_7',
     BUN_8: 'BUN_8',
-    POST_BUN: 'POST_BUN',
+    THE_LAST_BUN: 'THE_LAST_BUN',
 });
 
 module.exports = {

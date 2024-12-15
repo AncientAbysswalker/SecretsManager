@@ -170,6 +170,14 @@ const puzzleProps = {
             h: 1000,
         },
     ],
+    [puzzleEnum.THE_LAST_BUN]: [
+        {
+            path: 'simple_puzzles/puzzles/bunnies/the_last_bun/index.html',
+            icon: 'puzzles/bunnies/icon.png',
+            w: 560,
+            h: 1000,
+        },
+    ],
 };
 
 module.exports = {
