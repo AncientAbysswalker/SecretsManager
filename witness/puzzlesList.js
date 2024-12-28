@@ -90,7 +90,7 @@ module.exports = [
         cols: 6,
     },
     {
-        name: 'One Last Puzzley',
+        name: 'One Last Puzzle',
         hash: '6PB8LF8D',
         rows: 5,
         cols: 5,
