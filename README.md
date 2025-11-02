@@ -1,3 +1,6 @@
+
+![SecretsManager Logo](https://raw.githubusercontent.com/AncientAbysswalker/SecretsManager/refs/heads/main/SecretsManager.svg)
+
 # SecretsManager - Christmas 2024 Scavenger Hunt Puzzle System
 
 This Electron application was developed as part of a Christmas 2024 scavenger hunt to allow for opening and running puzzles on a computer using a series of inputs trigger them. The system provides a framework for managing different types of interactive puzzles with special window behaviors and checkpointing capabilities.
